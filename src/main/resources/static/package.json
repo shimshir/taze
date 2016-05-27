@@ -1,0 +1,35 @@
+{
+  "name": "taze-front",
+  "version": "0.0.1",
+  "description": "Taze frontend",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "start-dev": "node server.js"
+  },
+  "author": "",
+  "dependencies": {
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.4.1",
+    "react-router-redux": "^4.0.4",
+    "redux": "^3.5.1"
+  },
+  "devDependencies": {
+    "axios": "^0.11.0",
+    "babel": "^6.5.2",
+    "babel-core": "^6.7.7",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-react-transform": "^2.0.2",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-1": "^6.5.0",
+    "react-hot-loader": "^1.3.0",
+    "react-router-redux": "^4.0.4",
+    "webpack": "^1.13.0"
+  }
+}

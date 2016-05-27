@@ -1,0 +1,21 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    background: url('/img/spring-276014_1920.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+div#root, div.react-root {
+    height: 100%;
+}
+
+div.container {
+    height: calc(100% - 75px);
+    background: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 1));
+    margin-top: 25px;
+}
