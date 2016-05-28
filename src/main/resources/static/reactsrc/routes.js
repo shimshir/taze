@@ -5,7 +5,7 @@ import App from './components/app.js';
 import Home from './components/content/home.js';
 import AboutUs from './components/content/aboutUs.js';
 import Gallery from './components/content/gallery.js';
-import Products from './components/content/products.js';
+import Products from './components/content/products/products.js';
 import Contact from './components/content/contact.js';
 
 const Root = () => {
@@ -18,8 +18,7 @@ const NoMatch = () => {
 
 export default (
     <Route path="/" components={App}>
-        <IndexRoute component={Root}/>
-        <Route path="/home" component={Home}/>
+        <IndexRoute component={Home}/>
         <Route path="/about-us" component={AboutUs}/>
         <Route path="/gallery" component={Gallery}/>
         <Route path="/products" component={Products}/>

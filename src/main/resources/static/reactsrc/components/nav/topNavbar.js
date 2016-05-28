@@ -4,30 +4,22 @@ import { connect } from 'react-redux';
 
 const TopNavbarView = () => {
     return (
-        <nav className="navbar navbar-inverse topnavbar">
-            <div className="navbar-header">
-                <Link className="navbar-brand" to="/">Taze</Link>
-            </div>
-
-            <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul className="nav navbar-nav navbar-left">
-                    <li>
-                        <Link to="/home">Početna</Link>
-                    </li>
-                    <li>
-                        <Link to="/about-us">O nama</Link>
-                    </li>
-                    <li>
-                        <Link to="/gallery">Galerija</Link>
-                    </li>
-                    <li>
-                        <Link to="/products">Proizvodi</Link>
-                    </li>
-                    <li>
-                        <Link to="/contact">Kontakt</Link>
-                    </li>
-                </ul>
-            </div>
+        <nav className="navbar navbar-dark bg-inverse topnavbar">
+            <Link className="navbar-brand" to="/">Taze</Link>
+            <ul className="nav navbar-nav">
+                <li className="nav-item">
+                    <Link className="nav-link" to="/about-us">O nama</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/gallery">Galerija</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/products">Proizvodi</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/contact">Kontakt</Link>
+                </li>
+            </ul>
         </nav>
     )
 };

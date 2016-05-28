@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Stage from '../stage/stage.js';
-import ContentContainer from './common/contentContainer.js';
-import { LOREM_IPSUM_PARAGRAPS } from '../../constants/constants.js';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import Stage from '../../stage/stage.js';
+import ContentContainer from '../common/contentContainer.js';
+import ProductCardDeck from './productCardDeck.js';
 
 class ProductsView extends Component {
     componentWillMount() {
@@ -13,7 +13,9 @@ class ProductsView extends Component {
         return (
             <div>
                 <Stage headerText="Proizvodi" stageBackgroundClass="products"/>
-                <ContentContainer content={LOREM_IPSUM_PARAGRAPS}/>
+                <ContentContainer>
+                    <ProductCardDeck />
+                </ContentContainer>
             </div>
         );
     }

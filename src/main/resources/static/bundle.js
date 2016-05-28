@@ -8117,13 +8117,13 @@
 
 	var _redux = __webpack_require__(473);
 
-	var _reactRouterRedux = __webpack_require__(558);
+	var _reactRouterRedux = __webpack_require__(559);
 
-	var _mainReducer = __webpack_require__(563);
+	var _mainReducer = __webpack_require__(564);
 
 	var _mainReducer2 = _interopRequireDefault(_mainReducer);
 
-	var _axios = __webpack_require__(564);
+	var _axios = __webpack_require__(565);
 
 	var _axios2 = _interopRequireDefault(_axios);
 
@@ -35313,7 +35313,7 @@
 
 	var _products2 = _interopRequireDefault(_products);
 
-	var _contact = __webpack_require__(557);
+	var _contact = __webpack_require__(558);
 
 	var _contact2 = _interopRequireDefault(_contact);
 
@@ -35346,8 +35346,7 @@
 	exports.default = _react2.default.createElement(
 	    _reactRouter.Route,
 	    { path: '/', components: _app2.default },
-	    _react2.default.createElement(_reactRouter.IndexRoute, { component: Root }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/home', component: _home2.default }),
+	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _home2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/about-us', component: _aboutUs2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/gallery', component: _gallery2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/products', component: _products2.default }),
@@ -35423,66 +35422,49 @@
 	var TopNavbarView = function TopNavbarView() {
 	    return _react2.default.createElement(
 	        'nav',
-	        { className: 'navbar navbar-inverse topnavbar' },
+	        { className: 'navbar navbar-dark bg-inverse topnavbar' },
 	        _react2.default.createElement(
-	            'div',
-	            { className: 'navbar-header' },
-	            _react2.default.createElement(
-	                _reactRouter.Link,
-	                { className: 'navbar-brand', to: '/' },
-	                'Taze'
-	            )
+	            _reactRouter.Link,
+	            { className: 'navbar-brand', to: '/' },
+	            'Taze'
 	        ),
 	        _react2.default.createElement(
-	            'div',
-	            { className: 'collapse navbar-collapse', id: 'bs-example-navbar-collapse-1' },
+	            'ul',
+	            { className: 'nav navbar-nav' },
 	            _react2.default.createElement(
-	                'ul',
-	                { className: 'nav navbar-nav navbar-left' },
+	                'li',
+	                { className: 'nav-item' },
 	                _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    _react2.default.createElement(
-	                        _reactRouter.Link,
-	                        { to: '/home' },
-	                        'Početna'
-	                    )
-	                ),
+	                    _reactRouter.Link,
+	                    { className: 'nav-link', to: '/about-us' },
+	                    'O nama'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'li',
+	                { className: 'nav-item' },
 	                _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    _react2.default.createElement(
-	                        _reactRouter.Link,
-	                        { to: '/about-us' },
-	                        'O nama'
-	                    )
-	                ),
+	                    _reactRouter.Link,
+	                    { className: 'nav-link', to: '/gallery' },
+	                    'Galerija'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'li',
+	                { className: 'nav-item' },
 	                _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    _react2.default.createElement(
-	                        _reactRouter.Link,
-	                        { to: '/gallery' },
-	                        'Galerija'
-	                    )
-	                ),
+	                    _reactRouter.Link,
+	                    { className: 'nav-link', to: '/products' },
+	                    'Proizvodi'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'li',
+	                { className: 'nav-item' },
 	                _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    _react2.default.createElement(
-	                        _reactRouter.Link,
-	                        { to: '/products' },
-	                        'Proizvodi'
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'li',
-	                    null,
-	                    _react2.default.createElement(
-	                        _reactRouter.Link,
-	                        { to: '/contact' },
-	                        'Kontakt'
-	                    )
+	                    _reactRouter.Link,
+	                    { className: 'nav-link', to: '/contact' },
+	                    'Kontakt'
 	                )
 	            )
 	        )
@@ -35564,7 +35546,11 @@
 	                'div',
 	                null,
 	                _react2.default.createElement(_stage2.default, { headerText: 'Pocetna', stageBackgroundClass: 'home' }),
-	                _react2.default.createElement(_contentContainer2.default, { content: _constants.LOREM_IPSUM_PARAGRAPS })
+	                _react2.default.createElement(
+	                    _contentContainer2.default,
+	                    null,
+	                    _react2.default.createElement(_constants.LOREM_IPSUM_PARAGRAPHS, null)
+	                )
 	            );
 	        }
 	    }]);
@@ -35647,12 +35633,12 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var ContentContainer = function ContentContainer(_ref) {
-	    var content = _ref.content;
+	    var children = _ref.children;
 
 	    return _react2.default.createElement(
 	        "div",
 	        { className: "content-container" },
-	        content
+	        children
 	    );
 	};
 
@@ -35671,7 +35657,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.LOREM_IPSUM_PARAGRAPS = undefined;
+	exports.LOREM_IPSUM_PARAGRAPHS = undefined;
 
 	var _react = __webpack_require__(300);
 
@@ -35679,35 +35665,37 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var LOREM_IPSUM_PARAGRAPS = exports.LOREM_IPSUM_PARAGRAPS = _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	        'p',
+	var LOREM_IPSUM_PARAGRAPHS = exports.LOREM_IPSUM_PARAGRAPHS = function LOREM_IPSUM_PARAGRAPHS() {
+	    return _react2.default.createElement(
+	        'div',
 	        null,
-	        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper augue vel neque porttitor suscipit. Aliquam accumsan dapibus metus vel dictum. Proin auctor quis ligula sit amet mattis. Duis porta aliquet nibh sit amet dictum. Nunc a finibus eros. Nulla id augue eros. Donec vel dui a mauris rutrum eleifend sed in nisi.'
-	    ),
-	    _react2.default.createElement(
-	        'p',
-	        null,
-	        'Suspendisse vulputate massa elit, rutrum condimentum felis fringilla sit amet. Vivamus diam arcu, ornare imperdiet condimentum a, elementum ac ante. Mauris varius molestie purus, sed varius risus volutpat eget. Duis sagittis erat ex, a pulvinar sapien dapibus id. Aenean sit amet consequat dolor. Pellentesque consequat, risus et vulputate hendrerit, velit sapien malesuada metus, nec efficitur neque ex eget massa. Sed blandit mi et enim molestie laoreet. Etiam luctus, felis quis egestas convallis, nisl est varius nunc, a rhoncus dolor dolor vitae justo.'
-	    ),
-	    _react2.default.createElement(
-	        'p',
-	        null,
-	        'Fusce mauris risus, molestie ac viverra ut, placerat non libero. Mauris ex quam, tempor a augue vitae, congue malesuada nulla. Suspendisse eu tempor odio. Duis malesuada magna ut dapibus facilisis. Curabitur purus sapien, auctor vitae rhoncus sit amet, ornare nec orci. Morbi ut augue vel urna tempor tempor ac ac lectus. Ut vel egestas sem. Aenean ante magna, condimentum id vehicula id, volutpat vitae urna. Curabitur dictum iaculis hendrerit. Quisque dapibus quis odio ut posuere. Nullam sed congue lorem. Praesent eget nisl non libero facilisis bibendum. Praesent nec orci eros. Aliquam a purus vel nisl ultrices dignissim vitae sit amet diam.'
-	    ),
-	    _react2.default.createElement(
-	        'p',
-	        null,
-	        ' In mattis lectus at erat sollicitudin, ac pharetra est tempus. Vestibulum nec lorem nec nulla facilisis pulvinar. Aliquam scelerisque, metus pulvinar placerat tincidunt, risus nibh tincidunt risus, a posuere sapien urna vitae nunc. Suspendisse quis tortor justo. Nulla pulvinar tempor interdum. Nunc nec lectus ex. Phasellus auctor elit id pulvinar hendrerit. Duis ut erat varius, tempor libero eget, aliquet augue. Aliquam semper, turpis a pharetra interdum, tortor sem commodo nibh, quis mattis mi ipsum non urna. Vivamus dapibus sed mi in lacinia. Quisque interdum sem volutpat metus faucibus porttitor. Nullam ante ante, sollicitudin auctor elit ac, sollicitudin consectetur purus.'
-	    ),
-	    _react2.default.createElement(
-	        'p',
-	        null,
-	        'Vestibulum eu nulla vulputate purus aliquet aliquet. Donec tempor dignissim lacus. Nam ultricies mi eget dolor sodales viverra. Aenean rhoncus a nisl id feugiat. Donec vestibulum eros at quam fringilla maximus. Nunc efficitur eleifend justo eu imperdiet. Proin mollis, tortor eu interdum imperdiet, lorem elit venenatis eros, quis varius arcu magna ac eros. Aenean nulla diam, rutrum ut iaculis id, facilisis in lectus. Quisque lobortis non diam eget sollicitudin. Vivamus facilisis ante id metus maximus, vitae tristique ante ornare. Etiam nec laoreet nisi. Cras efficitur ex vel posuere aliquam.'
-	    )
-	);
+	        _react2.default.createElement(
+	            'p',
+	            null,
+	            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper augue vel neque porttitor suscipit. Aliquam accumsan dapibus metus vel dictum. Proin auctor quis ligula sit amet mattis. Duis porta aliquet nibh sit amet dictum. Nunc a finibus eros. Nulla id augue eros. Donec vel dui a mauris rutrum eleifend sed in nisi.'
+	        ),
+	        _react2.default.createElement(
+	            'p',
+	            null,
+	            'Suspendisse vulputate massa elit, rutrum condimentum felis fringilla sit amet. Vivamus diam arcu, ornare imperdiet condimentum a, elementum ac ante. Mauris varius molestie purus, sed varius risus volutpat eget. Duis sagittis erat ex, a pulvinar sapien dapibus id. Aenean sit amet consequat dolor. Pellentesque consequat, risus et vulputate hendrerit, velit sapien malesuada metus, nec efficitur neque ex eget massa. Sed blandit mi et enim molestie laoreet. Etiam luctus, felis quis egestas convallis, nisl est varius nunc, a rhoncus dolor dolor vitae justo.'
+	        ),
+	        _react2.default.createElement(
+	            'p',
+	            null,
+	            'Fusce mauris risus, molestie ac viverra ut, placerat non libero. Mauris ex quam, tempor a augue vitae, congue malesuada nulla. Suspendisse eu tempor odio. Duis malesuada magna ut dapibus facilisis. Curabitur purus sapien, auctor vitae rhoncus sit amet, ornare nec orci. Morbi ut augue vel urna tempor tempor ac ac lectus. Ut vel egestas sem. Aenean ante magna, condimentum id vehicula id, volutpat vitae urna. Curabitur dictum iaculis hendrerit. Quisque dapibus quis odio ut posuere. Nullam sed congue lorem. Praesent eget nisl non libero facilisis bibendum. Praesent nec orci eros. Aliquam a purus vel nisl ultrices dignissim vitae sit amet diam.'
+	        ),
+	        _react2.default.createElement(
+	            'p',
+	            null,
+	            ' In mattis lectus at erat sollicitudin, ac pharetra est tempus. Vestibulum nec lorem nec nulla facilisis pulvinar. Aliquam scelerisque, metus pulvinar placerat tincidunt, risus nibh tincidunt risus, a posuere sapien urna vitae nunc. Suspendisse quis tortor justo. Nulla pulvinar tempor interdum. Nunc nec lectus ex. Phasellus auctor elit id pulvinar hendrerit. Duis ut erat varius, tempor libero eget, aliquet augue. Aliquam semper, turpis a pharetra interdum, tortor sem commodo nibh, quis mattis mi ipsum non urna. Vivamus dapibus sed mi in lacinia. Quisque interdum sem volutpat metus faucibus porttitor. Nullam ante ante, sollicitudin auctor elit ac, sollicitudin consectetur purus.'
+	        ),
+	        _react2.default.createElement(
+	            'p',
+	            null,
+	            'Vestibulum eu nulla vulputate purus aliquet aliquet. Donec tempor dignissim lacus. Nam ultricies mi eget dolor sodales viverra. Aenean rhoncus a nisl id feugiat. Donec vestibulum eros at quam fringilla maximus. Nunc efficitur eleifend justo eu imperdiet. Proin mollis, tortor eu interdum imperdiet, lorem elit venenatis eros, quis varius arcu magna ac eros. Aenean nulla diam, rutrum ut iaculis id, facilisis in lectus. Quisque lobortis non diam eget sollicitudin. Vivamus facilisis ante id metus maximus, vitae tristique ante ornare. Etiam nec laoreet nisi. Cras efficitur ex vel posuere aliquam.'
+	        )
+	    );
+	};
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "constants.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
@@ -35770,7 +35758,11 @@
 	                'div',
 	                null,
 	                _react2.default.createElement(_stage2.default, { headerText: 'O nama', stageBackgroundClass: 'about-us' }),
-	                _react2.default.createElement(_contentContainer2.default, { content: _constants.LOREM_IPSUM_PARAGRAPS })
+	                _react2.default.createElement(
+	                    _contentContainer2.default,
+	                    null,
+	                    _react2.default.createElement(_constants.LOREM_IPSUM_PARAGRAPHS, null)
+	                )
 	            );
 	        }
 	    }]);
@@ -35842,7 +35834,11 @@
 	                'div',
 	                null,
 	                _react2.default.createElement(_stage2.default, { headerText: 'Galerija', stageBackgroundClass: 'gallery' }),
-	                _react2.default.createElement(_contentContainer2.default, { content: _constants.LOREM_IPSUM_PARAGRAPS })
+	                _react2.default.createElement(
+	                    _contentContainer2.default,
+	                    null,
+	                    _react2.default.createElement(_constants.LOREM_IPSUM_PARAGRAPHS, null)
+	                )
 	            );
 	        }
 	    }]);
@@ -35883,7 +35879,9 @@
 
 	var _contentContainer2 = _interopRequireDefault(_contentContainer);
 
-	var _constants = __webpack_require__(553);
+	var _productCardDeck = __webpack_require__(557);
+
+	var _productCardDeck2 = _interopRequireDefault(_productCardDeck);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35914,7 +35912,11 @@
 	                'div',
 	                null,
 	                _react2.default.createElement(_stage2.default, { headerText: 'Proizvodi', stageBackgroundClass: 'products' }),
-	                _react2.default.createElement(_contentContainer2.default, { content: _constants.LOREM_IPSUM_PARAGRAPS })
+	                _react2.default.createElement(
+	                    _contentContainer2.default,
+	                    null,
+	                    _react2.default.createElement(_productCardDeck2.default, null)
+	                )
 	            );
 	        }
 	    }]);
@@ -35929,6 +35931,58 @@
 
 /***/ },
 /* 557 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _productCard = __webpack_require__(583);
+
+	var _productCard2 = _interopRequireDefault(_productCard);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ProductCardDeck = function ProductCardDeck() {
+	    return _react2.default.createElement(
+	        'div',
+	        { className: 'card-deck-wrapper' },
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'card-deck' },
+	            _react2.default.createElement(_productCard2.default, { imgSrc: '/img/products/cards/cat.jpg',
+	                imgAlt: 'Mace',
+	                titleText: 'Mačke',
+	                paragraphText: 'Naše mačke su najukusnije mačke što ćete naći u cijeloj BiH.',
+	                smallText: 'Ovo je samo privremeni tekst.' }),
+	            _react2.default.createElement(_productCard2.default, { imgSrc: '/img/products/cards/dog.jpg',
+	                imgAlt: 'Cuke',
+	                titleText: 'Cuke',
+	                paragraphText: 'Ma hajde Boga ti, ionako ih ima previše po gradu.',
+	                smallText: 'Ovo je samo privremeni tekst.' }),
+	            _react2.default.createElement(_productCard2.default, { imgSrc: '/img/products/cards/horse.jpg',
+	                imgAlt: 'Konje',
+	                titleText: 'Konji',
+	                paragraphText: 'Kažu da konjsko meso daje snagu i energiju za cijeli dan.',
+	                smallText: 'Ovo je samo privremeni tekst.' })
+	        )
+	    );
+	};
+
+	exports.default = ProductCardDeck;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "productCardDeck.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 558 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -35986,7 +36040,11 @@
 	                'div',
 	                null,
 	                _react2.default.createElement(_stage2.default, { headerText: 'Kontakt', stageBackgroundClass: 'contact' }),
-	                _react2.default.createElement(_contentContainer2.default, { content: _constants.LOREM_IPSUM_PARAGRAPS })
+	                _react2.default.createElement(
+	                    _contentContainer2.default,
+	                    null,
+	                    _react2.default.createElement(_constants.LOREM_IPSUM_PARAGRAPHS, null)
+	                )
 	            );
 	        }
 	    }]);
@@ -36000,7 +36058,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "contact.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 558 */
+/* 559 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36010,7 +36068,7 @@
 	});
 	exports.routerMiddleware = exports.routerActions = exports.goForward = exports.goBack = exports.go = exports.replace = exports.push = exports.CALL_HISTORY_METHOD = exports.routerReducer = exports.LOCATION_CHANGE = exports.syncHistoryWithStore = undefined;
 
-	var _reducer = __webpack_require__(559);
+	var _reducer = __webpack_require__(560);
 
 	Object.defineProperty(exports, 'LOCATION_CHANGE', {
 	  enumerable: true,
@@ -36025,7 +36083,7 @@
 	  }
 	});
 
-	var _actions = __webpack_require__(560);
+	var _actions = __webpack_require__(561);
 
 	Object.defineProperty(exports, 'CALL_HISTORY_METHOD', {
 	  enumerable: true,
@@ -36070,11 +36128,11 @@
 	  }
 	});
 
-	var _sync = __webpack_require__(561);
+	var _sync = __webpack_require__(562);
 
 	var _sync2 = _interopRequireDefault(_sync);
 
-	var _middleware = __webpack_require__(562);
+	var _middleware = __webpack_require__(563);
 
 	var _middleware2 = _interopRequireDefault(_middleware);
 
@@ -36084,7 +36142,7 @@
 	exports.routerMiddleware = _middleware2['default'];
 
 /***/ },
-/* 559 */
+/* 560 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36128,7 +36186,7 @@
 	}
 
 /***/ },
-/* 560 */
+/* 561 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36170,7 +36228,7 @@
 	var routerActions = exports.routerActions = { push: push, replace: replace, go: go, goBack: goBack, goForward: goForward };
 
 /***/ },
-/* 561 */
+/* 562 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36183,7 +36241,7 @@
 
 	exports['default'] = syncHistoryWithStore;
 
-	var _reducer = __webpack_require__(559);
+	var _reducer = __webpack_require__(560);
 
 	var defaultSelectLocationState = function defaultSelectLocationState(state) {
 	  return state.routing;
@@ -36322,7 +36380,7 @@
 	}
 
 /***/ },
-/* 562 */
+/* 563 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36332,7 +36390,7 @@
 	});
 	exports['default'] = routerMiddleware;
 
-	var _actions = __webpack_require__(560);
+	var _actions = __webpack_require__(561);
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -36360,7 +36418,7 @@
 	}
 
 /***/ },
-/* 563 */
+/* 564 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -36373,7 +36431,7 @@
 
 	var _redux = __webpack_require__(473);
 
-	var _reactRouterRedux = __webpack_require__(558);
+	var _reactRouterRedux = __webpack_require__(559);
 
 	var MainReducer = (0, _redux.combineReducers)({
 	    routing: _reactRouterRedux.routerReducer
@@ -36384,25 +36442,25 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "mainReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 564 */
+/* 565 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(565);
+	module.exports = __webpack_require__(566);
 
 /***/ },
-/* 565 */
+/* 566 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(566);
-	var utils = __webpack_require__(567);
-	var dispatchRequest = __webpack_require__(568);
-	var InterceptorManager = __webpack_require__(577);
-	var isAbsoluteURL = __webpack_require__(578);
-	var combineURLs = __webpack_require__(579);
-	var bind = __webpack_require__(580);
-	var transformData = __webpack_require__(572);
+	var defaults = __webpack_require__(567);
+	var utils = __webpack_require__(568);
+	var dispatchRequest = __webpack_require__(569);
+	var InterceptorManager = __webpack_require__(578);
+	var isAbsoluteURL = __webpack_require__(579);
+	var combineURLs = __webpack_require__(580);
+	var bind = __webpack_require__(581);
+	var transformData = __webpack_require__(573);
 
 	function Axios(defaultConfig) {
 	  this.defaults = utils.merge({}, defaultConfig);
@@ -36488,7 +36546,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(581);
+	axios.spread = __webpack_require__(582);
 
 	// Provide aliases for supported request methods
 	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
@@ -36516,12 +36574,12 @@
 
 
 /***/ },
-/* 566 */
+/* 567 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(567);
+	var utils = __webpack_require__(568);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -36588,7 +36646,7 @@
 
 
 /***/ },
-/* 567 */
+/* 568 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36860,7 +36918,7 @@
 
 
 /***/ },
-/* 568 */
+/* 569 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -36882,10 +36940,10 @@
 	        adapter = config.adapter;
 	      } else if (typeof XMLHttpRequest !== 'undefined') {
 	        // For browsers use XHR adapter
-	        adapter = __webpack_require__(569);
+	        adapter = __webpack_require__(570);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        adapter = __webpack_require__(569);
+	        adapter = __webpack_require__(570);
 	      }
 
 	      if (typeof adapter === 'function') {
@@ -36901,18 +36959,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(295)))
 
 /***/ },
-/* 569 */
+/* 570 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(567);
-	var buildURL = __webpack_require__(570);
-	var parseHeaders = __webpack_require__(571);
-	var transformData = __webpack_require__(572);
-	var isURLSameOrigin = __webpack_require__(573);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(574);
-	var settle = __webpack_require__(575);
+	var utils = __webpack_require__(568);
+	var buildURL = __webpack_require__(571);
+	var parseHeaders = __webpack_require__(572);
+	var transformData = __webpack_require__(573);
+	var isURLSameOrigin = __webpack_require__(574);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(575);
+	var settle = __webpack_require__(576);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  var requestData = config.data;
@@ -37009,7 +37067,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(576);
+	    var cookies = __webpack_require__(577);
 
 	    // Add xsrf header
 	    var xsrfValue = config.withCredentials || isURLSameOrigin(config.url) ?
@@ -37070,12 +37128,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(295)))
 
 /***/ },
-/* 570 */
+/* 571 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(567);
+	var utils = __webpack_require__(568);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -37143,12 +37201,12 @@
 
 
 /***/ },
-/* 571 */
+/* 572 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(567);
+	var utils = __webpack_require__(568);
 
 	/**
 	 * Parse headers into an object
@@ -37186,12 +37244,12 @@
 
 
 /***/ },
-/* 572 */
+/* 573 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(567);
+	var utils = __webpack_require__(568);
 
 	/**
 	 * Transform the data for a request or a response
@@ -37212,12 +37270,12 @@
 
 
 /***/ },
-/* 573 */
+/* 574 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(567);
+	var utils = __webpack_require__(568);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -37286,7 +37344,7 @@
 
 
 /***/ },
-/* 574 */
+/* 575 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37328,7 +37386,7 @@
 
 
 /***/ },
-/* 575 */
+/* 576 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37352,12 +37410,12 @@
 
 
 /***/ },
-/* 576 */
+/* 577 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(567);
+	var utils = __webpack_require__(568);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -37411,12 +37469,12 @@
 
 
 /***/ },
-/* 577 */
+/* 578 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(567);
+	var utils = __webpack_require__(568);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -37469,7 +37527,7 @@
 
 
 /***/ },
-/* 578 */
+/* 579 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37489,7 +37547,7 @@
 
 
 /***/ },
-/* 579 */
+/* 580 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37507,7 +37565,7 @@
 
 
 /***/ },
-/* 580 */
+/* 581 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37524,7 +37582,7 @@
 
 
 /***/ },
-/* 581 */
+/* 582 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37555,6 +37613,66 @@
 	  };
 	};
 
+
+/***/ },
+/* 583 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ProductCard = function ProductCard(_ref) {
+	    var imgSrc = _ref.imgSrc;
+	    var imgAlt = _ref.imgAlt;
+	    var titleText = _ref.titleText;
+	    var paragraphText = _ref.paragraphText;
+	    var smallText = _ref.smallText;
+
+	    return _react2.default.createElement(
+	        "div",
+	        { className: "card" },
+	        _react2.default.createElement("img", { className: "card-img-top", src: imgSrc,
+	            alt: imgAlt }),
+	        _react2.default.createElement(
+	            "div",
+	            { className: "card-block" },
+	            _react2.default.createElement(
+	                "h4",
+	                { className: "card-title" },
+	                titleText
+	            ),
+	            _react2.default.createElement(
+	                "p",
+	                { className: "card-text" },
+	                paragraphText
+	            ),
+	            _react2.default.createElement(
+	                "p",
+	                { className: "card-text" },
+	                _react2.default.createElement(
+	                    "small",
+	                    { className: "text-muted" },
+	                    smallText
+	                )
+	            )
+	        )
+	    );
+	};
+
+	exports.default = ProductCard;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "productCard.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }
 /******/ ]);
