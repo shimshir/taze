@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Stage from '../stage/stage.js';
 
 class ProductsView extends Component {
     componentWillMount() {
@@ -7,7 +8,11 @@ class ProductsView extends Component {
     }
 
     render() {
-        return (<div><h1>Proizvodi</h1></div>);
+        return (
+            <div>
+                <Stage headerText="Proizvodi" stageBackgroundClass="products"/>
+            </div>
+        );
     }
 }
 

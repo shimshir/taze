@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import Stage from '../stage/stage.js';
 
 class HomeView extends Component {
     componentWillMount() {
@@ -7,7 +8,11 @@ class HomeView extends Component {
     }
 
     render() {
-        return (<div><h1>Pocetna</h1></div>);
+        return (
+            <div>
+                <Stage headerText="Pocetna" stageBackgroundClass="home"/>
+            </div>
+        );
     }
 }
 

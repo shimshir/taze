@@ -3,11 +3,7 @@ html, body {
 }
 
 body {
-    background: url('/img/spring-276014_1920.jpg') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    background-color: #232f3e;
 }
 
 div#root, div.react-root {
@@ -15,7 +11,10 @@ div#root, div.react-root {
 }
 
 div.container {
-    height: calc(100% - 75px);
-    background: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 1));
+    padding-left: 0;
+    padding-right: 0;
+    min-height: calc(100% - 75px);
+    background: rgba(255, 255, 255, 1);
     margin-top: 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }

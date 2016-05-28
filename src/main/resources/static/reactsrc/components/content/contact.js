@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Stage from '../stage/stage.js';
+
 
 class ContactView extends Component {
     componentWillMount() {
@@ -7,7 +9,11 @@ class ContactView extends Component {
     }
 
     render() {
-        return (<div><h1>Kontakt</h1></div>);
+        return (
+            <div>
+                <Stage headerText="Kontakt" stageBackgroundClass="contact"/>
+            </div>
+        );
     }
 }
 

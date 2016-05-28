@@ -27561,6 +27561,10 @@
 
 	var _reactRedux = __webpack_require__(169);
 
+	var _stage = __webpack_require__(264);
+
+	var _stage2 = _interopRequireDefault(_stage);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27589,11 +27593,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(
-	                    'h1',
-	                    null,
-	                    'Pocetna'
-	                )
+	                _react2.default.createElement(_stage2.default, { headerText: 'Pocetna', stageBackgroundClass: 'home' })
 	            );
 	        }
 	    }]);
@@ -27626,6 +27626,14 @@
 
 	var _reactRedux = __webpack_require__(169);
 
+	var _stage = __webpack_require__(264);
+
+	var _stage2 = _interopRequireDefault(_stage);
+
+	var _contentContainer = __webpack_require__(265);
+
+	var _contentContainer2 = _interopRequireDefault(_contentContainer);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27651,14 +27659,40 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement(
+	            var aboutUsContent = _react2.default.createElement(
 	                'div',
 	                null,
 	                _react2.default.createElement(
-	                    'h1',
+	                    'p',
 	                    null,
-	                    'O nama'
+	                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper augue vel neque porttitor suscipit. Aliquam accumsan dapibus metus vel dictum. Proin auctor quis ligula sit amet mattis. Duis porta aliquet nibh sit amet dictum. Nunc a finibus eros. Nulla id augue eros. Donec vel dui a mauris rutrum eleifend sed in nisi.'
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Suspendisse vulputate massa elit, rutrum condimentum felis fringilla sit amet. Vivamus diam arcu, ornare imperdiet condimentum a, elementum ac ante. Mauris varius molestie purus, sed varius risus volutpat eget. Duis sagittis erat ex, a pulvinar sapien dapibus id. Aenean sit amet consequat dolor. Pellentesque consequat, risus et vulputate hendrerit, velit sapien malesuada metus, nec efficitur neque ex eget massa. Sed blandit mi et enim molestie laoreet. Etiam luctus, felis quis egestas convallis, nisl est varius nunc, a rhoncus dolor dolor vitae justo.'
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Fusce mauris risus, molestie ac viverra ut, placerat non libero. Mauris ex quam, tempor a augue vitae, congue malesuada nulla. Suspendisse eu tempor odio. Duis malesuada magna ut dapibus facilisis. Curabitur purus sapien, auctor vitae rhoncus sit amet, ornare nec orci. Morbi ut augue vel urna tempor tempor ac ac lectus. Ut vel egestas sem. Aenean ante magna, condimentum id vehicula id, volutpat vitae urna. Curabitur dictum iaculis hendrerit. Quisque dapibus quis odio ut posuere. Nullam sed congue lorem. Praesent eget nisl non libero facilisis bibendum. Praesent nec orci eros. Aliquam a purus vel nisl ultrices dignissim vitae sit amet diam.'
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    ' In mattis lectus at erat sollicitudin, ac pharetra est tempus. Vestibulum nec lorem nec nulla facilisis pulvinar. Aliquam scelerisque, metus pulvinar placerat tincidunt, risus nibh tincidunt risus, a posuere sapien urna vitae nunc. Suspendisse quis tortor justo. Nulla pulvinar tempor interdum. Nunc nec lectus ex. Phasellus auctor elit id pulvinar hendrerit. Duis ut erat varius, tempor libero eget, aliquet augue. Aliquam semper, turpis a pharetra interdum, tortor sem commodo nibh, quis mattis mi ipsum non urna. Vivamus dapibus sed mi in lacinia. Quisque interdum sem volutpat metus faucibus porttitor. Nullam ante ante, sollicitudin auctor elit ac, sollicitudin consectetur purus.'
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Vestibulum eu nulla vulputate purus aliquet aliquet. Donec tempor dignissim lacus. Nam ultricies mi eget dolor sodales viverra. Aenean rhoncus a nisl id feugiat. Donec vestibulum eros at quam fringilla maximus. Nunc efficitur eleifend justo eu imperdiet. Proin mollis, tortor eu interdum imperdiet, lorem elit venenatis eros, quis varius arcu magna ac eros. Aenean nulla diam, rutrum ut iaculis id, facilisis in lectus. Quisque lobortis non diam eget sollicitudin. Vivamus facilisis ante id metus maximus, vitae tristique ante ornare. Etiam nec laoreet nisi. Cras efficitur ex vel posuere aliquam.'
 	                )
+	            );
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(_stage2.default, { headerText: 'O nama', stageBackgroundClass: 'about-us' }),
+	                _react2.default.createElement(_contentContainer2.default, { content: aboutUsContent })
 	            );
 	        }
 	    }]);
@@ -27691,6 +27725,10 @@
 
 	var _reactRedux = __webpack_require__(169);
 
+	var _stage = __webpack_require__(264);
+
+	var _stage2 = _interopRequireDefault(_stage);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27719,11 +27757,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(
-	                    'h1',
-	                    null,
-	                    'Galerija'
-	                )
+	                _react2.default.createElement(_stage2.default, { headerText: 'Galerija', stageBackgroundClass: 'gallery' })
 	            );
 	        }
 	    }]);
@@ -27756,6 +27790,10 @@
 
 	var _reactRedux = __webpack_require__(169);
 
+	var _stage = __webpack_require__(264);
+
+	var _stage2 = _interopRequireDefault(_stage);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27784,11 +27822,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(
-	                    'h1',
-	                    null,
-	                    'Proizvodi'
-	                )
+	                _react2.default.createElement(_stage2.default, { headerText: 'Proizvodi', stageBackgroundClass: 'products' })
 	            );
 	        }
 	    }]);
@@ -27821,6 +27855,10 @@
 
 	var _reactRedux = __webpack_require__(169);
 
+	var _stage = __webpack_require__(264);
+
+	var _stage2 = _interopRequireDefault(_stage);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27849,11 +27887,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(
-	                    'h1',
-	                    null,
-	                    'Kontakt'
-	                )
+	                _react2.default.createElement(_stage2.default, { headerText: 'Kontakt', stageBackgroundClass: 'contact' })
 	            );
 	        }
 	    }]);
@@ -28249,6 +28283,89 @@
 	exports.default = MainReducer;
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "mainReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Stage = function Stage(_ref) {
+	    var headerText = _ref.headerText;
+	    var stageBackgroundClass = _ref.stageBackgroundClass;
+
+	    return _react2.default.createElement(
+	        'div',
+	        { className: 'stage ' + stageBackgroundClass },
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'stage-header-container' },
+	            _react2.default.createElement(
+	                'h1',
+	                { style: { fontSize: "4.5em" } },
+	                _react2.default.createElement(
+	                    'b',
+	                    null,
+	                    'Taze'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'h1',
+	                null,
+	                ' ',
+	                headerText
+	            )
+	        )
+	    );
+	};
+
+	exports.default = Stage;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "stage.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ContentContainer = function ContentContainer(_ref) {
+	    var content = _ref.content;
+
+	    return _react2.default.createElement(
+	        "div",
+	        { className: "content-container" },
+	        content
+	    );
+	};
+
+	exports.default = ContentContainer;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "contentContainer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }
 /******/ ]);
