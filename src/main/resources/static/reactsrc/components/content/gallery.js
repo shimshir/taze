@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import Stage from '../stage/stage.js';
 import ContentContainer from './common/contentContainer.js';
 import { LOREM_IPSUM_PARAGRAPHS } from '../../constants/constants.js';
+import {changeActiveTopNavbarItemDispatchMapping} from './common/commonMappings.js';
 
 class GalleryView extends Component {
     componentWillMount() {
-        console.log("gallery mounted");
+        this.props.changeActiveTopNavbarItem('gallery');
     }
 
     render() {
@@ -21,5 +22,5 @@ class GalleryView extends Component {
     }
 }
 
-const Gallery = connect(undefined, undefined)(GalleryView);
+const Gallery = connect(undefined, changeActiveTopNavbarItemDispatchMapping)(GalleryView);
 export default Gallery;

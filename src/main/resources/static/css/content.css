@@ -1,3 +1,24 @@
 div.content-container {
     padding: 20px;
 }
+
+div.card-img-container {
+    height: 250px;
+    width: 352px;
+}
+
+div.card-img-container.cat {
+    background-image: url('/img/products/cards/cat.jpg');
+}
+
+div.card-img-container.dog {
+    background-image: url('/img/products/cards/dog.jpg');
+}
+
+div.card-img-container.horse {
+    background-image: url('/img/products/cards/horse.jpg');
+}
+
+div.card-img-container:hover {
+    box-shadow: inset 0 0 20px 10px rgba(0,0,0,0.6);
+}

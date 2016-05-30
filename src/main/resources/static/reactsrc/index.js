@@ -6,7 +6,7 @@ import {Router, browserHistory} from 'react-router';
 import routes from './routes';
 import {createStore} from 'redux';
 import {syncHistoryWithStore} from 'react-router-redux';
-import MainReducer from './reducer/mainReducer.js';
+import MainReducer from './reducers/mainReducer.js';
 import axios from 'axios';
 
 const store = createStore(MainReducer);
@@ -14,7 +14,7 @@ const store = createStore(MainReducer);
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-axios.get('/img/home.jpg').then(response => console.log('home.jpg'));
+axios.get('/img/root.jpg').then(response => console.log('root.jpg'));
 axios.get('/img/about-us.jpg').then(response => console.log('about-us.jpg'));
 axios.get('/img/gallery.jpg').then(response => console.log('gallery.jpg'));
 axios.get('/img/products.jpg').then(response => console.log('products.jpg'));

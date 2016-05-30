@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import Stage from '../stage/stage.js';
 import ContentContainer from './common/contentContainer.js';
 import { LOREM_IPSUM_PARAGRAPHS } from '../../constants/constants.js';
-
+import {changeActiveTopNavbarItemDispatchMapping} from './common/commonMappings.js';
 
 class ContactView extends Component {
     componentWillMount() {
-        console.log("contact mounted");
+        this.props.changeActiveTopNavbarItem('contact');
     }
 
     render() {
@@ -22,5 +22,5 @@ class ContactView extends Component {
     }
 }
 
-const Contact = connect(undefined, undefined)(ContactView);
+const Contact = connect(undefined, changeActiveTopNavbarItemDispatchMapping)(ContactView);
 export default Contact;

@@ -3,10 +3,11 @@ import {connect} from 'react-redux';
 import Stage from '../stage/stage.js';
 import ContentContainer from './common/contentContainer.js';
 import { LOREM_IPSUM_PARAGRAPHS } from '../../constants/constants.js';
+import {changeActiveTopNavbarItemDispatchMapping} from './common/commonMappings.js';
 
 class AboutUsView extends Component {
     componentWillMount() {
-        console.log("about us mounted");
+        this.props.changeActiveTopNavbarItem('about-us');
     }
 
     render() {
@@ -21,5 +22,5 @@ class AboutUsView extends Component {
     }
 }
 
-const AboutUs = connect(undefined, undefined)(AboutUsView);
+const AboutUs = connect(undefined, changeActiveTopNavbarItemDispatchMapping)(AboutUsView);
 export default AboutUs;

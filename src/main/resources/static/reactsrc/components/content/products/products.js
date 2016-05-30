@@ -3,10 +3,11 @@ import {connect} from 'react-redux';
 import Stage from '../../stage/stage.js';
 import ContentContainer from '../common/contentContainer.js';
 import ProductCardDeck from './productCardDeck.js';
+import {changeActiveTopNavbarItemDispatchMapping} from '../common/commonMappings.js';
 
 class ProductsView extends Component {
     componentWillMount() {
-        console.log("products mounted");
+        this.props.changeActiveTopNavbarItem('products');
     }
 
     render() {
@@ -21,5 +22,5 @@ class ProductsView extends Component {
     }
 }
 
-const Products = connect(undefined, undefined)(ProductsView);
+const Products = connect(undefined, changeActiveTopNavbarItemDispatchMapping)(ProductsView);
 export default Products;

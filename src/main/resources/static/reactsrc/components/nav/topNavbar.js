@@ -2,26 +2,26 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-const TopNavbarView = () => {
+const TopNavbarView = ({ activeTopNavbarItem}) => {
     return (
         <nav className="navbar navbar-dark bg-inverse topnavbar">
             <Link className="navbar-brand" to="/">Taze</Link>
             <ul className="nav navbar-nav">
-                <li className="nav-item">
+                <li className={'nav-item ' + (activeTopNavbarItem === 'about-us' ? 'active' : '')}>
                     <Link className="nav-link" to="/about-us">O nama</Link>
                 </li>
-                <li className="nav-item">
+                <li className={'nav-item ' + (activeTopNavbarItem === 'gallery' ? 'active' : '')}>
                     <Link className="nav-link" to="/gallery">Galerija</Link>
                 </li>
-                <li className="nav-item">
+                <li className={'nav-item ' + (activeTopNavbarItem === 'products' ? 'active' : '')}>
                     <Link className="nav-link" to="/products">Proizvodi</Link>
                 </li>
-                <li className="nav-item">
+                <li className={'nav-item ' + (activeTopNavbarItem === 'contact' ? 'active' : '')}>
                     <Link className="nav-link" to="/contact">Kontakt</Link>
                 </li>
             </ul>
         </nav>
-    )
+    );
 };
 
 TopNavbarView.propTypes = {
@@ -30,6 +30,7 @@ TopNavbarView.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
     return {
+        activeTopNavbarItem: state.activeTopNavbarItem
     }
 };
 

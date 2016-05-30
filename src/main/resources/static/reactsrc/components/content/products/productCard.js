@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router';
 
-const ProductCard = ({ imgSrc, imgAlt, titleText, paragraphText, smallText }) => {
+const ProductCard = ({ productsCode, imgSrc, imgAlt, titleText, paragraphText, smallText }) => {
     return (
         <div className="card">
-            <img className="card-img-top" src={imgSrc}
-                 alt={imgAlt}/>
+            <Link to={`/products/${productsCode}`}>
+                <div className={'card-img-container ' + productsCode}></div>
+            </Link>
             <div className="card-block">
                 <h4 className="card-title">{titleText}</h4>
                 <p className="card-text">{paragraphText}</p>
