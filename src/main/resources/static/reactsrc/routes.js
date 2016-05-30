@@ -9,6 +9,7 @@ import Products from './components/content/products/products.js';
 import Contact from './components/content/contact.js';
 
 import Chicken from './components/content/products/chicken/chicken.js';
+import Honey from './components/content/products/honey/honey.js';
 
 const NoMatch = () => {
     return (<div><h1>404</h1></div>)
@@ -21,6 +22,7 @@ export default (
         <Route path="/gallery" component={Gallery}/>
         <Route path="/products" component={Products}/>
         <Route path="/products/chicken" component={Chicken}/>
+        <Route path="/products/honey" component={Honey}/>
         <Route path="/contact" component={Contact}/>
         <Route path="*" component={NoMatch}/>
     </Route>

@@ -35321,6 +35321,10 @@
 
 	var _chicken2 = _interopRequireDefault(_chicken);
 
+	var _honey = __webpack_require__(589);
+
+	var _honey2 = _interopRequireDefault(_honey);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var NoMatch = function NoMatch() {
@@ -35343,6 +35347,7 @@
 	    _react2.default.createElement(_reactRouter.Route, { path: '/gallery', component: _gallery2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/products', component: _products2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/products/chicken', component: _chicken2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/products/honey', component: _honey2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/contact', component: _contact2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '*', component: NoMatch })
 	);
@@ -36025,20 +36030,14 @@
 	            'div',
 	            { className: 'card-deck' },
 	            _react2.default.createElement(_productCard2.default, { productsCode: 'chicken',
-	                imgSrc: '/img/products/cards/chicken.jpg',
-	                imgAlt: 'Pile',
 	                titleText: 'Pilad',
 	                paragraphText: 'Ništa nema bolju kombinaciju ukusa i jednostavnosti kao domaće pile sa ražnja.',
 	                smallText: 'Ovo je samo privremeni tekst.' }),
-	            _react2.default.createElement(_productCard2.default, { productsCode: 'dog',
-	                imgSrc: '/img/products/cards/dog.jpg',
-	                imgAlt: 'Cuke',
-	                titleText: 'Cuke',
-	                paragraphText: 'Ma hajde Boga ti, ionako ih ima previše po gradu.',
+	            _react2.default.createElement(_productCard2.default, { productsCode: 'honey',
+	                titleText: 'Med',
+	                paragraphText: 'Činjenica da med nema rok trajanja dovoljno govori o kvaliteti ovog proizvoda.',
 	                smallText: 'Ovo je samo privremeni tekst.' }),
 	            _react2.default.createElement(_productCard2.default, { productsCode: 'horse',
-	                imgSrc: '/img/products/cards/horse.jpg',
-	                imgAlt: 'Konje',
 	                titleText: 'Konji',
 	                paragraphText: 'Kažu da konjsko meso daje snagu i energiju za cijeli dan.',
 	                smallText: 'Ovo je samo privremeni tekst.' })
@@ -36072,8 +36071,6 @@
 
 	var ProductCard = function ProductCard(_ref) {
 	    var productsCode = _ref.productsCode;
-	    var imgSrc = _ref.imgSrc;
-	    var imgAlt = _ref.imgAlt;
 	    var titleText = _ref.titleText;
 	    var paragraphText = _ref.paragraphText;
 	    var smallText = _ref.smallText;
@@ -36220,6 +36217,14 @@
 
 	var _productDetail2 = _interopRequireDefault(_productDetail);
 
+	var _stage = __webpack_require__(551);
+
+	var _stage2 = _interopRequireDefault(_stage);
+
+	var _contentContainer = __webpack_require__(552);
+
+	var _contentContainer2 = _interopRequireDefault(_contentContainer);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -36245,7 +36250,20 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement(_productDetail2.default, { unitCode: 'kg' });
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(_stage2.default, { headerText: 'Pilad', stageBackgroundClass: 'chicken' }),
+	                _react2.default.createElement(
+	                    _contentContainer2.default,
+	                    null,
+	                    _react2.default.createElement(_productDetail2.default, { pricePerUnit: 8,
+	                        unitCode: 'kg',
+	                        imageSrc: '/img/products/chicken-pdp.jpg',
+	                        headerText: 'Pile',
+	                        additionalText: '* Kilaža se zaokružuje da bude cio broj piladi.' })
+	                )
+	            );
 	        }
 	    }]);
 
@@ -36274,14 +36292,6 @@
 	var _react = __webpack_require__(300);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _stage = __webpack_require__(551);
-
-	var _stage2 = _interopRequireDefault(_stage);
-
-	var _contentContainer = __webpack_require__(552);
-
-	var _contentContainer2 = _interopRequireDefault(_contentContainer);
 
 	var _reactRedux = __webpack_require__(466);
 
@@ -36314,9 +36324,7 @@
 
 	    _createClass(ProductDetailView, [{
 	        key: 'componentWillMount',
-	        value: function componentWillMount() {
-	            console.log('product detail');
-	        }
+	        value: function componentWillMount() {}
 	    }, {
 	        key: 'render',
 	        value: function render() {
@@ -36324,98 +36332,90 @@
 
 	            return _react2.default.createElement(
 	                'div',
-	                null,
-	                _react2.default.createElement(_stage2.default, { headerText: 'Pilad', stageBackgroundClass: 'chicken' }),
+	                { className: 'row product-content-container' },
 	                _react2.default.createElement(
-	                    _contentContainer2.default,
-	                    null,
+	                    'div',
+	                    { className: 'col-lg-5' },
+	                    _react2.default.createElement('img', { className: 'primary-product-image', src: this.props.imageSrc })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-lg-7' },
 	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'row product-content-container' },
+	                        'form',
+	                        { id: 'orderForm', onSubmit: function onSubmit(event) {
+	                                event.preventDefault();
+	                                console.log("submitted");
+	                            } },
+	                        _react2.default.createElement(
+	                            'h2',
+	                            null,
+	                            this.props.headerText
+	                        ),
+	                        _react2.default.createElement('hr', null),
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'col-lg-5' },
-	                            _react2.default.createElement('img', { className: 'primary-product-image', src: '/img/products/chicken-pdp.jpg' })
+	                            { className: 'control-container col-lg-6' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    { className: 'col-lg-6' },
+	                                    'Cijena:'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    { className: 'col-lg-6 price-value' },
+	                                    this.props.pricePerUnit + ' KM/' + this.props.unitCode
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-lg-6' },
+	                                    _react2.default.createElement(
+	                                        'label',
+	                                        { 'for': 'amount' },
+	                                        'Količina:'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-lg-6' },
+	                                    _react2.default.createElement(
+	                                        'select',
+	                                        { className: 'form-control amount-select', id: 'amount' },
+	                                        this.amounts.map(function (amount) {
+	                                            return _react2.default.createElement(
+	                                                'option',
+	                                                { key: amount,
+	                                                    value: amount },
+	                                                amount + ' ' + _this2.props.unitCode
+	                                            );
+	                                        })
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'small',
+	                                        null,
+	                                        this.props.additionalText
+	                                    )
+	                                )
+	                            )
 	                        ),
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'col-lg-7' },
+	                            { className: 'control-container col-lg-6' },
 	                            _react2.default.createElement(
-	                                'form',
-	                                { id: 'orderForm', onSubmit: function onSubmit(event) {
-	                                        event.preventDefault();
-	                                        console.log("submitted");
-	                                    } },
+	                                'div',
+	                                { className: 'row' },
 	                                _react2.default.createElement(
-	                                    'h2',
-	                                    null,
-	                                    'Pile'
-	                                ),
-	                                _react2.default.createElement('hr', null),
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'control-container col-lg-6' },
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'row' },
-	                                        _react2.default.createElement(
-	                                            'span',
-	                                            { className: 'col-lg-6' },
-	                                            'Cijena:'
-	                                        ),
-	                                        _react2.default.createElement(
-	                                            'span',
-	                                            { className: 'col-lg-6 price-value' },
-	                                            '8 KM/' + this.props.unitCode
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'row' },
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'col-lg-6' },
-	                                            _react2.default.createElement(
-	                                                'label',
-	                                                { 'for': 'amount' },
-	                                                'Količina:'
-	                                            )
-	                                        ),
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'col-lg-6' },
-	                                            _react2.default.createElement(
-	                                                'select',
-	                                                { className: 'form-control amount-select', id: 'amount' },
-	                                                this.amounts.map(function (amount) {
-	                                                    return _react2.default.createElement(
-	                                                        'option',
-	                                                        { key: amount, value: amount },
-	                                                        amount + ' ' + _this2.props.unitCode
-	                                                    );
-	                                                })
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                'small',
-	                                                null,
-	                                                '* Kilaža se zaokružuje da bude cio broj piladi.'
-	                                            )
-	                                        )
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'control-container col-lg-6' },
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'row' },
-	                                        _react2.default.createElement(
-	                                            'button',
-	                                            { type: 'submit', className: 'btn btn-success' },
-	                                            _react2.default.createElement('i', { className: 'fa fa-cart-plus' }),
-	                                            ' Dodaj u korpu'
-	                                        )
-	                                    )
+	                                    'button',
+	                                    { type: 'submit', className: 'btn btn-success' },
+	                                    _react2.default.createElement('i', { className: 'fa fa-cart-plus' }),
+	                                    ' Dodaj u korpu'
 	                                )
 	                            )
 	                        )
@@ -36427,6 +36427,14 @@
 
 	    return ProductDetailView;
 	}(_react.Component);
+
+	ProductDetailView.propTypes = {
+	    pricePerUnit: _react2.default.PropTypes.number.isRequired,
+	    unitCode: _react2.default.PropTypes.string.isRequired,
+	    imageSrc: _react2.default.PropTypes.string.isRequired,
+	    headerText: _react2.default.PropTypes.string.isRequired,
+	    additionalText: _react2.default.PropTypes.string
+	};
 
 	var ProductDetail = (0, _reactRedux.connect)(undefined, undefined)(ProductDetailView);
 	exports.default = ProductDetail;
@@ -38026,6 +38034,89 @@
 	  };
 	};
 
+
+/***/ },
+/* 589 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(466);
+
+	var _commonMappings = __webpack_require__(554);
+
+	var _productDetail = __webpack_require__(563);
+
+	var _productDetail2 = _interopRequireDefault(_productDetail);
+
+	var _stage = __webpack_require__(551);
+
+	var _stage2 = _interopRequireDefault(_stage);
+
+	var _contentContainer = __webpack_require__(552);
+
+	var _contentContainer2 = _interopRequireDefault(_contentContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var HoneyView = function (_Component) {
+	    _inherits(HoneyView, _Component);
+
+	    function HoneyView() {
+	        _classCallCheck(this, HoneyView);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(HoneyView).apply(this, arguments));
+	    }
+
+	    _createClass(HoneyView, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            this.props.changeActiveTopNavbarItem('products');
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(_stage2.default, { headerText: 'Med', stageBackgroundClass: 'honey' }),
+	                _react2.default.createElement(
+	                    _contentContainer2.default,
+	                    null,
+	                    _react2.default.createElement(_productDetail2.default, { pricePerUnit: 10,
+	                        unitCode: 'l',
+	                        imageSrc: '/img/products/honey-pdp.jpg',
+	                        headerText: 'Med' })
+	                )
+	            );
+	        }
+	    }]);
+
+	    return HoneyView;
+	}(_react.Component);
+
+	var Honey = (0, _reactRedux.connect)(undefined, _commonMappings.changeActiveTopNavbarItemDispatchMapping)(HoneyView);
+	exports.default = Honey;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "honey.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }
 /******/ ]);

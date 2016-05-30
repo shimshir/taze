@@ -5,20 +5,19 @@ import ProductDetail from '../productDetail.js';
 import Stage from '../../../stage/stage.js';
 import ContentContainer from '../../common/contentContainer.js';
 
-class ChickenView extends Component {
+class HoneyView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('products')
     }
     render() {
         return (
             <div>
-                <Stage headerText="Pilad" stageBackgroundClass="chicken"/>
+                <Stage headerText="Med" stageBackgroundClass="honey"/>
                 <ContentContainer>
-                    <ProductDetail pricePerUnit={8}
-                                   unitCode="kg"
-                                   imageSrc="/img/products/chicken-pdp.jpg"
-                                   headerText="Pile"
-                                   additionalText="* Kilaža se zaokružuje da bude cio broj piladi."/>
+                    <ProductDetail pricePerUnit={10}
+                                   unitCode="l"
+                                   imageSrc="/img/products/honey-pdp.jpg"
+                                   headerText="Med"/>
                 </ContentContainer>
             </div>
         );
@@ -26,5 +25,5 @@ class ChickenView extends Component {
 }
 
 
-const Chicken = connect(undefined, changeActiveTopNavbarItemDispatchMapping)(ChickenView);
-export default Chicken;
+const Honey = connect(undefined, changeActiveTopNavbarItemDispatchMapping)(HoneyView);
+export default Honey;

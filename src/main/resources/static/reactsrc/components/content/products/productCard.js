@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const ProductCard = ({ productsCode, imgSrc, imgAlt, titleText, paragraphText, smallText }) => {
+const ProductCard = ({ productsCode, titleText, paragraphText, smallText }) => {
     return (
         <div className="card">
             <Link to={`/products/${productsCode}`}>
