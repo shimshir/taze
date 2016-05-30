@@ -8117,13 +8117,13 @@
 
 	var _redux = __webpack_require__(473);
 
-	var _reactRouterRedux = __webpack_require__(562);
+	var _reactRouterRedux = __webpack_require__(563);
 
-	var _mainReducer = __webpack_require__(567);
+	var _mainReducer = __webpack_require__(568);
 
 	var _mainReducer2 = _interopRequireDefault(_mainReducer);
 
-	var _axios = __webpack_require__(569);
+	var _axios = __webpack_require__(570);
 
 	var _axios2 = _interopRequireDefault(_axios);
 
@@ -35317,6 +35317,10 @@
 
 	var _contact2 = _interopRequireDefault(_contact);
 
+	var _chicken = __webpack_require__(562);
+
+	var _chicken2 = _interopRequireDefault(_chicken);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var NoMatch = function NoMatch() {
@@ -35338,6 +35342,7 @@
 	    _react2.default.createElement(_reactRouter.Route, { path: '/about-us', component: _aboutUs2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/gallery', component: _gallery2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/products', component: _products2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/products/chicken', component: _chicken2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/contact', component: _contact2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '*', component: NoMatch })
 	);
@@ -35455,6 +35460,20 @@
 	                    _reactRouter.Link,
 	                    { className: 'nav-link', to: '/contact' },
 	                    'Kontakt'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'li',
+	                { className: 'nav-item pull-xs-right' },
+	                _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { className: 'nav-link shopping-cart-link', to: '/cart' },
+	                    _react2.default.createElement('i', { className: 'fa fa-shopping-cart nav-shopping-cart' }),
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: 'shopping-cart-amount' },
+	                        '3'
+	                    )
 	                )
 	            )
 	        )
@@ -36005,11 +36024,11 @@
 	        _react2.default.createElement(
 	            'div',
 	            { className: 'card-deck' },
-	            _react2.default.createElement(_productCard2.default, { productsCode: 'cat',
-	                imgSrc: '/img/products/cards/cat.jpg',
-	                imgAlt: 'Mace',
-	                titleText: 'Mačke',
-	                paragraphText: 'Naše mačke su najukusnije mačke što ćete naći u cijeloj BiH.',
+	            _react2.default.createElement(_productCard2.default, { productsCode: 'chicken',
+	                imgSrc: '/img/products/cards/chicken.jpg',
+	                imgAlt: 'Pile',
+	                titleText: 'Pilad',
+	                paragraphText: 'Ništa nema bolju kombinaciju ukusa i jednostavnosti kao domaće pile sa ražnja.',
 	                smallText: 'Ovo je samo privremeni tekst.' }),
 	            _react2.default.createElement(_productCard2.default, { productsCode: 'dog',
 	                imgSrc: '/img/products/cards/dog.jpg',
@@ -36179,6 +36198,176 @@
 /* 562 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(466);
+
+	var _commonMappings = __webpack_require__(554);
+
+	var _stage = __webpack_require__(551);
+
+	var _stage2 = _interopRequireDefault(_stage);
+
+	var _contentContainer = __webpack_require__(552);
+
+	var _contentContainer2 = _interopRequireDefault(_contentContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ChickenView = function (_Component) {
+	    _inherits(ChickenView, _Component);
+
+	    function ChickenView() {
+	        _classCallCheck(this, ChickenView);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(ChickenView).apply(this, arguments));
+	    }
+
+	    _createClass(ChickenView, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            this.props.changeActiveTopNavbarItem('products');
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var amounts = new Array(30).fill(1).map(function (_, i) {
+	                return i + 1;
+	            });
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(_stage2.default, { headerText: 'Pilad', stageBackgroundClass: 'chicken' }),
+	                _react2.default.createElement(
+	                    _contentContainer2.default,
+	                    null,
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'row product-content-container' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'col-lg-5' },
+	                            _react2.default.createElement('img', { className: 'primary-product-image', src: '/img/products/chicken-pdp.jpg' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'col-lg-7' },
+	                            _react2.default.createElement(
+	                                'form',
+	                                { id: 'orderForm', onSubmit: function onSubmit(event) {
+	                                        event.preventDefault();
+	                                        console.log("submitted");
+	                                    } },
+	                                _react2.default.createElement(
+	                                    'h2',
+	                                    null,
+	                                    'Pile'
+	                                ),
+	                                _react2.default.createElement('hr', null),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'control-container col-lg-6' },
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'row' },
+	                                        _react2.default.createElement(
+	                                            'span',
+	                                            { className: 'col-lg-6' },
+	                                            'Cijena:'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'span',
+	                                            { className: 'col-lg-6 price-value' },
+	                                            '8 KM/kg'
+	                                        )
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'row' },
+	                                        _react2.default.createElement(
+	                                            'div',
+	                                            { className: 'col-lg-6' },
+	                                            _react2.default.createElement(
+	                                                'label',
+	                                                { 'for': 'amount' },
+	                                                'Količina:'
+	                                            )
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'div',
+	                                            { className: 'col-lg-6' },
+	                                            _react2.default.createElement(
+	                                                'select',
+	                                                { className: 'form-control amount-select', id: 'amount' },
+	                                                amounts.map(function (amount) {
+	                                                    return _react2.default.createElement(
+	                                                        'option',
+	                                                        { key: amount, value: amount },
+	                                                        amount,
+	                                                        ' kg'
+	                                                    );
+	                                                })
+	                                            ),
+	                                            _react2.default.createElement(
+	                                                'small',
+	                                                null,
+	                                                '* Kilaža se zaokružuje da bude cio broj piladi.'
+	                                            )
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'control-container col-lg-6' },
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'row' },
+	                                        _react2.default.createElement(
+	                                            'button',
+	                                            { type: 'submit', className: 'btn btn-success' },
+	                                            _react2.default.createElement('i', { className: 'fa fa-cart-plus' }),
+	                                            ' Dodaj u korpu'
+	                                        )
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return ChickenView;
+	}(_react.Component);
+
+	var Chicken = (0, _reactRedux.connect)(undefined, _commonMappings.changeActiveTopNavbarItemDispatchMapping)(ChickenView);
+	exports.default = Chicken;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "chicken.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 563 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -36186,7 +36375,7 @@
 	});
 	exports.routerMiddleware = exports.routerActions = exports.goForward = exports.goBack = exports.go = exports.replace = exports.push = exports.CALL_HISTORY_METHOD = exports.routerReducer = exports.LOCATION_CHANGE = exports.syncHistoryWithStore = undefined;
 
-	var _reducer = __webpack_require__(563);
+	var _reducer = __webpack_require__(564);
 
 	Object.defineProperty(exports, 'LOCATION_CHANGE', {
 	  enumerable: true,
@@ -36201,7 +36390,7 @@
 	  }
 	});
 
-	var _actions = __webpack_require__(564);
+	var _actions = __webpack_require__(565);
 
 	Object.defineProperty(exports, 'CALL_HISTORY_METHOD', {
 	  enumerable: true,
@@ -36246,11 +36435,11 @@
 	  }
 	});
 
-	var _sync = __webpack_require__(565);
+	var _sync = __webpack_require__(566);
 
 	var _sync2 = _interopRequireDefault(_sync);
 
-	var _middleware = __webpack_require__(566);
+	var _middleware = __webpack_require__(567);
 
 	var _middleware2 = _interopRequireDefault(_middleware);
 
@@ -36260,7 +36449,7 @@
 	exports.routerMiddleware = _middleware2['default'];
 
 /***/ },
-/* 563 */
+/* 564 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36304,7 +36493,7 @@
 	}
 
 /***/ },
-/* 564 */
+/* 565 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36346,7 +36535,7 @@
 	var routerActions = exports.routerActions = { push: push, replace: replace, go: go, goBack: goBack, goForward: goForward };
 
 /***/ },
-/* 565 */
+/* 566 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36359,7 +36548,7 @@
 
 	exports['default'] = syncHistoryWithStore;
 
-	var _reducer = __webpack_require__(563);
+	var _reducer = __webpack_require__(564);
 
 	var defaultSelectLocationState = function defaultSelectLocationState(state) {
 	  return state.routing;
@@ -36498,7 +36687,7 @@
 	}
 
 /***/ },
-/* 566 */
+/* 567 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36508,7 +36697,7 @@
 	});
 	exports['default'] = routerMiddleware;
 
-	var _actions = __webpack_require__(564);
+	var _actions = __webpack_require__(565);
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -36536,7 +36725,7 @@
 	}
 
 /***/ },
-/* 567 */
+/* 568 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -36549,9 +36738,9 @@
 
 	var _redux = __webpack_require__(473);
 
-	var _reactRouterRedux = __webpack_require__(562);
+	var _reactRouterRedux = __webpack_require__(563);
 
-	var _activeTopNavbarItemReducer = __webpack_require__(568);
+	var _activeTopNavbarItemReducer = __webpack_require__(569);
 
 	var _activeTopNavbarItemReducer2 = _interopRequireDefault(_activeTopNavbarItemReducer);
 
@@ -36567,7 +36756,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "mainReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 568 */
+/* 569 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -36597,25 +36786,25 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "activeTopNavbarItemReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 569 */
+/* 570 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(570);
+	module.exports = __webpack_require__(571);
 
 /***/ },
-/* 570 */
+/* 571 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(571);
-	var utils = __webpack_require__(572);
-	var dispatchRequest = __webpack_require__(573);
-	var InterceptorManager = __webpack_require__(582);
-	var isAbsoluteURL = __webpack_require__(583);
-	var combineURLs = __webpack_require__(584);
-	var bind = __webpack_require__(585);
-	var transformData = __webpack_require__(577);
+	var defaults = __webpack_require__(572);
+	var utils = __webpack_require__(573);
+	var dispatchRequest = __webpack_require__(574);
+	var InterceptorManager = __webpack_require__(583);
+	var isAbsoluteURL = __webpack_require__(584);
+	var combineURLs = __webpack_require__(585);
+	var bind = __webpack_require__(586);
+	var transformData = __webpack_require__(578);
 
 	function Axios(defaultConfig) {
 	  this.defaults = utils.merge({}, defaultConfig);
@@ -36701,7 +36890,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(586);
+	axios.spread = __webpack_require__(587);
 
 	// Provide aliases for supported request methods
 	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
@@ -36729,12 +36918,12 @@
 
 
 /***/ },
-/* 571 */
+/* 572 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(572);
+	var utils = __webpack_require__(573);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -36801,7 +36990,7 @@
 
 
 /***/ },
-/* 572 */
+/* 573 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37073,7 +37262,7 @@
 
 
 /***/ },
-/* 573 */
+/* 574 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -37095,10 +37284,10 @@
 	        adapter = config.adapter;
 	      } else if (typeof XMLHttpRequest !== 'undefined') {
 	        // For browsers use XHR adapter
-	        adapter = __webpack_require__(574);
+	        adapter = __webpack_require__(575);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        adapter = __webpack_require__(574);
+	        adapter = __webpack_require__(575);
 	      }
 
 	      if (typeof adapter === 'function') {
@@ -37114,18 +37303,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(295)))
 
 /***/ },
-/* 574 */
+/* 575 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(572);
-	var buildURL = __webpack_require__(575);
-	var parseHeaders = __webpack_require__(576);
-	var transformData = __webpack_require__(577);
-	var isURLSameOrigin = __webpack_require__(578);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(579);
-	var settle = __webpack_require__(580);
+	var utils = __webpack_require__(573);
+	var buildURL = __webpack_require__(576);
+	var parseHeaders = __webpack_require__(577);
+	var transformData = __webpack_require__(578);
+	var isURLSameOrigin = __webpack_require__(579);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(580);
+	var settle = __webpack_require__(581);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  var requestData = config.data;
@@ -37222,7 +37411,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(581);
+	    var cookies = __webpack_require__(582);
 
 	    // Add xsrf header
 	    var xsrfValue = config.withCredentials || isURLSameOrigin(config.url) ?
@@ -37283,12 +37472,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(295)))
 
 /***/ },
-/* 575 */
+/* 576 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(572);
+	var utils = __webpack_require__(573);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -37356,12 +37545,12 @@
 
 
 /***/ },
-/* 576 */
+/* 577 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(572);
+	var utils = __webpack_require__(573);
 
 	/**
 	 * Parse headers into an object
@@ -37399,12 +37588,12 @@
 
 
 /***/ },
-/* 577 */
+/* 578 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(572);
+	var utils = __webpack_require__(573);
 
 	/**
 	 * Transform the data for a request or a response
@@ -37425,12 +37614,12 @@
 
 
 /***/ },
-/* 578 */
+/* 579 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(572);
+	var utils = __webpack_require__(573);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -37499,7 +37688,7 @@
 
 
 /***/ },
-/* 579 */
+/* 580 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37541,7 +37730,7 @@
 
 
 /***/ },
-/* 580 */
+/* 581 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37565,12 +37754,12 @@
 
 
 /***/ },
-/* 581 */
+/* 582 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(572);
+	var utils = __webpack_require__(573);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -37624,12 +37813,12 @@
 
 
 /***/ },
-/* 582 */
+/* 583 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(572);
+	var utils = __webpack_require__(573);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -37682,7 +37871,7 @@
 
 
 /***/ },
-/* 583 */
+/* 584 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37702,7 +37891,7 @@
 
 
 /***/ },
-/* 584 */
+/* 585 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37720,7 +37909,7 @@
 
 
 /***/ },
-/* 585 */
+/* 586 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37737,7 +37926,7 @@
 
 
 /***/ },
-/* 586 */
+/* 587 */
 /***/ function(module, exports) {
 
 	'use strict';

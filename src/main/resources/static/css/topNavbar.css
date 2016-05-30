@@ -4,3 +4,26 @@ nav.topnavbar {
 	border-width: 0;
 	height: 50px;
 }
+
+.nav-shopping-cart {
+	font-size: 1.4em;
+}
+
+.shopping-cart-amount {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	margin-left: 3px;
+	border-radius: 50%;
+	text-align: center;
+	background-color: rgba(29, 157, 116, 0.75);
+}
+
+.shopping-cart-link {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.shopping-cart-link:hover {
+	color: rgba(255, 255, 255, 0.75);
+}

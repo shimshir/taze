@@ -5,11 +5,11 @@ const ProductCardDeck = () => {
     return (
         <div className="card-deck-wrapper">
             <div className="card-deck">
-                <ProductCard productsCode="cat"
-                             imgSrc="/img/products/cards/cat.jpg"
-                             imgAlt="Mace"
-                             titleText="Mačke"
-                             paragraphText="Naše mačke su najukusnije mačke što ćete naći u cijeloj BiH."
+                <ProductCard productsCode="chicken"
+                             imgSrc="/img/products/cards/chicken.jpg"
+                             imgAlt="Pile"
+                             titleText="Pilad"
+                             paragraphText="Ništa nema bolju kombinaciju ukusa i jednostavnosti kao domaće pile sa ražnja."
                              smallText="Ovo je samo privremeni tekst."/>
                 <ProductCard productsCode="dog" 
                              imgSrc="/img/products/cards/dog.jpg"

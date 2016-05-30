@@ -2,13 +2,17 @@ div.content-container {
     padding: 20px;
 }
 
-div.card-img-container {
-    height: 250px;
-    width: 352px;
+div.card-deck div.card {
+    width: 350px;
 }
 
-div.card-img-container.cat {
-    background-image: url('/img/products/cards/cat.jpg');
+div.card-img-container {
+    height: 230px;
+    width: 350px;
+}
+
+div.card-img-container.chicken {
+    background-image: url('/img/products/cards/chicken.jpg');
 }
 
 div.card-img-container.dog {
