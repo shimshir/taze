@@ -14,7 +14,8 @@ class ChickenView extends Component {
             <div>
                 <Stage headerText="Pilad" stageBackgroundClass="chicken"/>
                 <ContentContainer>
-                    <ProductDetail pricePerUnit={8}
+                    <ProductDetail productCode="chicken"
+                                   pricePerUnit={8}
                                    unitCode="kg"
                                    imageSrc="/img/products/chicken-pdp.jpg"
                                    headerText="Pile"

@@ -36257,7 +36257,8 @@
 	                _react2.default.createElement(
 	                    _contentContainer2.default,
 	                    null,
-	                    _react2.default.createElement(_productDetail2.default, { pricePerUnit: 8,
+	                    _react2.default.createElement(_productDetail2.default, { productCode: 'chicken',
+	                        pricePerUnit: 8,
 	                        unitCode: 'kg',
 	                        imageSrc: '/img/products/chicken-pdp.jpg',
 	                        headerText: 'Pile',
@@ -36345,7 +36346,12 @@
 	                        'form',
 	                        { id: 'orderForm', onSubmit: function onSubmit(event) {
 	                                event.preventDefault();
-	                                console.log("submitted");
+	                                var orderEntry = {
+	                                    productCode: _this2.props.productCode,
+	                                    pricePerUnit: _this2.props.pricePerUnit,
+	                                    amount: _this2.refs.amountSelect.value
+	                                };
+	                                console.log(orderEntry);
 	                            } },
 	                        _react2.default.createElement(
 	                            'h2',
@@ -36387,7 +36393,7 @@
 	                                    { className: 'col-lg-6' },
 	                                    _react2.default.createElement(
 	                                        'select',
-	                                        { className: 'form-control amount-select', id: 'amount' },
+	                                        { className: 'form-control amount-select', id: 'amount', ref: 'amountSelect' },
 	                                        this.amounts.map(function (amount) {
 	                                            return _react2.default.createElement(
 	                                                'option',
@@ -36429,6 +36435,7 @@
 	}(_react.Component);
 
 	ProductDetailView.propTypes = {
+	    productCode: _react2.default.PropTypes.string.isRequired,
 	    pricePerUnit: _react2.default.PropTypes.number.isRequired,
 	    unitCode: _react2.default.PropTypes.string.isRequired,
 	    imageSrc: _react2.default.PropTypes.string.isRequired,
@@ -38101,7 +38108,8 @@
 	                _react2.default.createElement(
 	                    _contentContainer2.default,
 	                    null,
-	                    _react2.default.createElement(_productDetail2.default, { pricePerUnit: 10,
+	                    _react2.default.createElement(_productDetail2.default, { productCode: 'honey',
+	                        pricePerUnit: 10,
 	                        unitCode: 'l',
 	                        imageSrc: '/img/products/honey-pdp.jpg',
 	                        headerText: 'Med' })

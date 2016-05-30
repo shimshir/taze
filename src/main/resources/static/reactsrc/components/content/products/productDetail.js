@@ -16,7 +16,12 @@ class ProductDetailView extends Component {
                 <div className="col-lg-7">
                     <form id="orderForm" onSubmit={(event) => {
                                 event.preventDefault();
-                                console.log("submitted");
+                                const orderEntry = {
+                                    productCode: this.props.productCode,
+                                    pricePerUnit: this.props.pricePerUnit,
+                                    amount: this.refs.amountSelect.value
+                                };
+                                console.log(orderEntry);
                             }}>
                         <h2>{this.props.headerText}</h2>
                         <hr/>
@@ -30,10 +35,12 @@ class ProductDetailView extends Component {
                                     <label for="amount">Količina:</label>
                                 </div>
                                 <div className="col-lg-6">
-                                    <select className="form-control amount-select" id="amount">
+                                    <select className="form-control amount-select" id="amount" ref="amountSelect">
                                         {
                                             this.amounts.map(amount => <option key={amount}
-                                                                               value={amount}>{`${amount} ${this.props.unitCode}`}</option>)
+                                                                               value={amount}>
+                                                {`${amount} ${this.props.unitCode}`}
+                                            </option>)
                                         }
                                     </select>
                                     <small>{this.props.additionalText}</small>
@@ -55,6 +62,7 @@ class ProductDetailView extends Component {
 }
 
 ProductDetailView.propTypes = {
+    productCode: React.PropTypes.string.isRequired,
     pricePerUnit: React.PropTypes.number.isRequired,
     unitCode: React.PropTypes.string.isRequired,
     imageSrc: React.PropTypes.string.isRequired,

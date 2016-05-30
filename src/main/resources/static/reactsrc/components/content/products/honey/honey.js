@@ -14,7 +14,8 @@ class HoneyView extends Component {
             <div>
                 <Stage headerText="Med" stageBackgroundClass="honey"/>
                 <ContentContainer>
-                    <ProductDetail pricePerUnit={10}
+                    <ProductDetail productCode="honey"
+                                   pricePerUnit={10}
                                    unitCode="l"
                                    imageSrc="/img/products/honey-pdp.jpg"
                                    headerText="Med"/>
