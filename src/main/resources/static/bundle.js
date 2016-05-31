@@ -8117,13 +8117,13 @@
 
 	var _redux = __webpack_require__(473);
 
-	var _reactRouterRedux = __webpack_require__(564);
+	var _reactRouterRedux = __webpack_require__(565);
 
-	var _mainReducer = __webpack_require__(569);
+	var _mainReducer = __webpack_require__(570);
 
 	var _mainReducer2 = _interopRequireDefault(_mainReducer);
 
-	var _axios = __webpack_require__(571);
+	var _axios = __webpack_require__(572);
 
 	var _axios2 = _interopRequireDefault(_axios);
 
@@ -35321,7 +35321,7 @@
 
 	var _chicken2 = _interopRequireDefault(_chicken);
 
-	var _honey = __webpack_require__(589);
+	var _honey = __webpack_require__(564);
 
 	var _honey2 = _interopRequireDefault(_honey);
 
@@ -36320,7 +36320,7 @@
 
 	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(ProductDetailView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.amounts = new Array(30).fill(1).map(function (_, i) {
 	            return i + 1;
-	        }), _temp), _possibleConstructorReturn(_this, _ret);
+	        }), _this.state = { totalPrice: _this.props.pricePerUnit }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
 	    _createClass(ProductDetailView, [{
@@ -36348,7 +36348,6 @@
 	                                event.preventDefault();
 	                                var orderEntry = {
 	                                    productCode: _this2.props.productCode,
-	                                    pricePerUnit: _this2.props.pricePerUnit,
 	                                    amount: _this2.refs.amountSelect.value
 	                                };
 	                                console.log(orderEntry);
@@ -36361,18 +36360,18 @@
 	                        _react2.default.createElement('hr', null),
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'control-container col-lg-6' },
+	                            { className: 'control-container col-lg-8 no-padding' },
 	                            _react2.default.createElement(
 	                                'div',
 	                                { className: 'row' },
 	                                _react2.default.createElement(
 	                                    'span',
-	                                    { className: 'col-lg-6' },
+	                                    { className: 'col-lg-6 no-padding' },
 	                                    'Cijena:'
 	                                ),
 	                                _react2.default.createElement(
 	                                    'span',
-	                                    { className: 'col-lg-6 price-value' },
+	                                    { className: 'col-lg-6 no-padding price-value' },
 	                                    this.props.pricePerUnit + ' KM/' + this.props.unitCode
 	                                )
 	                            ),
@@ -36381,7 +36380,7 @@
 	                                { className: 'row' },
 	                                _react2.default.createElement(
 	                                    'div',
-	                                    { className: 'col-lg-6' },
+	                                    { className: 'col-lg-6 no-padding' },
 	                                    _react2.default.createElement(
 	                                        'label',
 	                                        { 'for': 'amount' },
@@ -36390,10 +36389,15 @@
 	                                ),
 	                                _react2.default.createElement(
 	                                    'div',
-	                                    { className: 'col-lg-6' },
+	                                    { className: 'col-lg-6 no-padding' },
 	                                    _react2.default.createElement(
 	                                        'select',
-	                                        { className: 'form-control amount-select', id: 'amount', ref: 'amountSelect' },
+	                                        { className: 'form-control amount-select',
+	                                            id: 'amount',
+	                                            ref: 'amountSelect',
+	                                            onChange: function onChange() {
+	                                                _this2.setState({ totalPrice: _this2.props.pricePerUnit * _this2.refs.amountSelect.value });
+	                                            } },
 	                                        this.amounts.map(function (amount) {
 	                                            return _react2.default.createElement(
 	                                                'option',
@@ -36408,12 +36412,30 @@
 	                                        null,
 	                                        this.props.additionalText
 	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-lg-12 no-padding total-price' },
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        { className: 'col-lg-6 no-padding' },
+	                                        'Ukupna cijena:'
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'span',
+	                                        { className: 'col-lg-6 no-padding' },
+	                                        _react2.default.createElement(
+	                                            'b',
+	                                            null,
+	                                            this.state.totalPrice + ' KM'
+	                                        )
+	                                    )
 	                                )
 	                            )
 	                        ),
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'control-container col-lg-6' },
+	                            { className: 'control-container col-lg-4 no-padding' },
 	                            _react2.default.createElement(
 	                                'div',
 	                                { className: 'row' },
@@ -36452,6 +36474,90 @@
 /* 564 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(466);
+
+	var _commonMappings = __webpack_require__(554);
+
+	var _productDetail = __webpack_require__(563);
+
+	var _productDetail2 = _interopRequireDefault(_productDetail);
+
+	var _stage = __webpack_require__(551);
+
+	var _stage2 = _interopRequireDefault(_stage);
+
+	var _contentContainer = __webpack_require__(552);
+
+	var _contentContainer2 = _interopRequireDefault(_contentContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var HoneyView = function (_Component) {
+	    _inherits(HoneyView, _Component);
+
+	    function HoneyView() {
+	        _classCallCheck(this, HoneyView);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(HoneyView).apply(this, arguments));
+	    }
+
+	    _createClass(HoneyView, [{
+	        key: 'componentWillMount',
+	        value: function componentWillMount() {
+	            this.props.changeActiveTopNavbarItem('products');
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(_stage2.default, { headerText: 'Med', stageBackgroundClass: 'honey' }),
+	                _react2.default.createElement(
+	                    _contentContainer2.default,
+	                    null,
+	                    _react2.default.createElement(_productDetail2.default, { productCode: 'honey',
+	                        pricePerUnit: 10,
+	                        unitCode: 'l',
+	                        imageSrc: '/img/products/honey-pdp.jpg',
+	                        headerText: 'Med' })
+	                )
+	            );
+	        }
+	    }]);
+
+	    return HoneyView;
+	}(_react.Component);
+
+	var Honey = (0, _reactRedux.connect)(undefined, _commonMappings.changeActiveTopNavbarItemDispatchMapping)(HoneyView);
+	exports.default = Honey;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "honey.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 565 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -36459,7 +36565,7 @@
 	});
 	exports.routerMiddleware = exports.routerActions = exports.goForward = exports.goBack = exports.go = exports.replace = exports.push = exports.CALL_HISTORY_METHOD = exports.routerReducer = exports.LOCATION_CHANGE = exports.syncHistoryWithStore = undefined;
 
-	var _reducer = __webpack_require__(565);
+	var _reducer = __webpack_require__(566);
 
 	Object.defineProperty(exports, 'LOCATION_CHANGE', {
 	  enumerable: true,
@@ -36474,7 +36580,7 @@
 	  }
 	});
 
-	var _actions = __webpack_require__(566);
+	var _actions = __webpack_require__(567);
 
 	Object.defineProperty(exports, 'CALL_HISTORY_METHOD', {
 	  enumerable: true,
@@ -36519,11 +36625,11 @@
 	  }
 	});
 
-	var _sync = __webpack_require__(567);
+	var _sync = __webpack_require__(568);
 
 	var _sync2 = _interopRequireDefault(_sync);
 
-	var _middleware = __webpack_require__(568);
+	var _middleware = __webpack_require__(569);
 
 	var _middleware2 = _interopRequireDefault(_middleware);
 
@@ -36533,7 +36639,7 @@
 	exports.routerMiddleware = _middleware2['default'];
 
 /***/ },
-/* 565 */
+/* 566 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36577,7 +36683,7 @@
 	}
 
 /***/ },
-/* 566 */
+/* 567 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36619,7 +36725,7 @@
 	var routerActions = exports.routerActions = { push: push, replace: replace, go: go, goBack: goBack, goForward: goForward };
 
 /***/ },
-/* 567 */
+/* 568 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36632,7 +36738,7 @@
 
 	exports['default'] = syncHistoryWithStore;
 
-	var _reducer = __webpack_require__(565);
+	var _reducer = __webpack_require__(566);
 
 	var defaultSelectLocationState = function defaultSelectLocationState(state) {
 	  return state.routing;
@@ -36771,7 +36877,7 @@
 	}
 
 /***/ },
-/* 568 */
+/* 569 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36781,7 +36887,7 @@
 	});
 	exports['default'] = routerMiddleware;
 
-	var _actions = __webpack_require__(566);
+	var _actions = __webpack_require__(567);
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -36809,7 +36915,7 @@
 	}
 
 /***/ },
-/* 569 */
+/* 570 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -36822,9 +36928,9 @@
 
 	var _redux = __webpack_require__(473);
 
-	var _reactRouterRedux = __webpack_require__(564);
+	var _reactRouterRedux = __webpack_require__(565);
 
-	var _activeTopNavbarItemReducer = __webpack_require__(570);
+	var _activeTopNavbarItemReducer = __webpack_require__(571);
 
 	var _activeTopNavbarItemReducer2 = _interopRequireDefault(_activeTopNavbarItemReducer);
 
@@ -36840,7 +36946,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "mainReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 570 */
+/* 571 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -36870,25 +36976,25 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "activeTopNavbarItemReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 571 */
+/* 572 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(572);
+	module.exports = __webpack_require__(573);
 
 /***/ },
-/* 572 */
+/* 573 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(573);
-	var utils = __webpack_require__(574);
-	var dispatchRequest = __webpack_require__(575);
-	var InterceptorManager = __webpack_require__(584);
-	var isAbsoluteURL = __webpack_require__(585);
-	var combineURLs = __webpack_require__(586);
-	var bind = __webpack_require__(587);
-	var transformData = __webpack_require__(579);
+	var defaults = __webpack_require__(574);
+	var utils = __webpack_require__(575);
+	var dispatchRequest = __webpack_require__(576);
+	var InterceptorManager = __webpack_require__(585);
+	var isAbsoluteURL = __webpack_require__(586);
+	var combineURLs = __webpack_require__(587);
+	var bind = __webpack_require__(588);
+	var transformData = __webpack_require__(580);
 
 	function Axios(defaultConfig) {
 	  this.defaults = utils.merge({}, defaultConfig);
@@ -36974,7 +37080,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(588);
+	axios.spread = __webpack_require__(589);
 
 	// Provide aliases for supported request methods
 	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
@@ -37002,12 +37108,12 @@
 
 
 /***/ },
-/* 573 */
+/* 574 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(574);
+	var utils = __webpack_require__(575);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -37074,7 +37180,7 @@
 
 
 /***/ },
-/* 574 */
+/* 575 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37346,7 +37452,7 @@
 
 
 /***/ },
-/* 575 */
+/* 576 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -37368,10 +37474,10 @@
 	        adapter = config.adapter;
 	      } else if (typeof XMLHttpRequest !== 'undefined') {
 	        // For browsers use XHR adapter
-	        adapter = __webpack_require__(576);
+	        adapter = __webpack_require__(577);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        adapter = __webpack_require__(576);
+	        adapter = __webpack_require__(577);
 	      }
 
 	      if (typeof adapter === 'function') {
@@ -37387,18 +37493,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(295)))
 
 /***/ },
-/* 576 */
+/* 577 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(574);
-	var buildURL = __webpack_require__(577);
-	var parseHeaders = __webpack_require__(578);
-	var transformData = __webpack_require__(579);
-	var isURLSameOrigin = __webpack_require__(580);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(581);
-	var settle = __webpack_require__(582);
+	var utils = __webpack_require__(575);
+	var buildURL = __webpack_require__(578);
+	var parseHeaders = __webpack_require__(579);
+	var transformData = __webpack_require__(580);
+	var isURLSameOrigin = __webpack_require__(581);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(582);
+	var settle = __webpack_require__(583);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  var requestData = config.data;
@@ -37495,7 +37601,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(583);
+	    var cookies = __webpack_require__(584);
 
 	    // Add xsrf header
 	    var xsrfValue = config.withCredentials || isURLSameOrigin(config.url) ?
@@ -37556,12 +37662,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(295)))
 
 /***/ },
-/* 577 */
+/* 578 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(574);
+	var utils = __webpack_require__(575);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -37629,12 +37735,12 @@
 
 
 /***/ },
-/* 578 */
+/* 579 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(574);
+	var utils = __webpack_require__(575);
 
 	/**
 	 * Parse headers into an object
@@ -37672,12 +37778,12 @@
 
 
 /***/ },
-/* 579 */
+/* 580 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(574);
+	var utils = __webpack_require__(575);
 
 	/**
 	 * Transform the data for a request or a response
@@ -37698,12 +37804,12 @@
 
 
 /***/ },
-/* 580 */
+/* 581 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(574);
+	var utils = __webpack_require__(575);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -37772,7 +37878,7 @@
 
 
 /***/ },
-/* 581 */
+/* 582 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37814,7 +37920,7 @@
 
 
 /***/ },
-/* 582 */
+/* 583 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37838,12 +37944,12 @@
 
 
 /***/ },
-/* 583 */
+/* 584 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(574);
+	var utils = __webpack_require__(575);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -37897,12 +38003,12 @@
 
 
 /***/ },
-/* 584 */
+/* 585 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(574);
+	var utils = __webpack_require__(575);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -37955,7 +38061,7 @@
 
 
 /***/ },
-/* 585 */
+/* 586 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37975,7 +38081,7 @@
 
 
 /***/ },
-/* 586 */
+/* 587 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37993,7 +38099,7 @@
 
 
 /***/ },
-/* 587 */
+/* 588 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -38010,7 +38116,7 @@
 
 
 /***/ },
-/* 588 */
+/* 589 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -38041,90 +38147,6 @@
 	  };
 	};
 
-
-/***/ },
-/* 589 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(300);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRedux = __webpack_require__(466);
-
-	var _commonMappings = __webpack_require__(554);
-
-	var _productDetail = __webpack_require__(563);
-
-	var _productDetail2 = _interopRequireDefault(_productDetail);
-
-	var _stage = __webpack_require__(551);
-
-	var _stage2 = _interopRequireDefault(_stage);
-
-	var _contentContainer = __webpack_require__(552);
-
-	var _contentContainer2 = _interopRequireDefault(_contentContainer);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var HoneyView = function (_Component) {
-	    _inherits(HoneyView, _Component);
-
-	    function HoneyView() {
-	        _classCallCheck(this, HoneyView);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(HoneyView).apply(this, arguments));
-	    }
-
-	    _createClass(HoneyView, [{
-	        key: 'componentWillMount',
-	        value: function componentWillMount() {
-	            this.props.changeActiveTopNavbarItem('products');
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(_stage2.default, { headerText: 'Med', stageBackgroundClass: 'honey' }),
-	                _react2.default.createElement(
-	                    _contentContainer2.default,
-	                    null,
-	                    _react2.default.createElement(_productDetail2.default, { productCode: 'honey',
-	                        pricePerUnit: 10,
-	                        unitCode: 'l',
-	                        imageSrc: '/img/products/honey-pdp.jpg',
-	                        headerText: 'Med' })
-	                )
-	            );
-	        }
-	    }]);
-
-	    return HoneyView;
-	}(_react.Component);
-
-	var Honey = (0, _reactRedux.connect)(undefined, _commonMappings.changeActiveTopNavbarItemDispatchMapping)(HoneyView);
-	exports.default = Honey;
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "honey.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }
 /******/ ]);

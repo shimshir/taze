@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 class ProductDetailView extends Component {
     amounts = new Array(30).fill(1).map((_, i) => i + 1);
 
+    state = {totalPrice: this.props.pricePerUnit};
+
     componentWillMount() {
     }
 
@@ -18,24 +20,28 @@ class ProductDetailView extends Component {
                                 event.preventDefault();
                                 const orderEntry = {
                                     productCode: this.props.productCode,
-                                    pricePerUnit: this.props.pricePerUnit,
                                     amount: this.refs.amountSelect.value
                                 };
                                 console.log(orderEntry);
                             }}>
                         <h2>{this.props.headerText}</h2>
                         <hr/>
-                        <div className="control-container col-lg-6">
+                        <div className="control-container col-lg-8 no-padding">
                             <div className="row">
-                                <span className="col-lg-6">Cijena:</span>
-                                <span className="col-lg-6 price-value">{`${this.props.pricePerUnit} KM/${this.props.unitCode}`}</span>
+                                <span className="col-lg-6 no-padding">Cijena:</span>
+                                <span className="col-lg-6 no-padding price-value">{`${this.props.pricePerUnit} KM/${this.props.unitCode}`}</span>
                             </div>
                             <div className="row">
-                                <div className="col-lg-6">
+                                <div className="col-lg-6 no-padding">
                                     <label for="amount">Količina:</label>
                                 </div>
-                                <div className="col-lg-6">
-                                    <select className="form-control amount-select" id="amount" ref="amountSelect">
+                                <div className="col-lg-6 no-padding">
+                                    <select className="form-control amount-select"
+                                            id="amount"
+                                            ref="amountSelect"
+                                            onChange={() => {
+                                                this.setState({totalPrice: this.props.pricePerUnit * this.refs.amountSelect.value});
+                                            }}>
                                         {
                                             this.amounts.map(amount => <option key={amount}
                                                                                value={amount}>
@@ -45,9 +51,13 @@ class ProductDetailView extends Component {
                                     </select>
                                     <small>{this.props.additionalText}</small>
                                 </div>
+                                <div className="col-lg-12 no-padding total-price">
+                                    <span className="col-lg-6 no-padding">Ukupna cijena:</span>
+                                    <span className="col-lg-6 no-padding"><b>{this.state.totalPrice + ' KM'}</b></span>
+                                </div>
                             </div>
                         </div>
-                        <div className="control-container col-lg-6">
+                        <div className="control-container col-lg-4 no-padding">
                             <div className="row">
                                 <button type="submit" className="btn btn-success">
                                     <i className="fa fa-cart-plus"/> Dodaj u korpu
