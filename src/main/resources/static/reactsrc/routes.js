@@ -8,6 +8,8 @@ import Gallery from './components/content/gallery.js';
 import Products from './components/content/products/products.js';
 import Contact from './components/content/contact.js';
 
+import Cart from './components/cart/cart.js';
+
 import Chicken from './components/content/products/chicken/chicken.js';
 import Honey from './components/content/products/honey/honey.js';
 
@@ -24,6 +26,7 @@ export default (
         <Route path="/products/chicken" component={Chicken}/>
         <Route path="/products/honey" component={Honey}/>
         <Route path="/contact" component={Contact}/>
+        <Route path="/cart" component={Cart}/>
         <Route path="*" component={NoMatch}/>
     </Route>
 );

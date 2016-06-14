@@ -19,7 +19,7 @@ const TopNavbarView = ({ activeTopNavbarItem}) => {
                 <li className={'nav-item ' + (activeTopNavbarItem === 'contact' ? 'active' : '')}>
                     <Link className="nav-link" to="/contact">Kontakt</Link>
                 </li>
-                <li className="nav-item pull-xs-right">
+                <li className={'nav-item pull-xs-right ' + (activeTopNavbarItem === 'cart' ? 'active' : '')}>
                     <Link className="nav-link shopping-cart-link" to="/cart">
                         <i className="fa fa-shopping-cart nav-shopping-cart"/>
                         <span className="shopping-cart-amount">3</span>

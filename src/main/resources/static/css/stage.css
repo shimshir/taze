@@ -24,6 +24,10 @@
     background-image: url('/img/contact.jpg');
 }
 
+.stage.cart {
+    background-image: url('/img/cart.jpg');
+}
+
 .stage.chicken {
     background-image: url('/img/products/chicken-stage.jpg');
 }

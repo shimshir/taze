@@ -1,10 +1,24 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {addToCartAction} from '../../../actions/actions.js';
 
 class ProductDetailView extends Component {
     amounts = new Array(30).fill(1).map((_, i) => i + 1);
 
     state = {totalPrice: this.props.pricePerUnit};
+    
+    updateTotalPrice = () => {
+        this.setState({totalPrice: this.props.pricePerUnit * this.refs.amountSelect.value});
+    };
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        const orderEntry = {
+            productCode: this.props.productCode,
+            amount: this.refs.amountSelect.value
+        };
+        this.props.addToCart(orderEntry);
+    };
 
     componentWillMount() {
     }
@@ -16,14 +30,7 @@ class ProductDetailView extends Component {
                     <img className="primary-product-image" src={this.props.imageSrc}/>
                 </div>
                 <div className="col-lg-7">
-                    <form id="orderForm" onSubmit={(event) => {
-                                event.preventDefault();
-                                const orderEntry = {
-                                    productCode: this.props.productCode,
-                                    amount: this.refs.amountSelect.value
-                                };
-                                console.log(orderEntry);
-                            }}>
+                    <form id="orderForm" onSubmit={event => this.handleSubmit(event)}>
                         <h2>{this.props.headerText}</h2>
                         <hr/>
                         <div className="control-container col-lg-8 no-padding">
@@ -39,9 +46,7 @@ class ProductDetailView extends Component {
                                     <select className="form-control amount-select"
                                             id="amount"
                                             ref="amountSelect"
-                                            onChange={() => {
-                                                this.setState({totalPrice: this.props.pricePerUnit * this.refs.amountSelect.value});
-                                            }}>
+                                            onChange={this.updateTotalPrice}>
                                         {
                                             this.amounts.map(amount => <option key={amount}
                                                                                value={amount}>
@@ -80,5 +85,13 @@ ProductDetailView.propTypes = {
     additionalText: React.PropTypes.string
 };
 
-const ProductDetail = connect(undefined, undefined)(ProductDetailView);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        addToCart: (orderEntry) => {
+            dispatch(addToCartAction(orderEntry));
+        }
+    }
+};
+
+const ProductDetail = connect(undefined, mapDispatchToProps)(ProductDetailView);
 export default ProductDetail;
