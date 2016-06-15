@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-const TopNavbarView = ({ activeTopNavbarItem}) => {
+const TopNavbarView = ({ activeTopNavbarItem, cart }) => {
+    const cartEntriesAmount = cart.cartEntries ? cart.cartEntries.length : 0;
     return (
         <nav className="navbar navbar-dark bg-inverse topnavbar">
             <Link className="navbar-brand" to="/">Taze</Link>
@@ -22,7 +23,9 @@ const TopNavbarView = ({ activeTopNavbarItem}) => {
                 <li className={'nav-item pull-xs-right ' + (activeTopNavbarItem === 'cart' ? 'active' : '')}>
                     <Link className="nav-link shopping-cart-link" to="/cart">
                         <i className="fa fa-shopping-cart nav-shopping-cart"/>
-                        <span className="shopping-cart-amount">3</span>
+                        <span className={'shopping-cart-amount ' + (cartEntriesAmount > 0 ? 'nonempty' : '')}>
+                            {cartEntriesAmount > 0 ? cartEntriesAmount : ''}
+                        </span>
                     </Link>
                 </li>
             </ul>
@@ -36,7 +39,8 @@ TopNavbarView.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        activeTopNavbarItem: state.activeTopNavbarItem
+        activeTopNavbarItem: state.activeTopNavbarItem,
+        cart: state.cart
     }
 };
 

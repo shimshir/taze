@@ -13,11 +13,11 @@ class ProductDetailView extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const orderEntry = {
+        const cartEntry = {
             productCode: this.props.productCode,
             amount: this.refs.amountSelect.value
         };
-        this.props.addToCart(orderEntry);
+        this.props.addToCart(cartEntry);
     };
 
     componentWillMount() {
@@ -87,8 +87,8 @@ ProductDetailView.propTypes = {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        addToCart: (orderEntry) => {
-            dispatch(addToCartAction(orderEntry));
+        addToCart: (cartEntry) => {
+            dispatch(addToCartAction(cartEntry));
         }
     }
 };

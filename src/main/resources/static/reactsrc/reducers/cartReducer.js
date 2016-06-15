@@ -1,21 +1,26 @@
-import { ADD_TO_CART_ACTION } from '../actions/actions.js';
+import { ADD_TO_CART_ACTION, REMOVE_FROM_CART_ACTION } from '../actions/actions.js';
 
-const orderEntryReducer = (orderEntriesState = [], action) => {
+const privateCartEntryReducer = (cartEntriesState = [], action) => {
   switch (action.type) {
       case ADD_TO_CART_ACTION:
-          return [...orderEntriesState, action.orderEntry]
+          return [...cartEntriesState, action.cartEntry];
+      case REMOVE_FROM_CART_ACTION:
+          return cartEntriesState
+              .reduce((acc, entry, index) => {
+                  index != action.cartEntryIndex ? acc.push(entry) : acc;
+                  return acc;
+              }, []);
       default:
-          return orderEntriesState;
+          return cartEntriesState;
   }
 };
 
-const cartReducer = (cartState = {}, action) => {
+const cartReducer = (cartState = {cartEntries:[]}, action) => {
     switch (action.type) {
         case ADD_TO_CART_ACTION:
-            const orderEntries = orderEntryReducer(cartState.orderEntries, action);
-            const cart = Object.assign({}, cartState, {orderEntries});
-            console.log(cart);
-            return cart;
+        case REMOVE_FROM_CART_ACTION:
+            const cartEntries = privateCartEntryReducer(cartState.cartEntries, action);
+            return Object.assign({}, cartState, {cartEntries});
         default:
             return cartState;
     }

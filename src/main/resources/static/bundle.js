@@ -35424,7 +35424,9 @@
 
 	var TopNavbarView = function TopNavbarView(_ref) {
 	    var activeTopNavbarItem = _ref.activeTopNavbarItem;
+	    var cart = _ref.cart;
 
+	    var cartEntriesAmount = cart.cartEntries ? cart.cartEntries.length : 0;
 	    return _react2.default.createElement(
 	        'nav',
 	        { className: 'navbar navbar-dark bg-inverse topnavbar' },
@@ -35481,8 +35483,8 @@
 	                    _react2.default.createElement('i', { className: 'fa fa-shopping-cart nav-shopping-cart' }),
 	                    _react2.default.createElement(
 	                        'span',
-	                        { className: 'shopping-cart-amount' },
-	                        '3'
+	                        { className: 'shopping-cart-amount ' + (cartEntriesAmount > 0 ? 'nonempty' : '') },
+	                        cartEntriesAmount > 0 ? cartEntriesAmount : ''
 	                    )
 	                )
 	            )
@@ -35494,7 +35496,8 @@
 
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	    return {
-	        activeTopNavbarItem: state.activeTopNavbarItem
+	        activeTopNavbarItem: state.activeTopNavbarItem,
+	        cart: state.cart
 	    };
 	};
 
@@ -35760,6 +35763,7 @@
 	});
 	var CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = 'CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION';
 	var ADD_TO_CART_ACTION = exports.ADD_TO_CART_ACTION = 'ADD_TO_CART_ACTION';
+	var REMOVE_FROM_CART_ACTION = exports.REMOVE_FROM_CART_ACTION = 'REMOVE_FROM_CART_ACTION';
 
 	var changeActiveTopNavbarItemAction = exports.changeActiveTopNavbarItemAction = function changeActiveTopNavbarItemAction(topNavbarItem) {
 	    return {
@@ -35768,10 +35772,17 @@
 	    };
 	};
 
-	var addToCartAction = exports.addToCartAction = function addToCartAction(orderEntry) {
+	var addToCartAction = exports.addToCartAction = function addToCartAction(cartEntry) {
 	    return {
 	        type: ADD_TO_CART_ACTION,
-	        orderEntry: orderEntry
+	        cartEntry: cartEntry
+	    };
+	};
+
+	var removeFromCartAction = exports.removeFromCartAction = function removeFromCartAction(cartEntryIndex) {
+	    return {
+	        type: REMOVE_FROM_CART_ACTION,
+	        cartEntryIndex: cartEntryIndex
 	    };
 	};
 
@@ -36234,9 +36245,9 @@
 
 	var _commonMappings = __webpack_require__(554);
 
-	var _cartItems = __webpack_require__(563);
+	var _cartEntries = __webpack_require__(563);
 
-	var _cartItems2 = _interopRequireDefault(_cartItems);
+	var _cartEntries2 = _interopRequireDefault(_cartEntries);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36259,6 +36270,7 @@
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
 	            this.props.changeActiveTopNavbarItem('cart');
+	            //TODO: Fetch cart from backend
 	        }
 	    }, {
 	        key: 'render',
@@ -36270,7 +36282,7 @@
 	                _react2.default.createElement(
 	                    _contentContainer2.default,
 	                    null,
-	                    _react2.default.createElement(_cartItems2.default, null)
+	                    _react2.default.createElement(_cartEntries2.default, { entries: this.props.cart.cartEntries })
 	                )
 	            );
 	        }
@@ -36279,7 +36291,13 @@
 	    return CartView;
 	}(_react.Component);
 
-	var Cart = (0, _reactRedux.connect)(undefined, _commonMappings.changeActiveTopNavbarItemDispatchMapping)(CartView);
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	    return {
+	        cart: state.cart
+	    };
+	};
+
+	var Cart = (0, _reactRedux.connect)(mapStateToProps, _commonMappings.changeActiveTopNavbarItemDispatchMapping)(CartView);
 	exports.default = Cart;
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "cart.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
@@ -36304,6 +36322,8 @@
 
 	var _reactRedux = __webpack_require__(466);
 
+	var _actions = __webpack_require__(555);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -36312,46 +36332,89 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var CartItemsView = function (_Component) {
-	    _inherits(CartItemsView, _Component);
+	var CartEntriesView = function (_Component) {
+	    _inherits(CartEntriesView, _Component);
 
-	    function CartItemsView() {
-	        _classCallCheck(this, CartItemsView);
+	    function CartEntriesView() {
+	        var _Object$getPrototypeO;
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(CartItemsView).apply(this, arguments));
+	        var _temp, _this, _ret;
+
+	        _classCallCheck(this, CartEntriesView);
+
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
+
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CartEntriesView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.removeCartEntry = function (index) {
+	            _this.props.removeFromCart(index);
+	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
-	    _createClass(CartItemsView, [{
+	    _createClass(CartEntriesView, [{
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
-	            console.log('cartItems mounted');
+	            console.log('cartEntries mounted');
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var _this2 = this;
+
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'cart-items-container' },
-	                _react2.default.createElement(
+	                { className: 'cart-entries-container' },
+	                this.props.entries ? _react2.default.createElement(
 	                    'ul',
 	                    null,
-	                    _react2.default.createElement(
-	                        'li',
-	                        null,
-	                        'cartItems'
-	                    )
-	                )
+	                    this.props.entries.map(function (cartEntry, index) {
+	                        return _react2.default.createElement(
+	                            'li',
+	                            { key: index },
+	                            _react2.default.createElement(
+	                                'div',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    null,
+	                                    cartEntry.productCode,
+	                                    ', ',
+	                                    cartEntry.amount
+	                                ),
+	                                _react2.default.createElement(
+	                                    'button',
+	                                    { onClick: function onClick() {
+	                                            return _this2.removeCartEntry(index);
+	                                        } },
+	                                    'Izbaci'
+	                                )
+	                            )
+	                        );
+	                    })
+	                ) : null
 	            );
 	        }
 	    }]);
 
-	    return CartItemsView;
+	    return CartEntriesView;
 	}(_react.Component);
 
-	var CartItems = (0, _reactRedux.connect)(undefined, undefined)(CartItemsView);
-	exports.default = CartItems;
+	CartEntriesView.propTypes = {
+	    entries: _react2.default.PropTypes.array
+	};
 
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "cartItems.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	    return {
+	        removeFromCart: function removeFromCart(cartEntryIndex) {
+	            dispatch((0, _actions.removeFromCartAction)(cartEntryIndex));
+	        }
+	    };
+	};
+
+	var CartEntries = (0, _reactRedux.connect)(undefined, mapDispatchToProps)(CartEntriesView);
+	exports.default = CartEntries;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "cartEntries.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
 /* 564 */
@@ -36488,11 +36551,11 @@
 	            _this.setState({ totalPrice: _this.props.pricePerUnit * _this.refs.amountSelect.value });
 	        }, _this.handleSubmit = function (event) {
 	            event.preventDefault();
-	            var orderEntry = {
+	            var cartEntry = {
 	                productCode: _this.props.productCode,
 	                amount: _this.refs.amountSelect.value
 	            };
-	            _this.props.addToCart(orderEntry);
+	            _this.props.addToCart(cartEntry);
 	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
@@ -36633,8 +36696,8 @@
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	    return {
-	        addToCart: function addToCart(orderEntry) {
-	            dispatch((0, _actions.addToCartAction)(orderEntry));
+	        addToCart: function addToCart(cartEntry) {
+	            dispatch((0, _actions.addToCartAction)(cartEntry));
 	        }
 	    };
 	};
@@ -37171,28 +37234,32 @@
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-	var orderEntryReducer = function orderEntryReducer() {
-	    var orderEntriesState = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	var privateCartEntryReducer = function privateCartEntryReducer() {
+	    var cartEntriesState = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case _actions.ADD_TO_CART_ACTION:
-	            return [].concat(_toConsumableArray(orderEntriesState), [action.orderEntry]);
+	            return [].concat(_toConsumableArray(cartEntriesState), [action.cartEntry]);
+	        case _actions.REMOVE_FROM_CART_ACTION:
+	            return cartEntriesState.reduce(function (acc, entry, index) {
+	                index != action.cartEntryIndex ? acc.push(entry) : acc;
+	                return acc;
+	            }, []);
 	        default:
-	            return orderEntriesState;
+	            return cartEntriesState;
 	    }
 	};
 
 	var cartReducer = function cartReducer() {
-	    var cartState = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var cartState = arguments.length <= 0 || arguments[0] === undefined ? { cartEntries: [] } : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case _actions.ADD_TO_CART_ACTION:
-	            var orderEntries = orderEntryReducer(cartState.orderEntries, action);
-	            var cart = Object.assign({}, cartState, { orderEntries: orderEntries });
-	            console.log(cart);
-	            return cart;
+	        case _actions.REMOVE_FROM_CART_ACTION:
+	            var cartEntries = privateCartEntryReducer(cartState.cartEntries, action);
+	            return Object.assign({}, cartState, { cartEntries: cartEntries });
 	        default:
 	            return cartState;
 	    }
