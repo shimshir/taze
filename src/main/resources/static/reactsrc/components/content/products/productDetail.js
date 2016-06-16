@@ -5,16 +5,16 @@ import {addToCartAction} from '../../../actions/actions.js';
 class ProductDetailView extends Component {
     amounts = new Array(30).fill(1).map((_, i) => i + 1);
 
-    state = {totalPrice: this.props.pricePerUnit};
+    state = {totalPrice: this.props.product.pricePerUnit};
     
     updateTotalPrice = () => {
-        this.setState({totalPrice: this.props.pricePerUnit * this.refs.amountSelect.value});
+        this.setState({totalPrice: this.props.product.pricePerUnit * this.refs.amountSelect.value});
     };
 
     handleSubmit = (event) => {
         event.preventDefault();
         const cartEntry = {
-            productCode: this.props.productCode,
+            product: this.props.product,
             amount: this.refs.amountSelect.value
         };
         this.props.addToCart(cartEntry);
@@ -27,16 +27,16 @@ class ProductDetailView extends Component {
         return (
             <div className="row product-content-container">
                 <div className="col-lg-5">
-                    <img className="primary-product-image" src={this.props.imageSrc}/>
+                    <img className="primary-product-image" src={this.props.product.pdpImage}/>
                 </div>
                 <div className="col-lg-7">
                     <form id="orderForm" onSubmit={event => this.handleSubmit(event)}>
-                        <h2>{this.props.headerText}</h2>
+                        <h2>{this.props.product.name}</h2>
                         <hr/>
                         <div className="control-container col-lg-8 no-padding">
                             <div className="row">
                                 <span className="col-lg-6 no-padding">Cijena:</span>
-                                <span className="col-lg-6 no-padding price-value">{`${this.props.pricePerUnit} KM/${this.props.unitCode}`}</span>
+                                <span className="col-lg-6 no-padding price-value">{`${this.props.product.pricePerUnit} KM/${this.props.product.unitCode}`}</span>
                             </div>
                             <div className="row">
                                 <div className="col-lg-6 no-padding">
@@ -50,7 +50,7 @@ class ProductDetailView extends Component {
                                         {
                                             this.amounts.map(amount => <option key={amount}
                                                                                value={amount}>
-                                                {`${amount} ${this.props.unitCode}`}
+                                                {`${amount} ${this.props.product.unitCode}`}
                                             </option>)
                                         }
                                     </select>
@@ -77,11 +77,8 @@ class ProductDetailView extends Component {
 }
 
 ProductDetailView.propTypes = {
-    productCode: React.PropTypes.string.isRequired,
-    pricePerUnit: React.PropTypes.number.isRequired,
-    unitCode: React.PropTypes.string.isRequired,
+    product: React.PropTypes.object.isRequired,
     imageSrc: React.PropTypes.string.isRequired,
-    headerText: React.PropTypes.string.isRequired,
     additionalText: React.PropTypes.string
 };
 

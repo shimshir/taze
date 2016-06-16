@@ -42,3 +42,30 @@ export const LOREM_IPSUM_PARAGRAPHS = () => {
         </div>
     );
 };
+
+export const CHICKEN = {
+    code: 'chicken',
+    name: 'Pile',
+    pricePerUnit: 8,
+    unitCode: 'kg',
+    pdpImage: '/img/products/chicken-pdp.jpg',
+    listImage: '/img/products/chicken-list.jpg'
+};
+
+export const HONEY = {
+    code: 'honey',
+    name: 'Med',
+    pricePerUnit: 10,
+    unitCode: 'l',
+    pdpImage: '/img/products/honey-pdp.jpg',
+    listImage: '/img/products/honey-list.jpg'
+};
+
+export const HORSE = {
+    code: 'horse',
+    name: 'Konj',
+    pricePerUnit: 12,
+    unitCode: 'kg',
+    pdpImage: '/img/products/horse-pdp.jpg',
+    listImage: '/img/products/horse-list.jpg'
+};

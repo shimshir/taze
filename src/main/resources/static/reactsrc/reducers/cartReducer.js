@@ -15,7 +15,12 @@ const privateCartEntryReducer = (cartEntriesState = [], action) => {
   }
 };
 
-const cartReducer = (cartState = {cartEntries:[]}, action) => {
+//TODO: Remove stub entries
+import {CHICKEN, HONEY} from '../constants/constants.js';
+const stubEntries = [{product: CHICKEN, amount: 3}, {product: HONEY, amount: 5}, {product: CHICKEN, amount: 1}];
+//
+
+const cartReducer = (cartState = {cartEntries: stubEntries}, action) => {
     switch (action.type) {
         case ADD_TO_CART_ACTION:
         case REMOVE_FROM_CART_ACTION:

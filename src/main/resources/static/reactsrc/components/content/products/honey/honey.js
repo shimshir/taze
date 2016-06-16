@@ -4,6 +4,7 @@ import {changeActiveTopNavbarItemDispatchMapping} from '../../../common/commonMa
 import ProductDetail from '../productDetail.js';
 import Stage from '../../../stage/stage.js';
 import ContentContainer from '../../../common/contentContainer.js';
+import {HONEY} from '../../../../constants/constants.js';
 
 class HoneyView extends Component {
     componentWillMount() {
@@ -14,11 +15,8 @@ class HoneyView extends Component {
             <div>
                 <Stage headerText="Med" stageBackgroundClass="honey"/>
                 <ContentContainer>
-                    <ProductDetail productCode="honey"
-                                   pricePerUnit={10}
-                                   unitCode="l"
-                                   imageSrc="/img/products/honey-pdp.jpg"
-                                   headerText="Med"/>
+                    <ProductDetail product={HONEY}
+                                   imageSrc="/img/products/honey-pdp.jpg"/>
                 </ContentContainer>
             </div>
         );

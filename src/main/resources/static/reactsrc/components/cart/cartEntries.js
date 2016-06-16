@@ -15,17 +15,16 @@ class CartEntriesView extends Component {
         return (
             <div className="cart-entries-container">
                 {this.props.entries ? 
-                    <ul>
-                        {
-                            this.props.entries.map((cartEntry, index) =>
-                                <li key={index}>
-                                    <div>
-                                        <span>{cartEntry.productCode}, {cartEntry.amount}</span>
-                                        <button onClick={() => this.removeCartEntry(index)}>Izbaci</button>
-                                    </div>
-                                </li>
-                            )
-                        }
+                    <ul className="list-group">
+                        {this.props.entries.map((cartEntry, index) =>
+                            <li key={index} className="list-group-item">
+                                <div>
+                                    <img src={cartEntry.product.listImage}/>
+                                    <span>{cartEntry.product.name}, {cartEntry.amount}</span>
+                                    <button onClick={() => this.removeCartEntry(index)}>Izbaci</button>
+                                </div>
+                            </li>
+                        )}
                     </ul>
                     : null
                 }

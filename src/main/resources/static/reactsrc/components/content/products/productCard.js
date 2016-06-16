@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const ProductCard = ({ productsCode, titleText, paragraphText, smallText }) => {
+const ProductCard = ({ product, titleText, paragraphText, smallText }) => {
     return (
         <div className="card">
-            <Link to={`/products/${productsCode}`}>
-                <div className={'card-img-container ' + productsCode}></div>
+            <Link to={`/products/${product.code}`}>
+                <div className={'card-img-container ' + product.code}></div>
             </Link>
             <div className="card-block">
                 <h4 className="card-title">{titleText}</h4>
@@ -18,4 +18,11 @@ const ProductCard = ({ productsCode, titleText, paragraphText, smallText }) => {
     );
 };
 
+
+ProductCard.propTypes = {
+    product: React.PropTypes.object.isRequired,
+    titleText: React.PropTypes.string.isRequired,
+    paragraphText: React.PropTypes.string.isRequired,
+    smallText: React.PropTypes.string
+};
 export default ProductCard;
