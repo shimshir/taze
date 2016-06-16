@@ -1,3 +1,4 @@
 .idea/
 target/
 taze.iml
+src/main/resources/static/node_modules/
