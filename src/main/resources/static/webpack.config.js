@@ -10,7 +10,6 @@ module.exports = {
         path: __dirname,
         filename: 'bundle.js'
     },
-    //devtool: 'inline-source-map',
     module: {
         loaders: [
             {
