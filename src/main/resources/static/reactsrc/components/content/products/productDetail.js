@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {addToCartAction} from '../../../actions/actions.js';
+import AmountSelect from '../../common/amountSelect.js';
 
 class ProductDetailView extends Component {
     amounts = new Array(30).fill(1).map((_, i) => i + 1);
 
     state = {totalPrice: this.props.product.pricePerUnit};
     
-    updateTotalPrice = () => {
-        this.setState({totalPrice: this.props.product.pricePerUnit * this.refs.amountSelect.value});
+    updateTotalPrice = (event) => {
+        this.setState({totalPrice: this.props.product.pricePerUnit * event.target.value});
     };
 
     handleSubmit = (event) => {
@@ -43,17 +44,11 @@ class ProductDetailView extends Component {
                                     <label for="amount">Količina:</label>
                                 </div>
                                 <div className="col-lg-6 no-padding">
-                                    <select className="form-control amount-select"
-                                            id="amount"
-                                            ref="amountSelect"
-                                            onChange={this.updateTotalPrice}>
-                                        {
-                                            this.amounts.map(amount => <option key={amount}
-                                                                               value={amount}>
-                                                {`${amount} ${this.props.product.unitCode}`}
-                                            </option>)
-                                        }
-                                    </select>
+                                    <AmountSelect id="amount"
+                                                  onChange={this.updateTotalPrice}
+                                                  amounts={this.amounts}
+                                                  unitCode={this.props.product.unitCode}
+                                    />
                                     <small>{this.props.additionalText}</small>
                                 </div>
                                 <div className="col-lg-12 no-padding total-price">

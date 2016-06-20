@@ -25,4 +25,5 @@ ProductCard.propTypes = {
     paragraphText: React.PropTypes.string.isRequired,
     smallText: React.PropTypes.string
 };
+
 export default ProductCard;

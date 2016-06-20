@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {removeFromCartAction} from '../../actions/actions.js'
+import AmountSelect from '../common/amountSelect.js';
 
 class CartEntriesView extends Component {
     componentWillMount() {
@@ -14,14 +15,37 @@ class CartEntriesView extends Component {
     render() {
         return (
             <div className="cart-entries-container">
+                <div></div>
                 {this.props.entries ? 
                     <ul className="list-group">
                         {this.props.entries.map((cartEntry, index) =>
                             <li key={index} className="list-group-item">
-                                <div>
-                                    <img src={cartEntry.product.listImage}/>
-                                    <span>{cartEntry.product.name}, {cartEntry.amount}</span>
-                                    <button onClick={() => this.removeCartEntry(index)}>Izbaci</button>
+                                <div className="row">
+                                    <div className="col-lg-2">
+                                        <img src={cartEntry.product.listImage}/>
+                                    </div>
+                                    <div className="col-lg-10">
+                                        <div className="row">
+                                            <div className="col-lg-12">
+                                                <h2>{cartEntry.product.name}</h2>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-lg-4">
+                                                <span className="pseudo-anchor" onClick={() => this.removeCartEntry(index)}>Izbaci</span>
+                                            </div>
+                                            <div className="col-lg-4">
+                                                {cartEntry.product.pricePerUnit * cartEntry.amount} KM
+                                            </div>
+                                            <div className="col-lg-4">
+                                                <AmountSelect id="amount"
+                                                              amounts={new Array(30).fill(1).map((_, i) => i + 1)}
+                                                              unitCode={cartEntry.product.unitCode}
+                                                              defaultSelected={(amount) => cartEntry.amount === amount}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                         )}

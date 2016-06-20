@@ -21,3 +21,12 @@ div.container {
 .no-padding {
     padding: 0 !important;
 }
+
+.pseudo-anchor:hover {
+    color: #E47911;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.pseudo-anchor {
+    color: #0275d8;
+}
