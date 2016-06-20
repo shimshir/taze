@@ -26,8 +26,14 @@ class CartEntriesView extends Component {
                                     </div>
                                     <div className="col-lg-10">
                                         <div className="row">
-                                            <div className="col-lg-12">
+                                            <div className="col-lg-4">
                                                 <h2>{cartEntry.product.name}</h2>
+                                            </div>
+                                            <div className="col-lg-4">
+                                                <label>Ukupna cijena</label>
+                                            </div>
+                                            <div className="col-lg-4">
+                                                Količina
                                             </div>
                                         </div>
                                         <div className="row">
@@ -35,7 +41,7 @@ class CartEntriesView extends Component {
                                                 <span className="pseudo-anchor" onClick={() => this.removeCartEntry(index)}>Izbaci</span>
                                             </div>
                                             <div className="col-lg-4">
-                                                {cartEntry.product.pricePerUnit * cartEntry.amount} KM
+                                                <span>{cartEntry.product.pricePerUnit * cartEntry.amount} KM</span>
                                             </div>
                                             <div className="col-lg-4">
                                                 <AmountSelect id="amount"
