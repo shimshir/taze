@@ -25,6 +25,12 @@ class CartEntriesView extends Component {
                     </ul>
                     : null
                 }
+                <div className="cart-summary">
+                    <b className="text-uppercase">Ukupna suma: </b>
+                    <b className="price-value">{`${this.props.totalCartValue} KM`}</b>
+                    <br/><br/>
+                    <button className="btn btn-success">Naruci</button>
+                </div>
             </div>
         );
     }
@@ -32,6 +38,12 @@ class CartEntriesView extends Component {
 
 CartEntriesView.propTypes = {
     entries: React.PropTypes.array
+};
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        totalCartValue: state.cart.cartEntries.map(entry => entry.amount * entry.product.pricePerUnit).reduce((sum, priceValue) => sum + priceValue, 0)
+    }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -42,5 +54,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
-const CartEntries = connect(undefined, mapDispatchToProps)(CartEntriesView);
+const CartEntries = connect(mapStateToProps, mapDispatchToProps)(CartEntriesView);
 export default CartEntries;

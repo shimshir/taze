@@ -16,7 +16,7 @@ const CartEntryView = ({ entry, index, updateEntryAmount }) => {
                         <h2>{entry.product.name}</h2>
                     </div>
                     <div className="col-lg-4">
-                        <label>Ukupna cijena</label>
+                        <label>Cijena</label>
                     </div>
                     <div className="col-lg-4">
                         Količina

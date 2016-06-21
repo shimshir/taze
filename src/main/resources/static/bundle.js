@@ -36458,7 +36458,28 @@
 	                            _react2.default.createElement(_cartEntry2.default, { entry: cartEntry, index: ceIndex })
 	                        );
 	                    })
-	                ) : null
+	                ) : null,
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'cart-summary' },
+	                    _react2.default.createElement(
+	                        'b',
+	                        { className: 'text-uppercase' },
+	                        'Ukupna suma: '
+	                    ),
+	                    _react2.default.createElement(
+	                        'b',
+	                        { className: 'price-value' },
+	                        this.props.totalCartValue + ' KM'
+	                    ),
+	                    _react2.default.createElement('br', null),
+	                    _react2.default.createElement('br', null),
+	                    _react2.default.createElement(
+	                        'button',
+	                        { className: 'btn btn-success' },
+	                        'Naruci'
+	                    )
+	                )
 	            );
 	        }
 	    }]);
@@ -36470,6 +36491,16 @@
 	    entries: _react2.default.PropTypes.array
 	};
 
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	    return {
+	        totalCartValue: state.cart.cartEntries.map(function (entry) {
+	            return entry.amount * entry.product.pricePerUnit;
+	        }).reduce(function (sum, priceValue) {
+	            return sum + priceValue;
+	        }, 0)
+	    };
+	};
+
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	    return {
 	        removeFromCart: function removeFromCart(cartEntryIndex) {
@@ -36478,7 +36509,7 @@
 	    };
 	};
 
-	var CartEntries = (0, _reactRedux.connect)(undefined, mapDispatchToProps)(CartEntriesView);
+	var CartEntries = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CartEntriesView);
 	exports.default = CartEntries;
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "cartEntries.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
@@ -36549,7 +36580,7 @@
 	                    _react2.default.createElement(
 	                        'label',
 	                        null,
-	                        'Ukupna cijena'
+	                        'Cijena'
 	                    )
 	                ),
 	                _react2.default.createElement(
