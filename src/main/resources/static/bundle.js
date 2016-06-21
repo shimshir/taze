@@ -36569,7 +36569,7 @@
 	                    'div',
 	                    { className: 'col-lg-4' },
 	                    _react2.default.createElement(
-	                        'h2',
+	                        'h4',
 	                        null,
 	                        entry.product.name
 	                    )
@@ -36777,7 +36777,7 @@
 	            args[_key] = arguments[_key];
 	        }
 
-	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(PlaceOrderDialogView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = { modalIsOpen: false }, _this.openModal = function () {
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(PlaceOrderDialogView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = { modalIsOpen: true }, _this.openModal = function () {
 	            _this.setState({ modalIsOpen: true });
 	        }, _this.closeModal = function () {
 	            _this.setState({ modalIsOpen: false });
@@ -36793,7 +36793,7 @@
 	                _react2.default.createElement(
 	                    'button',
 	                    { onClick: this.openModal, className: 'btn btn-success' },
-	                    'Naruci'
+	                    'Naruči'
 	                ),
 	                _react2.default.createElement(
 	                    _reactModal2.default,
@@ -36823,7 +36823,7 @@
 	                            _react2.default.createElement(
 	                                'h4',
 	                                { className: 'modal-title' },
-	                                'Modal title'
+	                                'Naruči'
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -36837,17 +36837,51 @@
 	                            _react2.default.createElement(
 	                                'p',
 	                                null,
-	                                'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi.'
+	                                'Molimo Vas unesite Vaše podatke, potvrda o primljenoj narudžbi biće Vam dostavljena na uneseni e-mail.'
 	                            ),
 	                            _react2.default.createElement(
-	                                'p',
+	                                'form',
 	                                null,
-	                                'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est.'
-	                            ),
-	                            _react2.default.createElement(
-	                                'p',
-	                                null,
-	                                'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.'
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'row' },
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'form-group col-lg-6' },
+	                                        _react2.default.createElement(
+	                                            'div',
+	                                            { className: 'col-lg-3 no-padding' },
+	                                            _react2.default.createElement(
+	                                                'label',
+	                                                { 'for': 'firstName' },
+	                                                'Ime'
+	                                            )
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'div',
+	                                            { className: 'col-lg-9 no-padding' },
+	                                            _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'firstName', placeholder: 'Unesite Vaše ime' })
+	                                        )
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'form-group col-lg-6' },
+	                                        _react2.default.createElement(
+	                                            'div',
+	                                            { className: 'col-lg-3 no-padding' },
+	                                            _react2.default.createElement(
+	                                                'label',
+	                                                { 'for': 'lastName' },
+	                                                'Prezime'
+	                                            )
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'div',
+	                                            { className: 'col-lg-9 no-padding' },
+	                                            _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'lastName', placeholder: 'Unesite Vaše prezime' })
+	                                        )
+	                                    )
+	                                )
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -36861,7 +36895,7 @@
 	                            _react2.default.createElement(
 	                                'button',
 	                                { type: 'button', className: 'btn btn-success' },
-	                                'Posalji'
+	                                'Potvrdi'
 	                            )
 	                        )
 	                    )

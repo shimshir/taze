@@ -20,7 +20,7 @@ const modalStyle = {
 };
 
 class PlaceOrderDialogView extends Component {
-    state = {modalIsOpen: false};
+    state = {modalIsOpen: true};
     
     openModal = () => {
         this.setState({modalIsOpen: true});
@@ -33,7 +33,7 @@ class PlaceOrderDialogView extends Component {
     render() {
         return (
             <div>
-                <button onClick={this.openModal} className="btn btn-success">Naruci</button>
+                <button onClick={this.openModal} className="btn btn-success">Naruči</button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={() => console.log("modal opened")}
@@ -45,35 +45,37 @@ class PlaceOrderDialogView extends Component {
                             <button type="button" className="close" onClick={this.closeModal}>
                                 <span>×</span>
                             </button>
-                            <h4 className="modal-title">Modal title</h4>
+                            <h4 className="modal-title">Naruči</h4>
                         </div>
                         <div className="modal-body">
                             <h4>Content...</h4>
                             <p>
-                                Pellentesque habitant morbi tristique senectus
-                                et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
-                                ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-                                ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien
-                                ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet,
-                                wisi.
+                                Molimo Vas unesite Vaše podatke, potvrda o primljenoj narudžbi biće Vam dostavljena na uneseni e-mail.
                             </p>
-                            <p>
-                                Pellentesque habitant morbi tristique senectus
-                                et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
-                                ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-                                ultricies mi vitae est.
-                            </p>
-                            <p>
-                                Pellentesque habitant morbi tristique senectus
-                                et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
-                                ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-                                ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien
-                                ullamcorper pharetra.
-                            </p>
+                            <form>
+                                <div className="row">
+                                    <div className="form-group col-lg-6">
+                                        <div className="col-lg-3 no-padding">
+                                            <label for="firstName">Ime</label>
+                                        </div>
+                                        <div className="col-lg-9 no-padding">
+                                            <input type="text" className="form-control" id="firstName" placeholder="Unesite Vaše ime"/>
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-lg-6">
+                                        <div className="col-lg-3 no-padding">
+                                            <label for="lastName">Prezime</label>
+                                        </div>
+                                        <div className="col-lg-9 no-padding">
+                                            <input type="text" className="form-control" id="lastName" placeholder="Unesite Vaše prezime"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-default" onClick={this.closeModal}>Prekini</button>
-                            <button type="button" className="btn btn-success">Posalji</button>
+                            <button type="button" className="btn btn-success">Potvrdi</button>
                         </div>
                     </div>
                 </Modal>

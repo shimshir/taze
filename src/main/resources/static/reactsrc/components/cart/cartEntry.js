@@ -13,7 +13,7 @@ const CartEntryView = ({ entry, index, updateEntryAmount }) => {
             <div className="col-lg-10">
                 <div className="row">
                     <div className="col-lg-4">
-                        <h2>{entry.product.name}</h2>
+                        <h4>{entry.product.name}</h4>
                     </div>
                     <div className="col-lg-4">
                         <label>Cijena</label>
