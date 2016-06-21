@@ -1,10 +1,10 @@
-import { ADD_TO_CART_ACTION, REMOVE_FROM_CART_ACTION, UPDATE_CART_ENTRY_AMOUNT_ACTION } from '../actions/actions.js';
+import { ADD_TO_CART_ACTION, REMOVE_CART_ENTRY_ACTION, UPDATE_CART_ENTRY_AMOUNT_ACTION } from '../actions/actions.js';
 
 const privateCartEntryReducer = (cartEntriesState = [], action) => {
   switch (action.type) {
       case ADD_TO_CART_ACTION:
           return [...cartEntriesState, action.cartEntry];
-      case REMOVE_FROM_CART_ACTION:
+      case REMOVE_CART_ENTRY_ACTION:
           return cartEntriesState
               .reduce((acc, entry, index) => {
                   index != action.cartEntryIndex ? acc.push(entry) : acc;
@@ -32,7 +32,7 @@ const stubEntries = [{product: CHICKEN, amount: 3}, {product: HONEY, amount: 5},
 const cartReducer = (cartState = {cartEntries: stubEntries}, action) => {
     switch (action.type) {
         case ADD_TO_CART_ACTION:
-        case REMOVE_FROM_CART_ACTION:
+        case REMOVE_CART_ENTRY_ACTION:
         case UPDATE_CART_ENTRY_AMOUNT_ACTION:
             const cartEntries = privateCartEntryReducer(cartState.cartEntries, action);
             return {...cartState, cartEntries};

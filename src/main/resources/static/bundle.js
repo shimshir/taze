@@ -35827,7 +35827,7 @@
 	});
 	var CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = 'CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION';
 	var ADD_TO_CART_ACTION = exports.ADD_TO_CART_ACTION = 'ADD_TO_CART_ACTION';
-	var REMOVE_FROM_CART_ACTION = exports.REMOVE_FROM_CART_ACTION = 'REMOVE_FROM_CART_ACTION';
+	var REMOVE_CART_ENTRY_ACTION = exports.REMOVE_CART_ENTRY_ACTION = 'REMOVE_CART_ENTRY_ACTION';
 	var UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = 'UPDATE_CART_ENTRY_AMOUNT_ACTION';
 
 	var changeActiveTopNavbarItemAction = exports.changeActiveTopNavbarItemAction = function changeActiveTopNavbarItemAction(topNavbarItem) {
@@ -35844,9 +35844,9 @@
 	    };
 	};
 
-	var removeFromCartAction = exports.removeFromCartAction = function removeFromCartAction(cartEntryIndex) {
+	var removeCartEntryAction = exports.removeCartEntryAction = function removeCartEntryAction(cartEntryIndex) {
 	    return {
-	        type: REMOVE_FROM_CART_ACTION,
+	        type: REMOVE_CART_ENTRY_ACTION,
 	        cartEntryIndex: cartEntryIndex
 	    };
 	};
@@ -36545,6 +36545,7 @@
 	var CartEntryView = function CartEntryView(_ref) {
 	    var entry = _ref.entry;
 	    var index = _ref.index;
+	    var removeCartEntry = _ref.removeCartEntry;
 	    var updateEntryAmount = _ref.updateEntryAmount;
 
 	    return _react2.default.createElement(
@@ -36604,7 +36605,7 @@
 	                    _react2.default.createElement(
 	                        'span',
 	                        { className: 'pseudo-anchor', onClick: function onClick() {
-	                                return undefined.removeCartEntry(index);
+	                                return removeCartEntry(index);
 	                            } },
 	                        'Izbaci'
 	                    )
@@ -36649,6 +36650,9 @@
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	    return {
+	        removeCartEntry: function removeCartEntry(cartEntryIndex) {
+	            dispatch((0, _actions.removeCartEntryAction)(cartEntryIndex));
+	        },
 	        updateEntryAmount: function updateEntryAmount(cartEntryIndex, amount) {
 	            dispatch((0, _actions.updateCartEntryAmountAction)(cartEntryIndex, amount));
 	        }
@@ -39686,7 +39690,7 @@
 	    switch (action.type) {
 	        case _actions.ADD_TO_CART_ACTION:
 	            return [].concat(_toConsumableArray(cartEntriesState), [action.cartEntry]);
-	        case _actions.REMOVE_FROM_CART_ACTION:
+	        case _actions.REMOVE_CART_ENTRY_ACTION:
 	            return cartEntriesState.reduce(function (acc, entry, index) {
 	                index != action.cartEntryIndex ? acc.push(entry) : acc;
 	                return acc;
@@ -39713,7 +39717,7 @@
 
 	    switch (action.type) {
 	        case _actions.ADD_TO_CART_ACTION:
-	        case _actions.REMOVE_FROM_CART_ACTION:
+	        case _actions.REMOVE_CART_ENTRY_ACTION:
 	        case _actions.UPDATE_CART_ENTRY_AMOUNT_ACTION:
 	            var cartEntries = privateCartEntryReducer(cartState.cartEntries, action);
 	            return _extends({}, cartState, { cartEntries: cartEntries });
