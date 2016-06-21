@@ -1,27 +1,17 @@
 import React from 'react';
 
-const AmountSelect = ({ id, onChange, amounts, unitCode, defaultSelected = (amount) => false }) => {
+const AmountSelect = ({ id, onChange, amounts, unitCode, defaultValue }) => {
     return (
         <select className="form-control amount-select"
-                    id={id}
-                    onChange={onChange}>
+                id={id}
+                onChange={onChange}
+                defaultValue={defaultValue}>
             {
-                amounts.map(amount => {
-                        if (defaultSelected(amount))
-                            return (
-                                <option key={amount}
-                                        value={amount}
-                                        selected="selected">
-                                    {`${amount} ${unitCode}`}
-                                </option>);
-                        else
-                            return (
-                                <option key={amount}
-                                        value={amount}>
-                                    {`${amount} ${unitCode}`}
-                                </option>);
-                    }
-                )
+                amounts.map(amount => 
+                    <option key={amount}
+                            value={amount}>
+                        {`${amount} ${unitCode}`}
+                    </option>)
             }
         </select>
     );

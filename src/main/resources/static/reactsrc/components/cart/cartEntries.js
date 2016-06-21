@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {removeFromCartAction} from '../../actions/actions.js'
+import {removeFromCartAction, updateCartEntryAmountAction} from '../../actions/actions.js'
 import AmountSelect from '../common/amountSelect.js';
 
 class CartEntriesView extends Component {
@@ -12,14 +12,18 @@ class CartEntriesView extends Component {
         this.props.removeFromCart(index);
     };
     
+    updateEntryAmount = (index, amount) => {
+        this.props.updateEntryAmount(index, amount);
+    };
+    
     render() {
         return (
             <div className="cart-entries-container">
                 <div></div>
                 {this.props.entries ? 
                     <ul className="list-group">
-                        {this.props.entries.map((cartEntry, index) =>
-                            <li key={index} className="list-group-item">
+                        {this.props.entries.map((cartEntry, ceIndex) =>
+                            <li key={ceIndex} className="list-group-item">
                                 <div className="row">
                                     <div className="col-lg-2">
                                         <img src={cartEntry.product.listImage}/>
@@ -38,16 +42,17 @@ class CartEntriesView extends Component {
                                         </div>
                                         <div className="row">
                                             <div className="col-lg-4">
-                                                <span className="pseudo-anchor" onClick={() => this.removeCartEntry(index)}>Izbaci</span>
+                                                <span className="pseudo-anchor" onClick={() => this.removeCartEntry(ceIndex)}>Izbaci</span>
                                             </div>
                                             <div className="col-lg-4">
-                                                <span>{cartEntry.product.pricePerUnit * cartEntry.amount} KM</span>
+                                                <span className="price-value"><b>{cartEntry.product.pricePerUnit * cartEntry.amount} KM</b></span>
                                             </div>
                                             <div className="col-lg-4">
                                                 <AmountSelect id="amount"
                                                               amounts={new Array(30).fill(1).map((_, i) => i + 1)}
                                                               unitCode={cartEntry.product.unitCode}
-                                                              defaultSelected={(amount) => cartEntry.amount === amount}
+                                                              defaultValue={cartEntry.amount}
+                                                              onChange={(event) => this.updateEntryAmount(ceIndex, event.target.value)}
                                                 />
                                             </div>
                                         </div>
@@ -71,6 +76,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         removeFromCart: (cartEntryIndex) => {
             dispatch(removeFromCartAction(cartEntryIndex));
+        },
+        updateEntryAmount: (cartEntryIndex, amount) => {
+            dispatch(updateCartEntryAmountAction(cartEntryIndex, amount));
         }
     }  
 };

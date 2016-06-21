@@ -35827,6 +35827,7 @@
 	var CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = 'CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION';
 	var ADD_TO_CART_ACTION = exports.ADD_TO_CART_ACTION = 'ADD_TO_CART_ACTION';
 	var REMOVE_FROM_CART_ACTION = exports.REMOVE_FROM_CART_ACTION = 'REMOVE_FROM_CART_ACTION';
+	var UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = 'UPDATE_CART_ENTRY_AMOUNT_ACTION';
 
 	var changeActiveTopNavbarItemAction = exports.changeActiveTopNavbarItemAction = function changeActiveTopNavbarItemAction(topNavbarItem) {
 	    return {
@@ -35846,6 +35847,14 @@
 	    return {
 	        type: REMOVE_FROM_CART_ACTION,
 	        cartEntryIndex: cartEntryIndex
+	    };
+	};
+
+	var updateCartEntryAmountAction = exports.updateCartEntryAmountAction = function updateCartEntryAmountAction(cartEntryIndex, amount) {
+	    return {
+	        type: UPDATE_CART_ENTRY_AMOUNT_ACTION,
+	        cartEntryIndex: cartEntryIndex,
+	        amount: amount
 	    };
 	};
 
@@ -36424,6 +36433,8 @@
 
 	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CartEntriesView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.removeCartEntry = function (index) {
 	            _this.props.removeFromCart(index);
+	        }, _this.updateEntryAmount = function (index, amount) {
+	            _this.props.updateEntryAmount(index, amount);
 	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
@@ -36444,10 +36455,10 @@
 	                this.props.entries ? _react2.default.createElement(
 	                    'ul',
 	                    { className: 'list-group' },
-	                    this.props.entries.map(function (cartEntry, index) {
+	                    this.props.entries.map(function (cartEntry, ceIndex) {
 	                        return _react2.default.createElement(
 	                            'li',
-	                            { key: index, className: 'list-group-item' },
+	                            { key: ceIndex, className: 'list-group-item' },
 	                            _react2.default.createElement(
 	                                'div',
 	                                { className: 'row' },
@@ -36495,7 +36506,7 @@
 	                                            _react2.default.createElement(
 	                                                'span',
 	                                                { className: 'pseudo-anchor', onClick: function onClick() {
-	                                                        return _this2.removeCartEntry(index);
+	                                                        return _this2.removeCartEntry(ceIndex);
 	                                                    } },
 	                                                'Izbaci'
 	                                            )
@@ -36505,9 +36516,13 @@
 	                                            { className: 'col-lg-4' },
 	                                            _react2.default.createElement(
 	                                                'span',
-	                                                null,
-	                                                cartEntry.product.pricePerUnit * cartEntry.amount,
-	                                                ' KM'
+	                                                { className: 'price-value' },
+	                                                _react2.default.createElement(
+	                                                    'b',
+	                                                    null,
+	                                                    cartEntry.product.pricePerUnit * cartEntry.amount,
+	                                                    ' KM'
+	                                                )
 	                                            )
 	                                        ),
 	                                        _react2.default.createElement(
@@ -36518,8 +36533,9 @@
 	                                                    return i + 1;
 	                                                }),
 	                                                unitCode: cartEntry.product.unitCode,
-	                                                defaultSelected: function defaultSelected(amount) {
-	                                                    return cartEntry.amount === amount;
+	                                                defaultValue: cartEntry.amount,
+	                                                onChange: function onChange(event) {
+	                                                    return _this2.updateEntryAmount(ceIndex, event.target.value);
 	                                                }
 	                                            })
 	                                        )
@@ -36544,6 +36560,9 @@
 	    return {
 	        removeFromCart: function removeFromCart(cartEntryIndex) {
 	            dispatch((0, _actions.removeFromCartAction)(cartEntryIndex));
+	        },
+	        updateEntryAmount: function updateEntryAmount(cartEntryIndex, amount) {
+	            dispatch((0, _actions.updateCartEntryAmountAction)(cartEntryIndex, amount));
 	        }
 	    };
 	};
@@ -36576,24 +36595,16 @@
 	    var onChange = _ref.onChange;
 	    var amounts = _ref.amounts;
 	    var unitCode = _ref.unitCode;
-	    var _ref$defaultSelected = _ref.defaultSelected;
-	    var defaultSelected = _ref$defaultSelected === undefined ? function (amount) {
-	        return false;
-	    } : _ref$defaultSelected;
+	    var defaultValue = _ref.defaultValue;
 
 	    return _react2.default.createElement(
 	        "select",
 	        { className: "form-control amount-select",
 	            id: id,
-	            onChange: onChange },
+	            onChange: onChange,
+	            defaultValue: defaultValue },
 	        amounts.map(function (amount) {
-	            if (defaultSelected(amount)) return _react2.default.createElement(
-	                "option",
-	                { key: amount,
-	                    value: amount,
-	                    selected: "selected" },
-	                amount + " " + unitCode
-	            );else return _react2.default.createElement(
+	            return _react2.default.createElement(
 	                "option",
 	                { key: amount,
 	                    value: amount },
@@ -36749,15 +36760,17 @@
 
 	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(ProductDetailView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.amounts = new Array(30).fill(1).map(function (_, i) {
 	            return i + 1;
-	        }), _this.state = { totalPrice: _this.props.product.pricePerUnit }, _this.updateTotalPrice = function (event) {
-	            _this.setState({ totalPrice: _this.props.product.pricePerUnit * event.target.value });
+	        }), _this.state = { totalPrice: _this.props.product.pricePerUnit }, _this.handleAmountChange = function (event) {
+	            _this.setState({
+	                totalPrice: _this.props.product.pricePerUnit * event.target.value,
+	                cartEntry: {
+	                    product: _this.props.product,
+	                    amount: event.target.value
+	                }
+	            });
 	        }, _this.handleSubmit = function (event) {
 	            event.preventDefault();
-	            var cartEntry = {
-	                product: _this.props.product,
-	                amount: _this.refs.amountSelect.value
-	            };
-	            _this.props.addToCart(cartEntry);
+	            _this.props.addToCart(_this.state.cartEntry);
 	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
@@ -36804,7 +36817,7 @@
 	                                ),
 	                                _react2.default.createElement(
 	                                    'span',
-	                                    { className: 'col-lg-6 no-padding price-value' },
+	                                    { className: 'col-lg-6 no-padding' },
 	                                    this.props.product.pricePerUnit + ' KM/' + this.props.product.unitCode
 	                                )
 	                            ),
@@ -36824,7 +36837,7 @@
 	                                    'div',
 	                                    { className: 'col-lg-6 no-padding' },
 	                                    _react2.default.createElement(_amountSelect2.default, { id: 'amount',
-	                                        onChange: this.updateTotalPrice,
+	                                        onChange: this.handleAmountChange,
 	                                        amounts: this.amounts,
 	                                        unitCode: this.props.product.unitCode
 	                                    }),
@@ -36844,7 +36857,7 @@
 	                                    ),
 	                                    _react2.default.createElement(
 	                                        'span',
-	                                        { className: 'col-lg-6 no-padding' },
+	                                        { className: 'col-lg-6 no-padding price-value' },
 	                                        _react2.default.createElement(
 	                                            'b',
 	                                            null,
@@ -37420,6 +37433,8 @@
 	    value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _actions = __webpack_require__(555);
 
 	var _constants = __webpack_require__(553);
@@ -37438,6 +37453,12 @@
 	                index != action.cartEntryIndex ? acc.push(entry) : acc;
 	                return acc;
 	            }, []);
+	        case _actions.UPDATE_CART_ENTRY_AMOUNT_ACTION:
+	            return cartEntriesState.map(function (cartEntry, index) {
+	                if (index === action.cartEntryIndex) {
+	                    return _extends({}, cartEntry, { amount: action.amount });
+	                } else return cartEntry;
+	            });
 	        default:
 	            return cartEntriesState;
 	    }
@@ -37455,8 +37476,9 @@
 	    switch (action.type) {
 	        case _actions.ADD_TO_CART_ACTION:
 	        case _actions.REMOVE_FROM_CART_ACTION:
+	        case _actions.UPDATE_CART_ENTRY_AMOUNT_ACTION:
 	            var cartEntries = privateCartEntryReducer(cartState.cartEntries, action);
-	            return Object.assign({}, cartState, { cartEntries: cartEntries });
+	            return _extends({}, cartState, { cartEntries: cartEntries });
 	        default:
 	            return cartState;
 	    }

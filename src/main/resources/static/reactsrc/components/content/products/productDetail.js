@@ -8,17 +8,19 @@ class ProductDetailView extends Component {
 
     state = {totalPrice: this.props.product.pricePerUnit};
     
-    updateTotalPrice = (event) => {
-        this.setState({totalPrice: this.props.product.pricePerUnit * event.target.value});
+    handleAmountChange = (event) => {
+        this.setState({
+            totalPrice: this.props.product.pricePerUnit * event.target.value,
+            cartEntry: {
+                product: this.props.product,
+                amount: event.target.value
+            }
+        });
     };
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const cartEntry = {
-            product: this.props.product,
-            amount: this.refs.amountSelect.value
-        };
-        this.props.addToCart(cartEntry);
+        this.props.addToCart(this.state.cartEntry);
     };
 
     componentWillMount() {
@@ -37,7 +39,7 @@ class ProductDetailView extends Component {
                         <div className="control-container col-lg-8 no-padding">
                             <div className="row">
                                 <span className="col-lg-6 no-padding">Cijena:</span>
-                                <span className="col-lg-6 no-padding price-value">{`${this.props.product.pricePerUnit} KM/${this.props.product.unitCode}`}</span>
+                                <span className="col-lg-6 no-padding">{`${this.props.product.pricePerUnit} KM/${this.props.product.unitCode}`}</span>
                             </div>
                             <div className="row">
                                 <div className="col-lg-6 no-padding">
@@ -45,7 +47,7 @@ class ProductDetailView extends Component {
                                 </div>
                                 <div className="col-lg-6 no-padding">
                                     <AmountSelect id="amount"
-                                                  onChange={this.updateTotalPrice}
+                                                  onChange={this.handleAmountChange}
                                                   amounts={this.amounts}
                                                   unitCode={this.props.product.unitCode}
                                     />
@@ -53,7 +55,7 @@ class ProductDetailView extends Component {
                                 </div>
                                 <div className="col-lg-12 no-padding total-price">
                                     <span className="col-lg-6 no-padding">Ukupna cijena:</span>
-                                    <span className="col-lg-6 no-padding"><b>{this.state.totalPrice + ' KM'}</b></span>
+                                    <span className="col-lg-6 no-padding price-value"><b>{this.state.totalPrice + ' KM'}</b></span>
                                 </div>
                             </div>
                         </div>
