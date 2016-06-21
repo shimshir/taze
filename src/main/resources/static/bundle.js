@@ -36777,7 +36777,7 @@
 	            args[_key] = arguments[_key];
 	        }
 
-	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(PlaceOrderDialogView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = { modalIsOpen: true }, _this.openModal = function () {
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(PlaceOrderDialogView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = { modalIsOpen: false }, _this.openModal = function () {
 	            _this.setState({ modalIsOpen: true });
 	        }, _this.closeModal = function () {
 	            _this.setState({ modalIsOpen: false });
