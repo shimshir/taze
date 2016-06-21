@@ -16,8 +16,7 @@ class ChickenView extends Component {
                 <Stage headerText="Pilad" stageBackgroundClass="chicken"/>
                 <ContentContainer>
                     <ProductDetail product={CHICKEN}
-                                   imageSrc="/img/products/chicken-pdp.jpg"
-                                   additionalText="* Kilaža se zaokružuje da bude cio broj piladi."/>
+                                   imageSrc="/img/products/chicken-pdp.jpg"/>
                 </ContentContainer>
             </div>
         );

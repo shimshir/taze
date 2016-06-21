@@ -49,7 +49,8 @@ export const CHICKEN = {
     pricePerUnit: 8,
     unitCode: 'kg',
     pdpImage: '/img/products/chicken-pdp.jpg',
-    listImage: '/img/products/chicken-list.jpg'
+    listImage: '/img/products/chicken-list.jpg',
+    footnote: "* Kilaža i cijena se podešavaju da bude cio broj piladi."
 };
 
 export const HONEY = {

@@ -8153,13 +8153,13 @@
 
 	var _redux = __webpack_require__(473);
 
-	var _reactRouterRedux = __webpack_require__(568);
+	var _reactRouterRedux = __webpack_require__(569);
 
-	var _mainReducer = __webpack_require__(573);
+	var _mainReducer = __webpack_require__(574);
 
 	var _mainReducer2 = _interopRequireDefault(_mainReducer);
 
-	var _axios = __webpack_require__(576);
+	var _axios = __webpack_require__(577);
 
 	var _axios2 = _interopRequireDefault(_axios);
 
@@ -35357,11 +35357,11 @@
 
 	var _cart2 = _interopRequireDefault(_cart);
 
-	var _chicken = __webpack_require__(565);
+	var _chicken = __webpack_require__(566);
 
 	var _chicken2 = _interopRequireDefault(_chicken);
 
-	var _honey = __webpack_require__(567);
+	var _honey = __webpack_require__(568);
 
 	var _honey2 = _interopRequireDefault(_honey);
 
@@ -35765,7 +35765,8 @@
 	    pricePerUnit: 8,
 	    unitCode: 'kg',
 	    pdpImage: '/img/products/chicken-pdp.jpg',
-	    listImage: '/img/products/chicken-list.jpg'
+	    listImage: '/img/products/chicken-list.jpg',
+	    footnote: "* Kilaža i cijena se podešavaju da bude cio broj piladi."
 	};
 
 	var HONEY = exports.HONEY = {
@@ -36405,9 +36406,9 @@
 
 	var _actions = __webpack_require__(555);
 
-	var _amountSelect = __webpack_require__(564);
+	var _cartEntry = __webpack_require__(564);
 
-	var _amountSelect2 = _interopRequireDefault(_amountSelect);
+	var _cartEntry2 = _interopRequireDefault(_cartEntry);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36433,8 +36434,6 @@
 
 	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CartEntriesView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.removeCartEntry = function (index) {
 	            _this.props.removeFromCart(index);
-	        }, _this.updateEntryAmount = function (index, amount) {
-	            _this.props.updateEntryAmount(index, amount);
 	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
@@ -36446,12 +36445,9 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this2 = this;
-
 	            return _react2.default.createElement(
 	                'div',
 	                { className: 'cart-entries-container' },
-	                _react2.default.createElement('div', null),
 	                this.props.entries ? _react2.default.createElement(
 	                    'ul',
 	                    { className: 'list-group' },
@@ -36459,89 +36455,7 @@
 	                        return _react2.default.createElement(
 	                            'li',
 	                            { key: ceIndex, className: 'list-group-item' },
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'row' },
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'col-lg-2' },
-	                                    _react2.default.createElement('img', { src: cartEntry.product.listImage })
-	                                ),
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'col-lg-10' },
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'row' },
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'col-lg-4' },
-	                                            _react2.default.createElement(
-	                                                'h2',
-	                                                null,
-	                                                cartEntry.product.name
-	                                            )
-	                                        ),
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'col-lg-4' },
-	                                            _react2.default.createElement(
-	                                                'label',
-	                                                null,
-	                                                'Ukupna cijena'
-	                                            )
-	                                        ),
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'col-lg-4' },
-	                                            'Količina'
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'row' },
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'col-lg-4' },
-	                                            _react2.default.createElement(
-	                                                'span',
-	                                                { className: 'pseudo-anchor', onClick: function onClick() {
-	                                                        return _this2.removeCartEntry(ceIndex);
-	                                                    } },
-	                                                'Izbaci'
-	                                            )
-	                                        ),
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'col-lg-4' },
-	                                            _react2.default.createElement(
-	                                                'span',
-	                                                { className: 'price-value' },
-	                                                _react2.default.createElement(
-	                                                    'b',
-	                                                    null,
-	                                                    cartEntry.product.pricePerUnit * cartEntry.amount,
-	                                                    ' KM'
-	                                                )
-	                                            )
-	                                        ),
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'col-lg-4' },
-	                                            _react2.default.createElement(_amountSelect2.default, { id: 'amount',
-	                                                amounts: new Array(30).fill(1).map(function (_, i) {
-	                                                    return i + 1;
-	                                                }),
-	                                                unitCode: cartEntry.product.unitCode,
-	                                                defaultValue: cartEntry.amount,
-	                                                onChange: function onChange(event) {
-	                                                    return _this2.updateEntryAmount(ceIndex, event.target.value);
-	                                                }
-	                                            })
-	                                        )
-	                                    )
-	                                )
-	                            )
+	                            _react2.default.createElement(_cartEntry2.default, { entry: cartEntry, index: ceIndex })
 	                        );
 	                    })
 	                ) : null
@@ -36560,9 +36474,6 @@
 	    return {
 	        removeFromCart: function removeFromCart(cartEntryIndex) {
 	            dispatch((0, _actions.removeFromCartAction)(cartEntryIndex));
-	        },
-	        updateEntryAmount: function updateEntryAmount(cartEntryIndex, amount) {
-	            dispatch((0, _actions.updateCartEntryAmountAction)(cartEntryIndex, amount));
 	        }
 	    };
 	};
@@ -36574,6 +36485,152 @@
 
 /***/ },
 /* 564 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(300);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(466);
+
+	var _actions = __webpack_require__(555);
+
+	var _amountSelect = __webpack_require__(565);
+
+	var _amountSelect2 = _interopRequireDefault(_amountSelect);
+
+	var _reactRouter = __webpack_require__(488);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CartEntryView = function CartEntryView(_ref) {
+	    var entry = _ref.entry;
+	    var index = _ref.index;
+	    var updateEntryAmount = _ref.updateEntryAmount;
+
+	    return _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'col-lg-2' },
+	            _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/products/' + entry.product.code },
+	                _react2.default.createElement('img', { src: entry.product.listImage })
+	            )
+	        ),
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'col-lg-10' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-lg-4' },
+	                    _react2.default.createElement(
+	                        'h2',
+	                        null,
+	                        entry.product.name
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-lg-4' },
+	                    _react2.default.createElement(
+	                        'label',
+	                        null,
+	                        'Ukupna cijena'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-lg-4' },
+	                    'Količina'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-lg-4' },
+	                    _react2.default.createElement(
+	                        'small',
+	                        null,
+	                        entry.product.footnote
+	                    ),
+	                    _react2.default.createElement('br', null),
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: 'pseudo-anchor', onClick: function onClick() {
+	                                return undefined.removeCartEntry(index);
+	                            } },
+	                        'Izbaci'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-lg-4' },
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: 'price-value' },
+	                        _react2.default.createElement(
+	                            'b',
+	                            null,
+	                            entry.product.pricePerUnit * entry.amount,
+	                            ' KM'
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-lg-4' },
+	                    _react2.default.createElement(_amountSelect2.default, { id: 'amount',
+	                        amounts: new Array(30).fill(1).map(function (_, i) {
+	                            return i + 1;
+	                        }),
+	                        unitCode: entry.product.unitCode,
+	                        defaultValue: entry.amount,
+	                        onChange: function onChange(event) {
+	                            return updateEntryAmount(index, event.target.value);
+	                        }
+	                    })
+	                )
+	            )
+	        )
+	    );
+	};
+
+	CartEntryView.PropTypes = {
+	    entry: _react2.default.PropTypes.object.isRequired,
+	    index: _react2.default.PropTypes.number.isRequired
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	    return {
+	        updateEntryAmount: function updateEntryAmount(cartEntryIndex, amount) {
+	            dispatch((0, _actions.updateCartEntryAmountAction)(cartEntryIndex, amount));
+	        }
+	    };
+	};
+
+	var CartEntry = (0, _reactRedux.connect)(undefined, mapDispatchToProps)(CartEntryView);
+	exports.default = CartEntry;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "cartEntry.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 565 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -36627,7 +36684,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "amountSelect.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 565 */
+/* 566 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -36648,7 +36705,7 @@
 
 	var _commonMappings = __webpack_require__(554);
 
-	var _productDetail = __webpack_require__(566);
+	var _productDetail = __webpack_require__(567);
 
 	var _productDetail2 = _interopRequireDefault(_productDetail);
 
@@ -36695,8 +36752,7 @@
 	                    _contentContainer2.default,
 	                    null,
 	                    _react2.default.createElement(_productDetail2.default, { product: _constants.CHICKEN,
-	                        imageSrc: '/img/products/chicken-pdp.jpg',
-	                        additionalText: '* Kilaža se zaokružuje da bude cio broj piladi.' })
+	                        imageSrc: '/img/products/chicken-pdp.jpg' })
 	                )
 	            );
 	        }
@@ -36711,7 +36767,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "chicken.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 566 */
+/* 567 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -36732,7 +36788,7 @@
 
 	var _actions = __webpack_require__(555);
 
-	var _amountSelect = __webpack_require__(564);
+	var _amountSelect = __webpack_require__(565);
 
 	var _amountSelect2 = _interopRequireDefault(_amountSelect);
 
@@ -36844,7 +36900,7 @@
 	                                    _react2.default.createElement(
 	                                        'small',
 	                                        null,
-	                                        this.props.additionalText
+	                                        this.props.product.footnote
 	                                    )
 	                                ),
 	                                _react2.default.createElement(
@@ -36892,8 +36948,7 @@
 
 	ProductDetailView.propTypes = {
 	    product: _react2.default.PropTypes.object.isRequired,
-	    imageSrc: _react2.default.PropTypes.string.isRequired,
-	    additionalText: _react2.default.PropTypes.string
+	    imageSrc: _react2.default.PropTypes.string.isRequired
 	};
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
@@ -36910,7 +36965,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "productDetail.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 567 */
+/* 568 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -36931,7 +36986,7 @@
 
 	var _commonMappings = __webpack_require__(554);
 
-	var _productDetail = __webpack_require__(566);
+	var _productDetail = __webpack_require__(567);
 
 	var _productDetail2 = _interopRequireDefault(_productDetail);
 
@@ -36993,7 +37048,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "honey.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 568 */
+/* 569 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37003,7 +37058,7 @@
 	});
 	exports.routerMiddleware = exports.routerActions = exports.goForward = exports.goBack = exports.go = exports.replace = exports.push = exports.CALL_HISTORY_METHOD = exports.routerReducer = exports.LOCATION_CHANGE = exports.syncHistoryWithStore = undefined;
 
-	var _reducer = __webpack_require__(569);
+	var _reducer = __webpack_require__(570);
 
 	Object.defineProperty(exports, 'LOCATION_CHANGE', {
 	  enumerable: true,
@@ -37018,7 +37073,7 @@
 	  }
 	});
 
-	var _actions = __webpack_require__(570);
+	var _actions = __webpack_require__(571);
 
 	Object.defineProperty(exports, 'CALL_HISTORY_METHOD', {
 	  enumerable: true,
@@ -37063,11 +37118,11 @@
 	  }
 	});
 
-	var _sync = __webpack_require__(571);
+	var _sync = __webpack_require__(572);
 
 	var _sync2 = _interopRequireDefault(_sync);
 
-	var _middleware = __webpack_require__(572);
+	var _middleware = __webpack_require__(573);
 
 	var _middleware2 = _interopRequireDefault(_middleware);
 
@@ -37077,7 +37132,7 @@
 	exports.routerMiddleware = _middleware2['default'];
 
 /***/ },
-/* 569 */
+/* 570 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37121,7 +37176,7 @@
 	}
 
 /***/ },
-/* 570 */
+/* 571 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37163,7 +37218,7 @@
 	var routerActions = exports.routerActions = { push: push, replace: replace, go: go, goBack: goBack, goForward: goForward };
 
 /***/ },
-/* 571 */
+/* 572 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37176,7 +37231,7 @@
 
 	exports['default'] = syncHistoryWithStore;
 
-	var _reducer = __webpack_require__(569);
+	var _reducer = __webpack_require__(570);
 
 	var defaultSelectLocationState = function defaultSelectLocationState(state) {
 	  return state.routing;
@@ -37317,7 +37372,7 @@
 	}
 
 /***/ },
-/* 572 */
+/* 573 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37327,7 +37382,7 @@
 	});
 	exports['default'] = routerMiddleware;
 
-	var _actions = __webpack_require__(570);
+	var _actions = __webpack_require__(571);
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -37355,7 +37410,7 @@
 	}
 
 /***/ },
-/* 573 */
+/* 574 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -37368,13 +37423,13 @@
 
 	var _redux = __webpack_require__(473);
 
-	var _reactRouterRedux = __webpack_require__(568);
+	var _reactRouterRedux = __webpack_require__(569);
 
-	var _activeTopNavbarItemReducer = __webpack_require__(574);
+	var _activeTopNavbarItemReducer = __webpack_require__(575);
 
 	var _activeTopNavbarItemReducer2 = _interopRequireDefault(_activeTopNavbarItemReducer);
 
-	var _cartReducer = __webpack_require__(575);
+	var _cartReducer = __webpack_require__(576);
 
 	var _cartReducer2 = _interopRequireDefault(_cartReducer);
 
@@ -37392,7 +37447,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "mainReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 574 */
+/* 575 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -37422,7 +37477,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "activeTopNavbarItemReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 575 */
+/* 576 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -37489,25 +37544,25 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "cartReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 576 */
+/* 577 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(577);
+	module.exports = __webpack_require__(578);
 
 /***/ },
-/* 577 */
+/* 578 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(578);
-	var utils = __webpack_require__(579);
-	var dispatchRequest = __webpack_require__(580);
-	var InterceptorManager = __webpack_require__(589);
-	var isAbsoluteURL = __webpack_require__(590);
-	var combineURLs = __webpack_require__(591);
-	var bind = __webpack_require__(592);
-	var transformData = __webpack_require__(584);
+	var defaults = __webpack_require__(579);
+	var utils = __webpack_require__(580);
+	var dispatchRequest = __webpack_require__(581);
+	var InterceptorManager = __webpack_require__(590);
+	var isAbsoluteURL = __webpack_require__(591);
+	var combineURLs = __webpack_require__(592);
+	var bind = __webpack_require__(593);
+	var transformData = __webpack_require__(585);
 
 	function Axios(defaultConfig) {
 	  this.defaults = utils.merge({}, defaultConfig);
@@ -37593,7 +37648,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(593);
+	axios.spread = __webpack_require__(594);
 
 	// Provide aliases for supported request methods
 	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
@@ -37621,12 +37676,12 @@
 
 
 /***/ },
-/* 578 */
+/* 579 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(579);
+	var utils = __webpack_require__(580);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -37693,7 +37748,7 @@
 
 
 /***/ },
-/* 579 */
+/* 580 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -37965,7 +38020,7 @@
 
 
 /***/ },
-/* 580 */
+/* 581 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -37987,10 +38042,10 @@
 	        adapter = config.adapter;
 	      } else if (typeof XMLHttpRequest !== 'undefined') {
 	        // For browsers use XHR adapter
-	        adapter = __webpack_require__(581);
+	        adapter = __webpack_require__(582);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        adapter = __webpack_require__(581);
+	        adapter = __webpack_require__(582);
 	      }
 
 	      if (typeof adapter === 'function') {
@@ -38006,18 +38061,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(295)))
 
 /***/ },
-/* 581 */
+/* 582 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(579);
-	var buildURL = __webpack_require__(582);
-	var parseHeaders = __webpack_require__(583);
-	var transformData = __webpack_require__(584);
-	var isURLSameOrigin = __webpack_require__(585);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(586);
-	var settle = __webpack_require__(587);
+	var utils = __webpack_require__(580);
+	var buildURL = __webpack_require__(583);
+	var parseHeaders = __webpack_require__(584);
+	var transformData = __webpack_require__(585);
+	var isURLSameOrigin = __webpack_require__(586);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(587);
+	var settle = __webpack_require__(588);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  var requestData = config.data;
@@ -38114,7 +38169,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(588);
+	    var cookies = __webpack_require__(589);
 
 	    // Add xsrf header
 	    var xsrfValue = config.withCredentials || isURLSameOrigin(config.url) ?
@@ -38175,12 +38230,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(295)))
 
 /***/ },
-/* 582 */
+/* 583 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(579);
+	var utils = __webpack_require__(580);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -38248,12 +38303,12 @@
 
 
 /***/ },
-/* 583 */
+/* 584 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(579);
+	var utils = __webpack_require__(580);
 
 	/**
 	 * Parse headers into an object
@@ -38291,12 +38346,12 @@
 
 
 /***/ },
-/* 584 */
+/* 585 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(579);
+	var utils = __webpack_require__(580);
 
 	/**
 	 * Transform the data for a request or a response
@@ -38317,12 +38372,12 @@
 
 
 /***/ },
-/* 585 */
+/* 586 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(579);
+	var utils = __webpack_require__(580);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -38391,7 +38446,7 @@
 
 
 /***/ },
-/* 586 */
+/* 587 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -38433,7 +38488,7 @@
 
 
 /***/ },
-/* 587 */
+/* 588 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -38457,12 +38512,12 @@
 
 
 /***/ },
-/* 588 */
+/* 589 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(579);
+	var utils = __webpack_require__(580);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -38516,12 +38571,12 @@
 
 
 /***/ },
-/* 589 */
+/* 590 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(579);
+	var utils = __webpack_require__(580);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -38574,7 +38629,7 @@
 
 
 /***/ },
-/* 590 */
+/* 591 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -38594,7 +38649,7 @@
 
 
 /***/ },
-/* 591 */
+/* 592 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -38612,7 +38667,7 @@
 
 
 /***/ },
-/* 592 */
+/* 593 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -38629,7 +38684,7 @@
 
 
 /***/ },
-/* 593 */
+/* 594 */
 /***/ function(module, exports) {
 
 	'use strict';

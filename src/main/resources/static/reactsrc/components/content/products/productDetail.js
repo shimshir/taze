@@ -51,7 +51,7 @@ class ProductDetailView extends Component {
                                                   amounts={this.amounts}
                                                   unitCode={this.props.product.unitCode}
                                     />
-                                    <small>{this.props.additionalText}</small>
+                                    <small>{this.props.product.footnote}</small>
                                 </div>
                                 <div className="col-lg-12 no-padding total-price">
                                     <span className="col-lg-6 no-padding">Ukupna cijena:</span>
@@ -75,8 +75,7 @@ class ProductDetailView extends Component {
 
 ProductDetailView.propTypes = {
     product: React.PropTypes.object.isRequired,
-    imageSrc: React.PropTypes.string.isRequired,
-    additionalText: React.PropTypes.string
+    imageSrc: React.PropTypes.string.isRequired
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
