@@ -1,0 +1,7 @@
+div.modal-content {
+    border: none;
+}
+
+div.modal-header button.close span {
+    color: #eceeef;
+}

@@ -6,7 +6,7 @@ div.cart-entries-container {
 
 .cart-summary {
     text-align: right;
-    padding: 15px;
+    padding: 1.25rem;
     background-color: #f1f1f1;
     border-bottom: 1px solid #ddd;
     border-left: 1px solid #ddd;

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {removeFromCartAction} from '../../actions/actions.js'
 import CartEntry from './cartEntry.js';
+import PlaceOrderDialog from './placeOrderDialog.js';
 
 class CartEntriesView extends Component {
     componentWillMount() {
@@ -26,10 +27,10 @@ class CartEntriesView extends Component {
                     : null
                 }
                 <div className="cart-summary">
-                    <b className="text-uppercase">Ukupna suma: </b>
+                    <b className="text-uppercase">Ukupna cijena: </b>
                     <b className="price-value">{`${this.props.totalCartValue} KM`}</b>
                     <br/><br/>
-                    <button className="btn btn-success">Naruci</button>
+                    <PlaceOrderDialog/>
                 </div>
             </div>
         );
@@ -42,7 +43,9 @@ CartEntriesView.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        totalCartValue: state.cart.cartEntries.map(entry => entry.amount * entry.product.pricePerUnit).reduce((sum, priceValue) => sum + priceValue, 0)
+        totalCartValue: state.cart.cartEntries
+            .map(entry => entry.amount * entry.product.pricePerUnit)
+            .reduce((sum, priceValue) => sum + priceValue, 0)
     }
 };
 
