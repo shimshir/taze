@@ -6,7 +6,13 @@ import AmountSelect from '../../common/amountSelect.js';
 class ProductDetailView extends Component {
     amounts = new Array(30).fill(1).map((_, i) => i + 1);
 
-    state = {totalPrice: this.props.product.pricePerUnit};
+    state = {
+        totalPrice: this.props.product.pricePerUnit,
+        cartEntry: {
+            product: this.props.product,
+            amount: 1
+        }
+    };
     
     handleAmountChange = (event) => {
         this.setState({

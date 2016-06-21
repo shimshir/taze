@@ -36631,7 +36631,7 @@
 	                            return i + 1;
 	                        }),
 	                        unitCode: entry.product.unitCode,
-	                        defaultValue: entry.amount,
+	                        selectedValue: entry.amount,
 	                        onChange: function onChange(event) {
 	                            return updateEntryAmount(index, event.target.value);
 	                        }
@@ -36683,14 +36683,14 @@
 	    var onChange = _ref.onChange;
 	    var amounts = _ref.amounts;
 	    var unitCode = _ref.unitCode;
-	    var defaultValue = _ref.defaultValue;
+	    var selectedValue = _ref.selectedValue;
 
 	    return _react2.default.createElement(
 	        "select",
 	        { className: "form-control amount-select",
 	            id: id,
 	            onChange: onChange,
-	            defaultValue: defaultValue },
+	            defaultValue: selectedValue },
 	        amounts.map(function (amount) {
 	            return _react2.default.createElement(
 	                "option",
@@ -36707,7 +36707,7 @@
 	    onChange: _react2.default.PropTypes.func,
 	    amounts: _react2.default.PropTypes.array.isRequired,
 	    unitCode: _react2.default.PropTypes.string.isRequired,
-	    defaultSelected: _react2.default.PropTypes.func
+	    selectedValue: _react2.default.PropTypes.any
 	};
 
 	exports.default = AmountSelect;
@@ -36755,7 +36755,7 @@
 	        bottom: 'auto',
 	        marginRight: '-50%',
 	        transform: 'translate(-50%, -50%)',
-	        padding: '0',
+	        padding: '0px',
 	        border: 'none'
 	    },
 	    overlay: {
@@ -38993,7 +38993,13 @@
 
 	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(ProductDetailView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.amounts = new Array(30).fill(1).map(function (_, i) {
 	            return i + 1;
-	        }), _this.state = { totalPrice: _this.props.product.pricePerUnit }, _this.handleAmountChange = function (event) {
+	        }), _this.state = {
+	            totalPrice: _this.props.product.pricePerUnit,
+	            cartEntry: {
+	                product: _this.props.product,
+	                amount: 1
+	            }
+	        }, _this.handleAmountChange = function (event) {
 	            _this.setState({
 	                totalPrice: _this.props.product.pricePerUnit * event.target.value,
 	                cartEntry: {

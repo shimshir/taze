@@ -35,7 +35,7 @@ const CartEntryView = ({ entry, index, updateEntryAmount }) => {
                         <AmountSelect id="amount"
                                       amounts={new Array(30).fill(1).map((_, i) => i + 1)}
                                       unitCode={entry.product.unitCode}
-                                      defaultValue={entry.amount}
+                                      selectedValue={entry.amount}
                                       onChange={(event) => updateEntryAmount(index, event.target.value)}
                         />
                     </div>
