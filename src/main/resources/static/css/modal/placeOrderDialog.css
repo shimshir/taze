@@ -1,0 +1,11 @@
+.address-label-col {
+    padding-right: 0;
+}
+
+.address-input-col {
+    padding-left: 0;
+}
+
+#placeOrderForm .row {
+    margin-bottom: 10px;
+}

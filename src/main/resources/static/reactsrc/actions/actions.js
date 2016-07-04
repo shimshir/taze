@@ -2,6 +2,7 @@ export const CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = 'CHANGE_ACTIVE_TOP_NAVBAR_IT
 export const ADD_TO_CART_ACTION = 'ADD_TO_CART_ACTION';
 export const REMOVE_CART_ENTRY_ACTION = 'REMOVE_CART_ENTRY_ACTION';
 export const UPDATE_CART_ENTRY_AMOUNT_ACTION = 'UPDATE_CART_ENTRY_AMOUNT_ACTION';
+export const UPDATE_PLACE_ORDER_FORM_ACTION = 'UPDATE_PLACE_ORDER_FORM_ACTION';
 
 export const changeActiveTopNavbarItemAction = (topNavbarItem) => {
     return {
@@ -29,5 +30,12 @@ export const updateCartEntryAmountAction = (cartEntryIndex, amount) => {
         type: UPDATE_CART_ENTRY_AMOUNT_ACTION,
         cartEntryIndex,
         amount
+    }
+};
+
+export const updatePlaceOrderFormAction = (input) => {
+    return {
+        type: UPDATE_PLACE_ORDER_FORM_ACTION,
+        input
     }
 };

@@ -8159,7 +8159,7 @@
 
 	var _mainReducer2 = _interopRequireDefault(_mainReducer);
 
-	var _axios = __webpack_require__(598);
+	var _axios = __webpack_require__(599);
 
 	var _axios2 = _interopRequireDefault(_axios);
 
@@ -35829,6 +35829,7 @@
 	var ADD_TO_CART_ACTION = exports.ADD_TO_CART_ACTION = 'ADD_TO_CART_ACTION';
 	var REMOVE_CART_ENTRY_ACTION = exports.REMOVE_CART_ENTRY_ACTION = 'REMOVE_CART_ENTRY_ACTION';
 	var UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = 'UPDATE_CART_ENTRY_AMOUNT_ACTION';
+	var UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = 'UPDATE_PLACE_ORDER_FORM_ACTION';
 
 	var changeActiveTopNavbarItemAction = exports.changeActiveTopNavbarItemAction = function changeActiveTopNavbarItemAction(topNavbarItem) {
 	    return {
@@ -35856,6 +35857,13 @@
 	        type: UPDATE_CART_ENTRY_AMOUNT_ACTION,
 	        cartEntryIndex: cartEntryIndex,
 	        amount: amount
+	    };
+	};
+
+	var updatePlaceOrderFormAction = exports.updatePlaceOrderFormAction = function updatePlaceOrderFormAction(input) {
+	    return {
+	        type: UPDATE_PLACE_ORDER_FORM_ACTION,
+	        input: input
 	    };
 	};
 
@@ -36742,6 +36750,8 @@
 
 	var _reactRedux = __webpack_require__(466);
 
+	var _actions = __webpack_require__(555);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -36781,16 +36791,21 @@
 	            args[_key] = arguments[_key];
 	        }
 
-	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(PlaceOrderDialogView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = { modalIsOpen: false }, _this.openModal = function () {
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(PlaceOrderDialogView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = { modalIsOpen: true }, _this.openModal = function () {
 	            _this.setState({ modalIsOpen: true });
 	        }, _this.closeModal = function () {
 	            _this.setState({ modalIsOpen: false });
+	        }, _this.placeOrderInputChange = function (event) {
+	            var id = event.target.id;
+	            var value = event.target.value;
+	            _this.props.updatePlaceOrderForm({ id: id, value: value });
 	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
 	    _createClass(PlaceOrderDialogView, [{
 	        key: 'render',
 	        value: function render() {
+	            // TODO: Make the input row in the #placeOrderForm a component itself
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -36834,56 +36849,126 @@
 	                            'div',
 	                            { className: 'modal-body' },
 	                            _react2.default.createElement(
-	                                'h4',
-	                                null,
-	                                'Content...'
-	                            ),
-	                            _react2.default.createElement(
 	                                'p',
 	                                null,
 	                                'Molimo Vas unesite Vaše podatke, potvrda o primljenoj narudžbi biće Vam dostavljena na uneseni e-mail.'
 	                            ),
 	                            _react2.default.createElement(
 	                                'form',
-	                                null,
+	                                { id: 'placeOrderForm' },
 	                                _react2.default.createElement(
 	                                    'div',
 	                                    { className: 'row' },
 	                                    _react2.default.createElement(
 	                                        'div',
-	                                        { className: 'form-group col-lg-6' },
+	                                        { className: 'col-lg-2' },
 	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'col-lg-3 no-padding' },
-	                                            _react2.default.createElement(
-	                                                'label',
-	                                                { 'for': 'firstName' },
-	                                                'Ime'
-	                                            )
-	                                        ),
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'col-lg-9 no-padding' },
-	                                            _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'firstName', placeholder: 'Unesite Vaše ime' })
+	                                            'label',
+	                                            { 'for': 'firstName' },
+	                                            'Ime'
 	                                        )
 	                                    ),
 	                                    _react2.default.createElement(
 	                                        'div',
-	                                        { className: 'form-group col-lg-6' },
+	                                        { className: 'col-lg-10' },
+	                                        _react2.default.createElement('input', { type: 'text',
+	                                            className: 'form-control',
+	                                            id: 'firstName',
+	                                            defaultValue: this.props.placeOrderForm.get('firstName'),
+	                                            placeholder: 'Unesite Vaše ime',
+	                                            onChange: this.placeOrderInputChange })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'row' },
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'col-lg-2' },
 	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'col-lg-3 no-padding' },
-	                                            _react2.default.createElement(
-	                                                'label',
-	                                                { 'for': 'lastName' },
-	                                                'Prezime'
-	                                            )
-	                                        ),
-	                                        _react2.default.createElement(
-	                                            'div',
-	                                            { className: 'col-lg-9 no-padding' },
-	                                            _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'lastName', placeholder: 'Unesite Vaše prezime' })
+	                                            'label',
+	                                            { 'for': 'lastName' },
+	                                            'Prezime'
 	                                        )
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'col-lg-10' },
+	                                        _react2.default.createElement('input', { type: 'text',
+	                                            className: 'form-control',
+	                                            id: 'lastName',
+	                                            defaultValue: this.props.placeOrderForm.get('lastName'),
+	                                            placeholder: 'Unesite Vaše prezime',
+	                                            onChange: this.placeOrderInputChange })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'row' },
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'col-lg-2' },
+	                                        _react2.default.createElement(
+	                                            'label',
+	                                            { 'for': 'address' },
+	                                            'Adresa'
+	                                        )
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'col-lg-10' },
+	                                        _react2.default.createElement('input', { type: 'text',
+	                                            className: 'form-control',
+	                                            id: 'address',
+	                                            defaultValue: this.props.placeOrderForm.get('address'),
+	                                            placeholder: 'Vaša adresa (dostava samo unutar grada Sarajevo)',
+	                                            onChange: this.placeOrderInputChange })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'row' },
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'col-lg-2' },
+	                                        _react2.default.createElement(
+	                                            'label',
+	                                            { 'for': 'eMail' },
+	                                            'e-mail'
+	                                        )
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'col-lg-10' },
+	                                        _react2.default.createElement('input', { type: 'text',
+	                                            className: 'form-control',
+	                                            id: 'eMail',
+	                                            defaultValue: this.props.placeOrderForm.get('eMail'),
+	                                            placeholder: 'Vaša e-mail adresa na koju će da stigne potvrda o narudžbi',
+	                                            onChange: this.placeOrderInputChange })
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'row' },
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'col-lg-2' },
+	                                        _react2.default.createElement(
+	                                            'label',
+	                                            { 'for': 'eMailConfirm' },
+	                                            'e-mail'
+	                                        )
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'col-lg-10' },
+	                                        _react2.default.createElement('input', { type: 'text',
+	                                            className: 'form-control',
+	                                            id: 'eMailConfirm',
+	                                            defaultValue: this.props.placeOrderForm.get('eMailConfirm'),
+	                                            placeholder: 'Ponovite vašu e-mail adresu',
+	                                            onChange: this.placeOrderInputChange })
 	                                    )
 	                                )
 	                            )
@@ -36911,7 +36996,21 @@
 	    return PlaceOrderDialogView;
 	}(_react.Component);
 
-	var PlaceOrderDialog = (0, _reactRedux.connect)()(PlaceOrderDialogView);
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	    return {
+	        placeOrderForm: state.placeOrderForm
+	    };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	    return {
+	        updatePlaceOrderForm: function updatePlaceOrderForm(input) {
+	            dispatch((0, _actions.updatePlaceOrderFormAction)(input));
+	        }
+	    };
+	};
+
+	var PlaceOrderDialog = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PlaceOrderDialogView);
 	exports.default = PlaceOrderDialog;
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "placeOrderDialog.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
@@ -39620,12 +39719,17 @@
 
 	var _cartReducer2 = _interopRequireDefault(_cartReducer);
 
+	var _placeOrderFormReducer = __webpack_require__(598);
+
+	var _placeOrderFormReducer2 = _interopRequireDefault(_placeOrderFormReducer);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var MainReducer = (0, _redux.combineReducers)({
 	    routing: _reactRouterRedux.routerReducer,
 	    activeTopNavbarItem: _activeTopNavbarItemReducer2.default,
-	    cart: _cartReducer2.default
+	    cart: _cartReducer2.default,
+	    placeOrderForm: _placeOrderFormReducer2.default
 
 	});
 
@@ -39734,22 +39838,52 @@
 /* 598 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(599);
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _actions = __webpack_require__(555);
+
+	var placeOrderFormReducer = function placeOrderFormReducer() {
+	    var placeOrderFormState = arguments.length <= 0 || arguments[0] === undefined ? new Map() : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case _actions.UPDATE_PLACE_ORDER_FORM_ACTION:
+	            return new Map(placeOrderFormState.set(action.input.id, action.input.value));
+	        default:
+	            return placeOrderFormState;
+	    }
+	};
+
+	exports.default = placeOrderFormReducer;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "placeOrderFormReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
 /* 599 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__(600);
+
+/***/ },
+/* 600 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
-	var defaults = __webpack_require__(600);
-	var utils = __webpack_require__(601);
-	var dispatchRequest = __webpack_require__(602);
-	var InterceptorManager = __webpack_require__(611);
-	var isAbsoluteURL = __webpack_require__(612);
-	var combineURLs = __webpack_require__(613);
-	var bind = __webpack_require__(614);
-	var transformData = __webpack_require__(606);
+	var defaults = __webpack_require__(601);
+	var utils = __webpack_require__(602);
+	var dispatchRequest = __webpack_require__(603);
+	var InterceptorManager = __webpack_require__(612);
+	var isAbsoluteURL = __webpack_require__(613);
+	var combineURLs = __webpack_require__(614);
+	var bind = __webpack_require__(615);
+	var transformData = __webpack_require__(607);
 
 	function Axios(defaultConfig) {
 	  this.defaults = utils.merge({}, defaultConfig);
@@ -39835,7 +39969,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(615);
+	axios.spread = __webpack_require__(616);
 
 	// Provide aliases for supported request methods
 	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
@@ -39863,12 +39997,12 @@
 
 
 /***/ },
-/* 600 */
+/* 601 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(601);
+	var utils = __webpack_require__(602);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -39935,7 +40069,7 @@
 
 
 /***/ },
-/* 601 */
+/* 602 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40207,7 +40341,7 @@
 
 
 /***/ },
-/* 602 */
+/* 603 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -40229,10 +40363,10 @@
 	        adapter = config.adapter;
 	      } else if (typeof XMLHttpRequest !== 'undefined') {
 	        // For browsers use XHR adapter
-	        adapter = __webpack_require__(603);
+	        adapter = __webpack_require__(604);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        adapter = __webpack_require__(603);
+	        adapter = __webpack_require__(604);
 	      }
 
 	      if (typeof adapter === 'function') {
@@ -40248,18 +40382,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(295)))
 
 /***/ },
-/* 603 */
+/* 604 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(601);
-	var buildURL = __webpack_require__(604);
-	var parseHeaders = __webpack_require__(605);
-	var transformData = __webpack_require__(606);
-	var isURLSameOrigin = __webpack_require__(607);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(608);
-	var settle = __webpack_require__(609);
+	var utils = __webpack_require__(602);
+	var buildURL = __webpack_require__(605);
+	var parseHeaders = __webpack_require__(606);
+	var transformData = __webpack_require__(607);
+	var isURLSameOrigin = __webpack_require__(608);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(609);
+	var settle = __webpack_require__(610);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  var requestData = config.data;
@@ -40356,7 +40490,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(610);
+	    var cookies = __webpack_require__(611);
 
 	    // Add xsrf header
 	    var xsrfValue = config.withCredentials || isURLSameOrigin(config.url) ?
@@ -40417,12 +40551,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(295)))
 
 /***/ },
-/* 604 */
+/* 605 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(601);
+	var utils = __webpack_require__(602);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -40490,12 +40624,12 @@
 
 
 /***/ },
-/* 605 */
+/* 606 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(601);
+	var utils = __webpack_require__(602);
 
 	/**
 	 * Parse headers into an object
@@ -40533,12 +40667,12 @@
 
 
 /***/ },
-/* 606 */
+/* 607 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(601);
+	var utils = __webpack_require__(602);
 
 	/**
 	 * Transform the data for a request or a response
@@ -40559,12 +40693,12 @@
 
 
 /***/ },
-/* 607 */
+/* 608 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(601);
+	var utils = __webpack_require__(602);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -40633,7 +40767,7 @@
 
 
 /***/ },
-/* 608 */
+/* 609 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40675,7 +40809,7 @@
 
 
 /***/ },
-/* 609 */
+/* 610 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40699,12 +40833,12 @@
 
 
 /***/ },
-/* 610 */
+/* 611 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(601);
+	var utils = __webpack_require__(602);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -40758,12 +40892,12 @@
 
 
 /***/ },
-/* 611 */
+/* 612 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(601);
+	var utils = __webpack_require__(602);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -40816,7 +40950,7 @@
 
 
 /***/ },
-/* 612 */
+/* 613 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40836,7 +40970,7 @@
 
 
 /***/ },
-/* 613 */
+/* 614 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40854,7 +40988,7 @@
 
 
 /***/ },
-/* 614 */
+/* 615 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -40871,7 +41005,7 @@
 
 
 /***/ },
-/* 615 */
+/* 616 */
 /***/ function(module, exports) {
 
 	'use strict';
