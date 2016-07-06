@@ -67,9 +67,16 @@ class ProductDetailView extends Component {
                         </div>
                         <div className="control-container col-lg-4 no-padding">
                             <div className="row">
-                                <button type="submit" className="btn btn-success">
-                                    <i className="fa fa-cart-plus"/> Dodaj u korpu
-                                </button>
+                                {
+                                    this.props.cartId ?
+                                        <button type="submit" className="btn btn-success">
+                                            <i className="fa fa-cart-plus"/> Dodaj u korpu
+                                        </button>
+                                    :
+                                        <button type="submit" disabled="disabled" className="btn btn-disabled">
+                                            <i className="fa fa-cart-plus"/> Dodaj u korpu
+                                        </button>
+                                }
                             </div>
                         </div>
                     </form>

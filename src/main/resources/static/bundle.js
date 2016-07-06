@@ -35627,17 +35627,20 @@
 	};
 
 	var asyncGetSessionAction = exports.asyncGetSessionAction = function asyncGetSessionAction(dispatch) {
+	    var onSessionReceived = function onSessionReceived(session) {
+	        dispatch(receiveSessionAction(session));
+	        asyncGetCartAction(dispatch, session.id);
+	    };
 	    var currentSession = _jsCookie2.default.getJSON('tazeSession');
 	    if (currentSession === undefined) {
 	        _axios2.default.get(_constants.API_ENDPOINT + '/session').then(function (res) {
 	            var session = res.data;
 	            _jsCookie2.default.set('tazeSession', session, { path: '/', expires: 1 });
-	            return session;
-	        }).then(function (session) {
-	            dispatch(receiveSessionAction(session));
-	            asyncGetCartAction(dispatch, session.id);
+	            onSessionReceived(session);
 	        });
-	    } else dispatch(receiveSessionAction(currentSession));
+	    } else {
+	        onSessionReceived(currentSession);
+	    }
 	};
 
 	var receiveSessionAction = function receiveSessionAction(session) {
@@ -35648,7 +35651,7 @@
 	};
 
 	var asyncGetCartAction = exports.asyncGetCartAction = function asyncGetCartAction(dispatch, sessionId) {
-	    _axios2.default.get(_constants.API_ENDPOINT + ('/cart/' + sessionId)).then(function (res) {
+	    _axios2.default.get(_constants.API_ENDPOINT + ('/cart?sessionId=' + sessionId)).then(function (res) {
 	        return dispatch(receiveCartAction(res.data));
 	    });
 	};
@@ -40657,9 +40660,14 @@
 	                            _react2.default.createElement(
 	                                'div',
 	                                { className: 'row' },
-	                                _react2.default.createElement(
+	                                this.props.cartId ? _react2.default.createElement(
 	                                    'button',
 	                                    { type: 'submit', className: 'btn btn-success' },
+	                                    _react2.default.createElement('i', { className: 'fa fa-cart-plus' }),
+	                                    ' Dodaj u korpu'
+	                                ) : _react2.default.createElement(
+	                                    'button',
+	                                    { type: 'submit', disabled: 'disabled', className: 'btn btn-disabled' },
 	                                    _react2.default.createElement('i', { className: 'fa fa-cart-plus' }),
 	                                    ' Dodaj u korpu'
 	                                )

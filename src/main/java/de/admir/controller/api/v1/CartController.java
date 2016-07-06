@@ -22,8 +22,8 @@ public class CartController {
         cart.setId(UUID.randomUUID());
     }
 
-    @RequestMapping(path = "/cart/{sessionId}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<CartDto> getCartBySessionId(@PathVariable String sessionId) {
+    @RequestMapping(path = "/cart", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<CartDto> getCartBySessionId(@RequestParam String sessionId) {
         return ResponseEntity.ok(CartFacade.getCartBySession(new Session(sessionId)));
     }
 

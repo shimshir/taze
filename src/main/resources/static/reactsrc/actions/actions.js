@@ -18,20 +18,21 @@ export const changeActiveTopNavbarItemAction = (topNavbarItem) => {
 };
 
 export const asyncGetSessionAction = (dispatch) => {
+    const onSessionReceived = (session) => {
+        dispatch(receiveSessionAction(session));
+        asyncGetCartAction(dispatch, session.id);
+    };
     const currentSession = Cookies.getJSON('tazeSession');
     if (currentSession === undefined) {
         axios.get(API_ENDPOINT + '/session')
             .then(res => {
                 const session = res.data;
                 Cookies.set('tazeSession', session, { path: '/', expires: 1 });
-                return session;
-            })
-            .then(session => {
-                dispatch(receiveSessionAction(session));
-                asyncGetCartAction(dispatch, session.id);
+                onSessionReceived(session);
             });
-    } else
-        dispatch(receiveSessionAction(currentSession));
+    } else {
+        onSessionReceived(currentSession);
+    }
 };
 
 const receiveSessionAction = (session) => {
@@ -42,7 +43,7 @@ const receiveSessionAction = (session) => {
 };
 
 export const asyncGetCartAction = (dispatch, sessionId) => {
-    axios.get(API_ENDPOINT + `/cart/${sessionId}`)
+    axios.get(API_ENDPOINT + `/cart?sessionId=${sessionId}`)
         .then(res => dispatch(receiveCartAction(res.data)));
 };
 
