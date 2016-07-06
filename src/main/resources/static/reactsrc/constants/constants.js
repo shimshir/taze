@@ -71,4 +71,4 @@ export const HORSE = {
     listImage: '/img/products/horse-list.jpg'
 };
 
-export const API_ENDPOINT = "http://localhost:8080/api/v1";
+export const API_ENDPOINT = "https://taze.herokuapp.com/api/v1";
