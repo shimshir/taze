@@ -6,14 +6,14 @@ const privateEntryReducer = (entriesState = [], action) => {
           return [...entriesState, action.entry];
       case REMOVE_CART_ENTRY_ACTION:
           return entriesState
-              .reduce((acc, entry, index) => {
-                  index != action.entryIndex ? acc.push(entry) : acc;
+              .reduce((acc, entry) => {
+                  entry.id != action.entryId ? acc.push(entry) : acc;
                   return acc;
               }, []);
       case UPDATE_CART_ENTRY_AMOUNT_ACTION:
           return entriesState
-              .map((entry, index) => {
-                 if (index === action.entryIndex)
+              .map(entry => {
+                 if (entry.id === action.entryId)
                      return {...entry, amount: action.amount};
                   else
                      return entry;

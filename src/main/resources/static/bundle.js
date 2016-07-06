@@ -35597,7 +35597,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.updatePlaceOrderFormAction = exports.updateCartEntryAmountAction = exports.removeCartEntryAction = exports.asyncAddToCartAction = exports.asyncGetCartAction = exports.asyncGetSessionAction = exports.changeActiveTopNavbarItemAction = exports.RECEIVE_CART_ACTION = exports.RECEIVE_SESSION_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.REMOVE_CART_ENTRY_ACTION = exports.ADD_TO_CART_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = undefined;
+	exports.updatePlaceOrderFormAction = exports.updateCartEntryAmountAction = exports.asyncRemoveCartEntryAction = exports.asyncAddToCartAction = exports.asyncGetCartAction = exports.asyncGetSessionAction = exports.changeActiveTopNavbarItemAction = exports.RECEIVE_CART_ACTION = exports.RECEIVE_SESSION_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.REMOVE_CART_ENTRY_ACTION = exports.ADD_TO_CART_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = undefined;
 
 	var _axios = __webpack_require__(551);
 
@@ -35676,17 +35676,22 @@
 	    };
 	};
 
-	var removeCartEntryAction = exports.removeCartEntryAction = function removeCartEntryAction(entryIndex) {
+	var asyncRemoveCartEntryAction = exports.asyncRemoveCartEntryAction = function asyncRemoveCartEntryAction(dispatch, cartId, entryId) {
+	    dispatch(removeCartEntryAction(entryId));
+	    _axios2.default.delete(_constants.API_ENDPOINT + ('/cart/' + cartId + '/entries/' + entryId));
+	};
+
+	var removeCartEntryAction = function removeCartEntryAction(entryId) {
 	    return {
 	        type: REMOVE_CART_ENTRY_ACTION,
-	        entryIndex: entryIndex
+	        entryId: entryId
 	    };
 	};
 
-	var updateCartEntryAmountAction = exports.updateCartEntryAmountAction = function updateCartEntryAmountAction(entryIndex, amount) {
+	var updateCartEntryAmountAction = exports.updateCartEntryAmountAction = function updateCartEntryAmountAction(entryId, amount) {
 	    return {
 	        type: UPDATE_CART_ENTRY_AMOUNT_ACTION,
-	        entryIndex: entryIndex,
+	        entryId: entryId,
 	        amount: amount
 	    };
 	};
@@ -37857,8 +37862,6 @@
 
 	var _reactRedux = __webpack_require__(466);
 
-	var _actions = __webpack_require__(550);
-
 	var _entry = __webpack_require__(583);
 
 	var _entry2 = _interopRequireDefault(_entry);
@@ -37879,19 +37882,9 @@
 	    _inherits(EntriesView, _Component);
 
 	    function EntriesView() {
-	        var _Object$getPrototypeO;
-
-	        var _temp, _this, _ret;
-
 	        _classCallCheck(this, EntriesView);
 
-	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	            args[_key] = arguments[_key];
-	        }
-
-	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(EntriesView)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.removeCartEntry = function (index) {
-	            _this.props.removeFromCart(index);
-	        }, _temp), _possibleConstructorReturn(_this, _ret);
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(EntriesView).apply(this, arguments));
 	    }
 
 	    _createClass(EntriesView, [{
@@ -37908,11 +37901,11 @@
 	                this.props.entries ? _react2.default.createElement(
 	                    'ul',
 	                    { className: 'list-group' },
-	                    this.props.entries.map(function (entry, eIndex) {
+	                    this.props.entries.map(function (entry) {
 	                        return _react2.default.createElement(
 	                            'li',
-	                            { key: eIndex, className: 'list-group-item' },
-	                            _react2.default.createElement(_entry2.default, { entry: entry, index: eIndex })
+	                            { key: entry.id, className: 'list-group-item' },
+	                            _react2.default.createElement(_entry2.default, { entry: entry })
 	                        );
 	                    })
 	                ) : null,
@@ -37954,15 +37947,7 @@
 	    };
 	};
 
-	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-	    return {
-	        removeFromCart: function removeFromCart(entryIndex) {
-	            dispatch((0, _actions.removeFromCartAction)(entryIndex));
-	        }
-	    };
-	};
-
-	var Entries = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EntriesView);
+	var Entries = (0, _reactRedux.connect)(mapStateToProps, undefined)(EntriesView);
 	exports.default = Entries;
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "entries.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
@@ -37996,8 +37981,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var EntryView = function EntryView(_ref) {
+	    var cart = _ref.cart;
 	    var entry = _ref.entry;
-	    var index = _ref.index;
 	    var removeCartEntry = _ref.removeCartEntry;
 	    var updateEntryAmount = _ref.updateEntryAmount;
 
@@ -38058,7 +38043,7 @@
 	                    _react2.default.createElement(
 	                        'span',
 	                        { className: 'pseudo-anchor', onClick: function onClick() {
-	                                return removeCartEntry(index);
+	                                return removeCartEntry(cart.id, entry.id);
 	                            } },
 	                        'Izbaci'
 	                    )
@@ -38087,7 +38072,7 @@
 	                        unitCode: entry.product.unitCode,
 	                        selectedValue: entry.amount,
 	                        onChange: function onChange(event) {
-	                            return updateEntryAmount(index, event.target.value);
+	                            return updateEntryAmount(entry.id, event.target.value);
 	                        }
 	                    })
 	                )
@@ -38097,22 +38082,27 @@
 	};
 
 	EntryView.PropTypes = {
-	    entry: _react2.default.PropTypes.object.isRequired,
-	    index: _react2.default.PropTypes.number.isRequired
+	    entry: _react2.default.PropTypes.object.isRequired
+	};
+
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	    return {
+	        cart: state.cart
+	    };
 	};
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	    return {
-	        removeCartEntry: function removeCartEntry(entryIndex) {
-	            dispatch((0, _actions.removeCartEntryAction)(entryIndex));
+	        removeCartEntry: function removeCartEntry(cartId, entryId) {
+	            (0, _actions.asyncRemoveCartEntryAction)(dispatch, cartId, entryId);
 	        },
-	        updateEntryAmount: function updateEntryAmount(entryIndex, amount) {
-	            dispatch((0, _actions.updateCartEntryAmountAction)(entryIndex, amount));
+	        updateEntryAmount: function updateEntryAmount(entryId, amount) {
+	            dispatch((0, _actions.updateCartEntryAmountAction)(entryId, amount));
 	        }
 	    };
 	};
 
-	var Entry = (0, _reactRedux.connect)(undefined, mapDispatchToProps)(EntryView);
+	var Entry = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EntryView);
 	exports.default = Entry;
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "entry.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
@@ -41253,13 +41243,13 @@
 	        case _actions.ADD_TO_CART_ACTION:
 	            return [].concat(_toConsumableArray(entriesState), [action.entry]);
 	        case _actions.REMOVE_CART_ENTRY_ACTION:
-	            return entriesState.reduce(function (acc, entry, index) {
-	                index != action.entryIndex ? acc.push(entry) : acc;
+	            return entriesState.reduce(function (acc, entry) {
+	                entry.id != action.entryId ? acc.push(entry) : acc;
 	                return acc;
 	            }, []);
 	        case _actions.UPDATE_CART_ENTRY_AMOUNT_ACTION:
-	            return entriesState.map(function (entry, index) {
-	                if (index === action.entryIndex) return _extends({}, entry, { amount: action.amount });else return entry;
+	            return entriesState.map(function (entry) {
+	                if (entry.id === action.entryId) return _extends({}, entry, { amount: action.amount });else return entry;
 	            });
 	        default:
 	            return entriesState;

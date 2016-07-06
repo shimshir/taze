@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {removeCartEntryAction, updateCartEntryAmountAction} from '../../actions/actions.js'
+import {asyncRemoveCartEntryAction, updateCartEntryAmountAction} from '../../actions/actions.js'
 import AmountSelect from '../common/amountSelect.js';
 import {Link} from 'react-router';
 
-const EntryView = ({ entry, index, removeCartEntry, updateEntryAmount }) => {
+const EntryView = ({ cart, entry, removeCartEntry, updateEntryAmount }) => {
     return (
         <div className="row">
             <div className="col-lg-2">
@@ -26,7 +26,7 @@ const EntryView = ({ entry, index, removeCartEntry, updateEntryAmount }) => {
                     <div className="col-lg-4">
                         <small>{entry.product.footnote}</small>
                         <br/>
-                        <span className="pseudo-anchor" onClick={() => removeCartEntry(index)}>Izbaci</span>
+                        <span className="pseudo-anchor" onClick={() => removeCartEntry(cart.id, entry.id)}>Izbaci</span>
                     </div>
                     <div className="col-lg-4">
                         <span className="price-value"><b>{entry.product.pricePerUnit * entry.amount} KM</b></span>
@@ -36,7 +36,7 @@ const EntryView = ({ entry, index, removeCartEntry, updateEntryAmount }) => {
                                       amounts={new Array(30).fill(1).map((_, i) => i + 1)}
                                       unitCode={entry.product.unitCode}
                                       selectedValue={entry.amount}
-                                      onChange={(event) => updateEntryAmount(index, event.target.value)}
+                                      onChange={(event) => updateEntryAmount(entry.id, event.target.value)}
                         />
                     </div>
                 </div>
@@ -46,20 +46,25 @@ const EntryView = ({ entry, index, removeCartEntry, updateEntryAmount }) => {
 };
 
 EntryView.PropTypes = {
-    entry: React.PropTypes.object.isRequired,
-    index: React.PropTypes.number.isRequired
+    entry: React.PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        cart: state.cart
+    }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        removeCartEntry: (entryIndex) => {
-            dispatch(removeCartEntryAction(entryIndex));
+        removeCartEntry: (cartId, entryId) => {
+            asyncRemoveCartEntryAction(dispatch, cartId, entryId);
         },
-        updateEntryAmount: (entryIndex, amount) => {
-            dispatch(updateCartEntryAmountAction(entryIndex, amount));
+        updateEntryAmount: (entryId, amount) => {
+            dispatch(updateCartEntryAmountAction(entryId, amount));
         }
     }
 };
 
-const Entry = connect(undefined, mapDispatchToProps)(EntryView);
+const Entry = connect(mapStateToProps, mapDispatchToProps)(EntryView);
 export default Entry;

@@ -66,17 +66,22 @@ const addToCartAction = (entry) => {
     }
 };
 
-export const removeCartEntryAction = (entryIndex) => {
+export const asyncRemoveCartEntryAction = (dispatch, cartId, entryId) => {
+    dispatch(removeCartEntryAction(entryId));
+    axios.delete(API_ENDPOINT + `/cart/${cartId}/entries/${entryId}`);
+};
+
+const removeCartEntryAction = (entryId) => {
     return {
         type: REMOVE_CART_ENTRY_ACTION,
-        entryIndex
+        entryId
     }
 };
 
-export const updateCartEntryAmountAction = (entryIndex, amount) => {
+export const updateCartEntryAmountAction = (entryId, amount) => {
     return {
         type: UPDATE_CART_ENTRY_AMOUNT_ACTION,
-        entryIndex,
+        entryId,
         amount
     }
 };

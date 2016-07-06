@@ -38,4 +38,13 @@ public class CartEntryDto {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+
+    @Override
+    public String toString() {
+        return "CartEntryDto{" +
+                "id=" + id +
+                ", productCode=" + product.getCode() +
+                ", amount=" + amount +
+                '}';
+    }
 }

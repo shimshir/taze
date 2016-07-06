@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {removeFromCartAction} from '../../actions/actions.js'
 import Entry from './entry.js';
 import PlaceOrderDialog from './placeOrderDialog.js';
 
@@ -8,19 +7,15 @@ class EntriesView extends Component {
     componentWillMount() {
         console.log('cart entries mounted');
     }
-
-    removeCartEntry = (index) => {
-        this.props.removeFromCart(index);
-    };
     
     render() {
         return (
             <div className="cart-entries-container">
                 {this.props.entries ? 
                     <ul className="list-group">
-                        {this.props.entries.map((entry, eIndex) =>
-                            <li key={eIndex} className="list-group-item">
-                                <Entry entry={entry} index={eIndex}/>
+                        {this.props.entries.map(entry =>
+                            <li key={entry.id} className="list-group-item">
+                                <Entry entry={entry} />
                             </li>
                         )}
                     </ul>
@@ -49,13 +44,5 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        removeFromCart: (entryIndex) => {
-            dispatch(removeFromCartAction(entryIndex));
-        }
-    }
-};
-
-const Entries = connect(mapStateToProps, mapDispatchToProps)(EntriesView);
+const Entries = connect(mapStateToProps, undefined)(EntriesView);
 export default Entries;

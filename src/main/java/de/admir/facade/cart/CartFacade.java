@@ -6,10 +6,8 @@ import de.admir.model.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CartFacade {
     private static final Logger LOG = LoggerFactory.getLogger(CartFacade.class);
@@ -28,14 +26,35 @@ public class CartFacade {
         }
     }
 
-    public static void addToCart(String cartUuid, CartEntryDto entry) {
-        Optional<Boolean> result = cartMap.values().stream()
-                .filter(cart -> UUID.fromString(cartUuid).equals(cart.getId()))
-                .findFirst()
+    public static CartEntryDto addToCart(String cartId, CartEntryDto entry) {
+        entry.setId(UUID.randomUUID());
+        Optional<Boolean> result = getCartById(cartId)
                 .map(cart -> cart.getEntries().add(entry));
         if (result.orElse(false))
-            LOG.info("Entry added to cart.");
+            LOG.info("Cart entry {} added to cart.", entry);
         else
-            LOG.error("Cart entry was not added!");
+            LOG.error("Cart entry {} was not added!", entry);
+        return entry;
+    }
+
+    public static void removeFromCart(String cartId, String entryId) {
+        Optional<CartDto> cartDtoOpt = getCartById(cartId);
+        if (cartDtoOpt.isPresent()) {
+            cartDtoOpt.get().setEntries(
+                    cartDtoOpt.get().getEntries().stream()
+                            .filter(entry -> !UUID.fromString(entryId).equals(entry.getId()))
+                            .collect(Collectors.toList())
+            );
+        }
+    }
+
+    private static Optional<CartDto> getCartById(String cartId) {
+        List<CartDto> filteredCarts = cartMap.values().stream()
+                .filter(cart -> UUID.fromString(cartId).equals(cart.getId()))
+                .collect(Collectors.toList());
+        if (filteredCarts.size() > 1)
+            throw new IllegalArgumentException("CartId must be unique!");
+        else
+            return filteredCarts.size() != 0 ? Optional.of(filteredCarts.get(0)) : Optional.empty();
     }
 }
