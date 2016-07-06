@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
     }
 };
-console.log({...changeActiveTopNavbarItemDispatchMapping});
+
 const Cart = connect(mapStateToProps, (dispatch, ownProps) => {
     return {...mapDispatchToProps(dispatch, ownProps), ...changeActiveTopNavbarItemDispatchMapping(dispatch, ownProps)}
 })(CartView);

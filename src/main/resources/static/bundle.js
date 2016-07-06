@@ -37826,7 +37826,7 @@
 	        }
 	    };
 	};
-	console.log(_extends({}, _commonMappings.changeActiveTopNavbarItemDispatchMapping));
+
 	var Cart = (0, _reactRedux.connect)(mapStateToProps, function (dispatch, ownProps) {
 	    return _extends({}, mapDispatchToProps(dispatch, ownProps), (0, _commonMappings.changeActiveTopNavbarItemDispatchMapping)(dispatch, ownProps));
 	})(CartView);
