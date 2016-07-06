@@ -1,41 +1,37 @@
-import { ADD_TO_CART_ACTION, REMOVE_CART_ENTRY_ACTION, UPDATE_CART_ENTRY_AMOUNT_ACTION } from '../actions/actions.js';
+import { RECEIVE_CART_ACTION, ADD_TO_CART_ACTION, REMOVE_CART_ENTRY_ACTION, UPDATE_CART_ENTRY_AMOUNT_ACTION } from '../actions/actions.js';
 
-const privateCartEntryReducer = (cartEntriesState = [], action) => {
+const privateEntryReducer = (entriesState = [], action) => {
   switch (action.type) {
       case ADD_TO_CART_ACTION:
-          return [...cartEntriesState, action.cartEntry];
+          return [...entriesState, action.entry];
       case REMOVE_CART_ENTRY_ACTION:
-          return cartEntriesState
+          return entriesState
               .reduce((acc, entry, index) => {
-                  index != action.cartEntryIndex ? acc.push(entry) : acc;
+                  index != action.entryIndex ? acc.push(entry) : acc;
                   return acc;
               }, []);
       case UPDATE_CART_ENTRY_AMOUNT_ACTION:
-          return cartEntriesState
-              .map((cartEntry, index) => {
-                 if (index === action.cartEntryIndex) {
-                     return {...cartEntry, amount: action.amount};
-                 }
+          return entriesState
+              .map((entry, index) => {
+                 if (index === action.entryIndex)
+                     return {...entry, amount: action.amount};
                   else
-                     return cartEntry;
+                     return entry;
               });
       default:
-          return cartEntriesState;
+          return entriesState;
   }
 };
 
-//TODO: Remove stub entries
-import {CHICKEN, HONEY} from '../constants/constants.js';
-const stubEntries = [{product: CHICKEN, amount: 3}, {product: HONEY, amount: 5}, {product: CHICKEN, amount: 1}];
-//
-
-const cartReducer = (cartState = {cartEntries: stubEntries}, action) => {
+const cartReducer = (cartState = {entries: []}, action) => {
     switch (action.type) {
+        case RECEIVE_CART_ACTION:
+            return action.cart;
         case ADD_TO_CART_ACTION:
         case REMOVE_CART_ENTRY_ACTION:
         case UPDATE_CART_ENTRY_AMOUNT_ACTION:
-            const cartEntries = privateCartEntryReducer(cartState.cartEntries, action);
-            return {...cartState, cartEntries};
+            const entries = privateEntryReducer(cartState.entries, action);
+            return {...cartState, entries};
         default:
             return cartState;
     }

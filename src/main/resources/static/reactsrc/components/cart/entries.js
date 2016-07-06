@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {removeFromCartAction} from '../../actions/actions.js'
-import CartEntry from './cartEntry.js';
+import Entry from './entry.js';
 import PlaceOrderDialog from './placeOrderDialog.js';
 
-class CartEntriesView extends Component {
+class EntriesView extends Component {
     componentWillMount() {
-        console.log('cartEntries mounted');
+        console.log('cart entries mounted');
     }
 
     removeCartEntry = (index) => {
@@ -18,9 +18,9 @@ class CartEntriesView extends Component {
             <div className="cart-entries-container">
                 {this.props.entries ? 
                     <ul className="list-group">
-                        {this.props.entries.map((cartEntry, ceIndex) =>
-                            <li key={ceIndex} className="list-group-item">
-                                <CartEntry entry={cartEntry} index={ceIndex}/>
+                        {this.props.entries.map((entry, eIndex) =>
+                            <li key={eIndex} className="list-group-item">
+                                <Entry entry={entry} index={eIndex}/>
                             </li>
                         )}
                     </ul>
@@ -37,13 +37,13 @@ class CartEntriesView extends Component {
     }
 }
 
-CartEntriesView.propTypes = {
+EntriesView.propTypes = {
     entries: React.PropTypes.array
 };
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        totalCartValue: state.cart.cartEntries
+        totalCartValue: state.cart.entries
             .map(entry => entry.amount * entry.product.pricePerUnit)
             .reduce((sum, priceValue) => sum + priceValue, 0)
     }
@@ -51,11 +51,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        removeFromCart: (cartEntryIndex) => {
-            dispatch(removeFromCartAction(cartEntryIndex));
+        removeFromCart: (entryIndex) => {
+            dispatch(removeFromCartAction(entryIndex));
         }
     }
 };
 
-const CartEntries = connect(mapStateToProps, mapDispatchToProps)(CartEntriesView);
-export default CartEntries;
+const Entries = connect(mapStateToProps, mapDispatchToProps)(EntriesView);
+export default Entries;

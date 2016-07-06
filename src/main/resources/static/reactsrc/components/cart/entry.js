@@ -4,7 +4,7 @@ import {removeCartEntryAction, updateCartEntryAmountAction} from '../../actions/
 import AmountSelect from '../common/amountSelect.js';
 import {Link} from 'react-router';
 
-const CartEntryView = ({ entry, index, removeCartEntry, updateEntryAmount }) => {
+const EntryView = ({ entry, index, removeCartEntry, updateEntryAmount }) => {
     return (
         <div className="row">
             <div className="col-lg-2">
@@ -45,21 +45,21 @@ const CartEntryView = ({ entry, index, removeCartEntry, updateEntryAmount }) => 
     );
 };
 
-CartEntryView.PropTypes = {
+EntryView.PropTypes = {
     entry: React.PropTypes.object.isRequired,
     index: React.PropTypes.number.isRequired
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        removeCartEntry: (cartEntryIndex) => {
-            dispatch(removeCartEntryAction(cartEntryIndex));
+        removeCartEntry: (entryIndex) => {
+            dispatch(removeCartEntryAction(entryIndex));
         },
-        updateEntryAmount: (cartEntryIndex, amount) => {
-            dispatch(updateCartEntryAmountAction(cartEntryIndex, amount));
+        updateEntryAmount: (entryIndex, amount) => {
+            dispatch(updateCartEntryAmountAction(entryIndex, amount));
         }
     }
 };
 
-const CartEntry = connect(undefined, mapDispatchToProps)(CartEntryView);
-export default CartEntry;
+const Entry = connect(undefined, mapDispatchToProps)(EntryView);
+export default Entry;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {addToCartAction} from '../../../actions/actions.js';
+import {asyncAddToCartAction} from '../../../actions/actions.js';
 import AmountSelect from '../../common/amountSelect.js';
 
 class ProductDetailView extends Component {
@@ -8,7 +8,7 @@ class ProductDetailView extends Component {
 
     state = {
         totalPrice: this.props.product.pricePerUnit,
-        cartEntry: {
+        entry: {
             product: this.props.product,
             amount: 1
         }
@@ -17,7 +17,7 @@ class ProductDetailView extends Component {
     handleAmountChange = (event) => {
         this.setState({
             totalPrice: this.props.product.pricePerUnit * event.target.value,
-            cartEntry: {
+            entry: {
                 product: this.props.product,
                 amount: event.target.value
             }
@@ -26,7 +26,7 @@ class ProductDetailView extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.addToCart(this.state.cartEntry);
+        this.props.addToCart(this.props.cartId, this.state.entry);
     };
 
     componentWillMount() {
@@ -84,13 +84,19 @@ ProductDetailView.propTypes = {
     imageSrc: React.PropTypes.string.isRequired
 };
 
+const mapStateToProps = (state, ownProps) => {
+    return {
+        cartId: state.cart.id
+    }
+};
+
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        addToCart: (cartEntry) => {
-            dispatch(addToCartAction(cartEntry));
+        addToCart: (cartId, entry) => {
+            asyncAddToCartAction(dispatch, cartId, entry);
         }
     }
 };
 
-const ProductDetail = connect(undefined, mapDispatchToProps)(ProductDetailView);
+const ProductDetail = connect(mapStateToProps, mapDispatchToProps)(ProductDetailView);
 export default ProductDetail;

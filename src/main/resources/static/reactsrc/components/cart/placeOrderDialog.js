@@ -21,7 +21,7 @@ const modalStyle = {
 };
 
 class PlaceOrderDialogView extends Component {
-    state = {modalIsOpen: true};
+    state = {modalIsOpen: false};
     
     openModal = () => {
         this.setState({modalIsOpen: true});

@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import Stage from '../stage/stage.js';
 import ContentContainer from '../common/contentContainer.js';
 import {changeActiveTopNavbarItemDispatchMapping} from '../common/commonMappings.js';
-import CartEntries from './cartEntries.js';
+import Entries from './entries.js';
+import {asyncGetCartAction} from '../../actions/actions.js';
 
 class CartView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('cart');
-        //TODO: Fetch cart from backend
+        if (this.props.sessionId)
+            this.props.getCart(this.props.sessionId);
     }
 
     render() {
@@ -16,7 +18,7 @@ class CartView extends Component {
             <div>
                 <Stage headerText="Korpa" stageBackgroundClass="cart"/>
                 <ContentContainer>
-                    <CartEntries entries={this.props.cart.cartEntries}/>
+                    <Entries entries={this.props.cart.entries}/>
                 </ContentContainer>
             </div>
         );
@@ -25,9 +27,20 @@ class CartView extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
+        sessionId: state.session.id,
         cart: state.cart
     }
 };
 
-const Cart = connect(mapStateToProps, changeActiveTopNavbarItemDispatchMapping)(CartView);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        getCart: (sessionId) => {
+            asyncGetCartAction(dispatch, sessionId);
+        }
+    }
+};
+console.log({...changeActiveTopNavbarItemDispatchMapping});
+const Cart = connect(mapStateToProps, (dispatch, ownProps) => {
+    return {...mapDispatchToProps(dispatch, ownProps), ...changeActiveTopNavbarItemDispatchMapping(dispatch, ownProps)}
+})(CartView);
 export default Cart;
