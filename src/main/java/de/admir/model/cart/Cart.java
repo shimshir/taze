@@ -1,18 +1,28 @@
 package de.admir.model.cart;
 
+import de.admir.model.session.Session;
+
 import java.util.List;
-import java.util.UUID;
 
 public class Cart {
-    private UUID id;
+    private String uuid;
+    private Session session;
     private List<CartEntry> entries;
 
-    public UUID getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
     }
 
     public List<CartEntry> getEntries() {

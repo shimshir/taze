@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {asyncRemoveCartEntryAction, updateCartEntryAmountAction} from '../../actions/actions.js'
+import {asyncRemoveCartEntryAction, asyncUpdateCartEntryAction} from '../../actions/actions.js'
 import AmountSelect from '../common/amountSelect.js';
 import {Link} from 'react-router';
 
@@ -26,7 +26,7 @@ const EntryView = ({ cart, entry, removeCartEntry, updateEntryAmount }) => {
                     <div className="col-lg-4">
                         <small>{entry.product.footnote}</small>
                         <br/>
-                        <span className="pseudo-anchor" onClick={() => removeCartEntry(cart.id, entry.id)}>Izbaci</span>
+                        <span className="pseudo-anchor" onClick={() => removeCartEntry(entry.id)}>Izbaci</span>
                     </div>
                     <div className="col-lg-4">
                         <span className="price-value"><b>{entry.product.pricePerUnit * entry.amount} KM</b></span>
@@ -36,7 +36,7 @@ const EntryView = ({ cart, entry, removeCartEntry, updateEntryAmount }) => {
                                       amounts={new Array(30).fill(1).map((_, i) => i + 1)}
                                       unitCode={entry.product.unitCode}
                                       selectedValue={entry.amount}
-                                      onChange={(event) => updateEntryAmount(entry.id, event.target.value)}
+                                      onChange={(event) => updateEntryAmount(cart.id, entry, event.target.value)}
                         />
                     </div>
                 </div>
@@ -57,11 +57,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        removeCartEntry: (cartId, entryId) => {
-            asyncRemoveCartEntryAction(dispatch, cartId, entryId);
+        removeCartEntry: (entryId) => {
+            asyncRemoveCartEntryAction(dispatch, entryId);
         },
-        updateEntryAmount: (entryId, amount) => {
-            dispatch(updateCartEntryAmountAction(entryId, amount));
+        updateEntryAmount: (cartId, entry, amount) => {
+            asyncUpdateCartEntryAction(dispatch, cartId, {...entry, amount});
         }
     }
 };

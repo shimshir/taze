@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class ProductDto {
+    @JsonIgnore
+    private UUID id;
     private String code;
     private String name;
     private String listImage;
@@ -13,6 +16,16 @@ public class ProductDto {
     @JsonIgnore
     private BigDecimal pricePerUnit;
     private String unitCode;
+
+    @JsonProperty
+    public UUID getId() {
+        return id;
+    }
+
+    @JsonIgnore
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getCode() {
         return code;

@@ -3,19 +3,18 @@ package de.admir.model.cart;
 
 import de.admir.model.Product;
 
-import java.util.UUID;
-
 public class CartEntry {
-    private UUID id;
+    private String uuid;
     private Product product;
     private int amount;
+    private Cart cart;
 
-    public UUID getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public Product getProduct() {
@@ -32,5 +31,13 @@ public class CartEntry {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

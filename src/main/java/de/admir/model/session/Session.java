@@ -1,31 +1,42 @@
 package de.admir.model.session;
 
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Date;
 import java.util.UUID;
 
-public final class Session {
-    private UUID id;
+public class Session {
+    private String uuid;
+    private Date created;
 
-    private Session() {}
-    private Session(UUID id) {
-        this.id = id;
+    public Session(UUID uuid) {
+        this.uuid = uuid.toString();
+        this.created = new Date(System.currentTimeMillis());
     }
 
-    public Session(String uuid) {
-        this.id = UUID.fromString(uuid);
+    @JsonProperty("id")
+    public String getUuid() {
+        return uuid;
     }
 
-    public static Session createNew() {
-        return new Session(UUID.randomUUID());
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
-    public UUID getId() {
-        return id;
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     @Override
     public String toString() {
         return "Session{" +
-                "id=" + id +
+                "uuid='" + uuid + '\'' +
+                ", created=" + created +
                 '}';
     }
 
@@ -36,12 +47,12 @@ public final class Session {
 
         Session session = (Session) o;
 
-        return id.equals(session.id);
+        return uuid.equals(session.uuid);
 
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return uuid.hashCode();
     }
 }

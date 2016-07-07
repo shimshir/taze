@@ -1,15 +1,12 @@
 package de.admir.controller.api.v1;
 
-import de.admir.facade.cart.CartFacade;
+import de.admir.facade.CartFacade;
 import de.admir.model.cart.CartDto;
 import de.admir.model.cart.CartEntryDto;
-import de.admir.model.session.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 import static de.admir.Constants.API_V1_BASE_PATH;
 
@@ -17,14 +14,10 @@ import static de.admir.Constants.API_V1_BASE_PATH;
 @RequestMapping(path = API_V1_BASE_PATH)
 public class CartController {
     private static final Logger LOG = LoggerFactory.getLogger(CartController.class);
-    private static CartDto cart = new CartDto();
-    static {
-        cart.setId(UUID.randomUUID());
-    }
 
     @RequestMapping(path = "/cart", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<CartDto> getCartBySessionId(@RequestParam String sessionId) {
-        return ResponseEntity.ok(CartFacade.getCartBySession(new Session(sessionId)));
+        return ResponseEntity.ok(CartFacade.getCartBySessionId(sessionId));
     }
 
     @RequestMapping(path = "/cart/{cartId}/entries", method = RequestMethod.POST, produces = "application/json")
@@ -33,9 +26,15 @@ public class CartController {
         return ResponseEntity.ok(persistedEntry);
     }
 
-    @RequestMapping(path = "/cart/{cartId}/entries/{entryId}", method = RequestMethod.DELETE)
-    public ResponseEntity removeCartEntry(@PathVariable String cartId, @PathVariable String entryId) {
-        CartFacade.removeFromCart(cartId, entryId);
-        return ResponseEntity.noContent().build();
+    @RequestMapping(path = "/entries/{entryId}", method = RequestMethod.DELETE)
+    public ResponseEntity removeCartEntry(@PathVariable String entryId) {
+        CartFacade.removeFromCart(entryId);
+        return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(path = "/cart/{cartId}/entries/{entryId}", method = RequestMethod.PUT)
+    public ResponseEntity updateCartEntry(@PathVariable String cartId, @PathVariable String entryId, @RequestBody CartEntryDto entry) {
+        CartFacade.updateCartEntry(cartId, entryId, entry);
+        return ResponseEntity.ok().build();
     }
 }

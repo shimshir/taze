@@ -3,12 +3,21 @@ package de.admir.model;
 import java.math.BigDecimal;
 
 public class Product {
+    private String uuid;
     private String code;
     private String name;
     private String listImage;
     private String pdpImage;
     private BigDecimal pricePerUnit;
     private String unitCode;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public String getCode() {
         return code;

@@ -35441,7 +35441,7 @@
 	    _createClass(AppView, [{
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
-	            this.props.getSession();
+	            this.props.checkSession();
 	        }
 	    }, {
 	        key: 'render',
@@ -35464,8 +35464,8 @@
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	    return {
-	        getSession: function getSession() {
-	            (0, _actions.asyncGetSessionAction)(dispatch);
+	        checkSession: function checkSession() {
+	            (0, _actions.asyncCheckSessionAction)(dispatch);
 	        }
 	    };
 	};
@@ -35597,7 +35597,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.updatePlaceOrderFormAction = exports.updateCartEntryAmountAction = exports.asyncRemoveCartEntryAction = exports.asyncAddToCartAction = exports.asyncGetCartAction = exports.asyncGetSessionAction = exports.changeActiveTopNavbarItemAction = exports.RECEIVE_CART_ACTION = exports.RECEIVE_SESSION_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.REMOVE_CART_ENTRY_ACTION = exports.ADD_TO_CART_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = undefined;
+	exports.updatePlaceOrderFormAction = exports.asyncUpdateCartEntryAction = exports.asyncRemoveCartEntryAction = exports.asyncAddToCartAction = exports.asyncGetCartAction = exports.asyncCheckSessionAction = exports.changeActiveTopNavbarItemAction = exports.RECEIVE_CART_ACTION = exports.RECEIVE_NEW_SESSION_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.REMOVE_CART_ENTRY_ACTION = exports.ADD_TO_CART_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = undefined;
 
 	var _axios = __webpack_require__(551);
 
@@ -35616,7 +35616,7 @@
 	var REMOVE_CART_ENTRY_ACTION = exports.REMOVE_CART_ENTRY_ACTION = 'REMOVE_CART_ENTRY_ACTION';
 	var UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = 'UPDATE_CART_ENTRY_AMOUNT_ACTION';
 	var UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = 'UPDATE_PLACE_ORDER_FORM_ACTION';
-	var RECEIVE_SESSION_ACTION = exports.RECEIVE_SESSION_ACTION = 'RECEIVE_SESSION_ACTION';
+	var RECEIVE_NEW_SESSION_ACTION = exports.RECEIVE_NEW_SESSION_ACTION = 'RECEIVE_NEW_SESSION_ACTION';
 	var RECEIVE_CART_ACTION = exports.RECEIVE_CART_ACTION = 'RECEIVE_CART_ACTION';
 
 	var changeActiveTopNavbarItemAction = exports.changeActiveTopNavbarItemAction = function changeActiveTopNavbarItemAction(topNavbarItem) {
@@ -35626,26 +35626,31 @@
 	    };
 	};
 
-	var asyncGetSessionAction = exports.asyncGetSessionAction = function asyncGetSessionAction(dispatch) {
-	    var onSessionReceived = function onSessionReceived(session) {
-	        dispatch(receiveSessionAction(session));
-	        asyncGetCartAction(dispatch, session.id);
-	    };
-	    var currentSession = _jsCookie2.default.getJSON('tazeSession');
-	    if (currentSession === undefined) {
-	        _axios2.default.get(_constants.API_ENDPOINT + '/session').then(function (res) {
-	            var session = res.data;
-	            _jsCookie2.default.set('tazeSession', session, { path: '/', expires: 1 });
-	            onSessionReceived(session);
+	var asyncCheckSessionAction = exports.asyncCheckSessionAction = function asyncCheckSessionAction(dispatch) {
+	    var session = _jsCookie2.default.getJSON('tazeSession');
+	    if (session != undefined) {
+	        _axios2.default.get(_constants.API_ENDPOINT + ('/session/' + session.id)).then(function (res) {
+	            return asyncGetCartAction(dispatch, res.data.id);
+	        }).catch(function (res) {
+	            if (res.status == 404) asyncGetNewSessionAction(dispatch);
 	        });
 	    } else {
-	        onSessionReceived(currentSession);
+	        asyncGetNewSessionAction(dispatch);
 	    }
 	};
 
-	var receiveSessionAction = function receiveSessionAction(session) {
+	var asyncGetNewSessionAction = function asyncGetNewSessionAction(dispatch) {
+	    _axios2.default.get(_constants.API_ENDPOINT + '/session').then(function (res) {
+	        var session = res.data;
+	        _jsCookie2.default.set('tazeSession', session, { path: '/', expires: 1 });
+	        dispatch(receiveNewSessionAction(session));
+	        asyncGetCartAction(dispatch, session.id);
+	    });
+	};
+
+	var receiveNewSessionAction = function receiveNewSessionAction(session) {
 	    return {
-	        type: RECEIVE_SESSION_ACTION,
+	        type: RECEIVE_NEW_SESSION_ACTION,
 	        session: session
 	    };
 	};
@@ -35676,9 +35681,9 @@
 	    };
 	};
 
-	var asyncRemoveCartEntryAction = exports.asyncRemoveCartEntryAction = function asyncRemoveCartEntryAction(dispatch, cartId, entryId) {
+	var asyncRemoveCartEntryAction = exports.asyncRemoveCartEntryAction = function asyncRemoveCartEntryAction(dispatch, entryId) {
 	    dispatch(removeCartEntryAction(entryId));
-	    _axios2.default.delete(_constants.API_ENDPOINT + ('/cart/' + cartId + '/entries/' + entryId));
+	    _axios2.default.delete(_constants.API_ENDPOINT + ('/entries/' + entryId));
 	};
 
 	var removeCartEntryAction = function removeCartEntryAction(entryId) {
@@ -35688,7 +35693,12 @@
 	    };
 	};
 
-	var updateCartEntryAmountAction = exports.updateCartEntryAmountAction = function updateCartEntryAmountAction(entryId, amount) {
+	var asyncUpdateCartEntryAction = exports.asyncUpdateCartEntryAction = function asyncUpdateCartEntryAction(dispatch, cartId, entry) {
+	    dispatch(updateCartEntryAmountAction(entry.id, entry.amount));
+	    _axios2.default.put(_constants.API_ENDPOINT + ('/cart/' + cartId + '/entries/' + entry.id), entry);
+	};
+
+	var updateCartEntryAmountAction = function updateCartEntryAmountAction(entryId, amount) {
 	    return {
 	        type: UPDATE_CART_ENTRY_AMOUNT_ACTION,
 	        entryId: entryId,
@@ -36957,6 +36967,7 @@
 	    listImage: '/img/products/horse-list.jpg'
 	};
 
+	//export const API_ENDPOINT = "http://localhost:8081/api/v1";
 	var API_ENDPOINT = exports.API_ENDPOINT = "https://taze.herokuapp.com/api/v1";
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "constants.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
@@ -37964,6 +37975,8 @@
 	    value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _react = __webpack_require__(300);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -38043,7 +38056,7 @@
 	                    _react2.default.createElement(
 	                        'span',
 	                        { className: 'pseudo-anchor', onClick: function onClick() {
-	                                return removeCartEntry(cart.id, entry.id);
+	                                return removeCartEntry(entry.id);
 	                            } },
 	                        'Izbaci'
 	                    )
@@ -38072,7 +38085,7 @@
 	                        unitCode: entry.product.unitCode,
 	                        selectedValue: entry.amount,
 	                        onChange: function onChange(event) {
-	                            return updateEntryAmount(entry.id, event.target.value);
+	                            return updateEntryAmount(cart.id, entry, event.target.value);
 	                        }
 	                    })
 	                )
@@ -38093,11 +38106,11 @@
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	    return {
-	        removeCartEntry: function removeCartEntry(cartId, entryId) {
-	            (0, _actions.asyncRemoveCartEntryAction)(dispatch, cartId, entryId);
+	        removeCartEntry: function removeCartEntry(entryId) {
+	            (0, _actions.asyncRemoveCartEntryAction)(dispatch, entryId);
 	        },
-	        updateEntryAmount: function updateEntryAmount(entryId, amount) {
-	            dispatch((0, _actions.updateCartEntryAmountAction)(entryId, amount));
+	        updateEntryAmount: function updateEntryAmount(cartId, entry, amount) {
+	            (0, _actions.asyncUpdateCartEntryAction)(dispatch, cartId, _extends({}, entry, { amount: amount }));
 	        }
 	    };
 	};
@@ -41326,7 +41339,7 @@
 	    var action = arguments[1];
 
 	    switch (action.type) {
-	        case _actions.RECEIVE_SESSION_ACTION:
+	        case _actions.RECEIVE_NEW_SESSION_ACTION:
 	            return action.session;
 	        default:
 	            return sessionState;

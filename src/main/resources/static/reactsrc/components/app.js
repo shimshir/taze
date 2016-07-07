@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import TopNavbar from './nav/topNavbar.js';
-import {asyncGetSessionAction} from '../actions/actions.js';
+import {asyncCheckSessionAction} from '../actions/actions.js';
 import {connect} from 'react-redux';
 
 class AppView extends Component {
 
     componentWillMount() {
-        this.props.getSession();
+        this.props.checkSession();
     }
 
     render() {
@@ -23,8 +23,8 @@ class AppView extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        getSession: () => {
-            asyncGetSessionAction(dispatch);
+        checkSession: () => {
+            asyncCheckSessionAction(dispatch);
         }
     }
 };
