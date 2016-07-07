@@ -72,4 +72,4 @@ export const HORSE = {
 };
 
 //export const API_ENDPOINT = "http://localhost:8081/api/v1";
-export const API_ENDPOINT = "https://taze.herokuapp.com/api/v1";
+export const API_ENDPOINT = `${window.location.origin}/api/v1`;
