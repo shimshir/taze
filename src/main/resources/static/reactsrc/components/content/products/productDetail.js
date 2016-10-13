@@ -49,7 +49,7 @@ class ProductDetailView extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-lg-6 no-padding">
-                                    <label for="amount">Količina:</label>
+                                    <label htmlFor="amount">Količina:</label>
                                 </div>
                                 <div className="col-lg-6 no-padding">
                                     <AmountSelect id="amount"
