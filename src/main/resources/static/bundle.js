@@ -38230,8 +38230,8 @@
 	    listImage: '/img/products/horse-list.jpg'
 	};
 
-	var API_ENDPOINT = exports.API_ENDPOINT = "http://localhost:18081/api/v1";
-	//export const API_ENDPOINT = `${window.location.origin}/api/v1`;
+	//export const API_ENDPOINT = "http://localhost:18081/api/v1";
+	var API_ENDPOINT = exports.API_ENDPOINT = window.location.origin + '/api/v1';
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "constants.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
