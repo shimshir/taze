@@ -2,14 +2,16 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.dev.config.js');
 
+var port = 18080;
+
 new WebpackDevServer(webpack(config), {
     publicPath: config.output.publicPath,
     hot: true,
     historyApiFallback: true,
-}).listen(18080, 'localhost', function (err, result) {
+}).listen(port, 'localhost', function (err, result) {
     if (err) {
         return console.log(err);
     }
 
-    console.log('Listening at http://localhost:18080/');
+    console.log(`Listening at http://localhost:${port}/`);
 });

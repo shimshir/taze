@@ -8201,9 +8201,9 @@
 
 	var _redux = __webpack_require__(476);
 
-	var _reactRouterRedux = __webpack_require__(616);
+	var _reactRouterRedux = __webpack_require__(617);
 
-	var _mainReducer = __webpack_require__(621);
+	var _mainReducer = __webpack_require__(622);
 
 	var _mainReducer2 = _interopRequireDefault(_mainReducer);
 
@@ -36603,11 +36603,11 @@
 
 	var _cart2 = _interopRequireDefault(_cart);
 
-	var _chicken = __webpack_require__(613);
+	var _chicken = __webpack_require__(614);
 
 	var _chicken2 = _interopRequireDefault(_chicken);
 
-	var _honey = __webpack_require__(615);
+	var _honey = __webpack_require__(616);
 
 	var _honey2 = _interopRequireDefault(_honey);
 
@@ -36843,7 +36843,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.updatePlaceOrderFormAction = exports.asyncUpdateCartEntryAction = exports.asyncRemoveCartEntryAction = exports.asyncAddToCartAction = exports.asyncGetCartAction = exports.asyncCheckSessionAction = exports.changeActiveTopNavbarItemAction = exports.RECEIVE_CART_ACTION = exports.RECEIVE_NEW_SESSION_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.REMOVE_CART_ENTRY_ACTION = exports.ADD_TO_CART_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = undefined;
+	exports.removeFromErrorMapAction = exports.addToErrorMapAction = exports.updatePlaceOrderFormAction = exports.asyncUpdateCartEntryAction = exports.asyncRemoveCartEntryAction = exports.asyncAddToCartAction = exports.asyncGetCartAction = exports.asyncCheckSessionAction = exports.changeActiveTopNavbarItemAction = exports.REMOVE_FROM_ERROR_MAP_ACTION = exports.ADD_TO_ERROR_MAP_ACTION = exports.RECEIVE_CART_ACTION = exports.RECEIVE_NEW_SESSION_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.REMOVE_CART_ENTRY_ACTION = exports.ADD_TO_CART_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = undefined;
 
 	var _axios = __webpack_require__(558);
 
@@ -36864,6 +36864,8 @@
 	var UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = 'UPDATE_PLACE_ORDER_FORM_ACTION';
 	var RECEIVE_NEW_SESSION_ACTION = exports.RECEIVE_NEW_SESSION_ACTION = 'RECEIVE_NEW_SESSION_ACTION';
 	var RECEIVE_CART_ACTION = exports.RECEIVE_CART_ACTION = 'RECEIVE_CART_ACTION';
+	var ADD_TO_ERROR_MAP_ACTION = exports.ADD_TO_ERROR_MAP_ACTION = 'ADD_TO_ERROR_MAP_ACTION';
+	var REMOVE_FROM_ERROR_MAP_ACTION = exports.REMOVE_FROM_ERROR_MAP_ACTION = 'REMOVE_FROM_ERROR_MAP_ACTION';
 
 	var changeActiveTopNavbarItemAction = exports.changeActiveTopNavbarItemAction = function changeActiveTopNavbarItemAction(topNavbarItem) {
 	    return {
@@ -36956,6 +36958,21 @@
 	    return {
 	        type: UPDATE_PLACE_ORDER_FORM_ACTION,
 	        input: input
+	    };
+	};
+
+	var addToErrorMapAction = exports.addToErrorMapAction = function addToErrorMapAction(key, error) {
+	    return {
+	        type: ADD_TO_ERROR_MAP_ACTION,
+	        key: key,
+	        error: error
+	    };
+	};
+
+	var removeFromErrorMapAction = exports.removeFromErrorMapAction = function removeFromErrorMapAction(key) {
+	    return {
+	        type: REMOVE_FROM_ERROR_MAP_ACTION,
+	        key: key
 	    };
 	};
 
@@ -38213,8 +38230,8 @@
 	    listImage: '/img/products/horse-list.jpg'
 	};
 
-	//export const API_ENDPOINT = "http://localhost:18081/api/v1";
-	var API_ENDPOINT = exports.API_ENDPOINT = window.location.origin + '/api/v1';
+	var API_ENDPOINT = exports.API_ENDPOINT = "http://localhost:18081/api/v1";
+	//export const API_ENDPOINT = `${window.location.origin}/api/v1`;
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "constants.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
@@ -39451,6 +39468,10 @@
 
 	var _actions = __webpack_require__(557);
 
+	var _textInput = __webpack_require__(613);
+
+	var _textInput2 = _interopRequireDefault(_textInput);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39494,17 +39515,27 @@
 	            _this.setState({ modalIsOpen: true });
 	        }, _this.closeModal = function () {
 	            _this.setState({ modalIsOpen: false });
+	        }, _this.confirmModal = function () {
+	            var placeOrderFormHasErrors = false;
+	            _this.props.errorMap.forEach(function (_, key) {
+	                if (key.startsWith('placeOrderForm')) placeOrderFormHasErrors = true;
+	            });
+	            if (!placeOrderFormHasErrors) {
+	                // TODO: Submit form to backend
+	                _this.closeModal();
+	            }
 	        }, _this.placeOrderInputChange = function (event) {
 	            var id = event.target.id;
 	            var value = event.target.value;
 	            _this.props.updatePlaceOrderForm({ id: id, value: value });
+
+	            if (_this.props.placeOrderForm.get('eMail') != _this.props.placeOrderForm.get('eMailConfirm')) _this.props.addToErrorMap('placeOrderForm.eMailConfirm.match', { message: 'You must confirm your e-mail address!' });else _this.props.removeFromErrorMap('placeOrderForm.eMailConfirm.match');
 	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
 	    _createClass(PlaceOrderDialogView, [{
 	        key: 'render',
 	        value: function render() {
-	            // TODO: Make the input row in the #placeOrderForm a component itself
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -39555,121 +39586,32 @@
 	                            _react2.default.createElement(
 	                                'form',
 	                                { id: 'placeOrderForm' },
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'row' },
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'col-lg-2' },
-	                                        _react2.default.createElement(
-	                                            'label',
-	                                            { 'for': 'firstName' },
-	                                            'Ime'
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'col-lg-10' },
-	                                        _react2.default.createElement('input', { type: 'text',
-	                                            className: 'form-control',
-	                                            id: 'firstName',
-	                                            defaultValue: this.props.placeOrderForm.get('firstName'),
-	                                            placeholder: 'Unesite Va\u0161e ime',
-	                                            onChange: this.placeOrderInputChange })
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'row' },
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'col-lg-2' },
-	                                        _react2.default.createElement(
-	                                            'label',
-	                                            { 'for': 'lastName' },
-	                                            'Prezime'
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'col-lg-10' },
-	                                        _react2.default.createElement('input', { type: 'text',
-	                                            className: 'form-control',
-	                                            id: 'lastName',
-	                                            defaultValue: this.props.placeOrderForm.get('lastName'),
-	                                            placeholder: 'Unesite Va\u0161e prezime',
-	                                            onChange: this.placeOrderInputChange })
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'row' },
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'col-lg-2' },
-	                                        _react2.default.createElement(
-	                                            'label',
-	                                            { 'for': 'address' },
-	                                            'Adresa'
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'col-lg-10' },
-	                                        _react2.default.createElement('input', { type: 'text',
-	                                            className: 'form-control',
-	                                            id: 'address',
-	                                            defaultValue: this.props.placeOrderForm.get('address'),
-	                                            placeholder: 'Va\u0161a adresa (dostava samo unutar grada Sarajevo)',
-	                                            onChange: this.placeOrderInputChange })
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'row' },
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'col-lg-2' },
-	                                        _react2.default.createElement(
-	                                            'label',
-	                                            { 'for': 'eMail' },
-	                                            'e-mail'
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'col-lg-10' },
-	                                        _react2.default.createElement('input', { type: 'text',
-	                                            className: 'form-control',
-	                                            id: 'eMail',
-	                                            defaultValue: this.props.placeOrderForm.get('eMail'),
-	                                            placeholder: 'Va\u0161a e-mail adresa na koju \u0107e da stigne potvrda o narud\u017Ebi',
-	                                            onChange: this.placeOrderInputChange })
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    'div',
-	                                    { className: 'row' },
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'col-lg-2' },
-	                                        _react2.default.createElement(
-	                                            'label',
-	                                            { 'for': 'eMailConfirm' },
-	                                            'e-mail'
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'div',
-	                                        { className: 'col-lg-10' },
-	                                        _react2.default.createElement('input', { type: 'text',
-	                                            className: 'form-control',
-	                                            id: 'eMailConfirm',
-	                                            defaultValue: this.props.placeOrderForm.get('eMailConfirm'),
-	                                            placeholder: 'Ponovite va\u0161u e-mail adresu',
-	                                            onChange: this.placeOrderInputChange })
-	                                    )
-	                                )
+	                                _react2.default.createElement(_textInput2.default, { id: 'firstName',
+	                                    label: 'Ime',
+	                                    defaultValue: this.props.placeOrderForm.get('firstName'),
+	                                    placeHolderText: 'Unesite Va\u0161e ime',
+	                                    onChange: this.placeOrderInputChange }),
+	                                _react2.default.createElement(_textInput2.default, { id: 'lastName',
+	                                    label: 'Prezime',
+	                                    defaultValue: this.props.placeOrderForm.get('lastName'),
+	                                    placeHolderText: 'Unesite Va\u0161e prezime',
+	                                    onChange: this.placeOrderInputChange }),
+	                                _react2.default.createElement(_textInput2.default, { id: 'address',
+	                                    label: 'Adresa',
+	                                    defaultValue: this.props.placeOrderForm.get('address'),
+	                                    placeHolderText: 'Va\u0161a adresa (dostava samo unutar grada Sarajevo)',
+	                                    onChange: this.placeOrderInputChange }),
+	                                _react2.default.createElement(_textInput2.default, { id: 'eMail',
+	                                    label: 'E-Mail',
+	                                    defaultValue: this.props.placeOrderForm.get('eMail'),
+	                                    placeHolderText: 'Va\u0161a E-Mail adresa na koju \u0107e da stigne potvrda o narud\u017Ebi',
+	                                    onChange: this.placeOrderInputChange }),
+	                                _react2.default.createElement(_textInput2.default, { id: 'eMailConfirm',
+	                                    label: 'E-Mail',
+	                                    defaultValue: this.props.placeOrderForm.get('eMailConfirm'),
+	                                    placeHolderText: 'Ponovite va\u0161u e-mail adresu',
+	                                    onChange: this.placeOrderInputChange,
+	                                    hasError: this.props.errorMap.get('placeOrderForm.eMailConfirm.match') })
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -39682,7 +39624,7 @@
 	                            ),
 	                            _react2.default.createElement(
 	                                'button',
-	                                { type: 'button', className: 'btn btn-success' },
+	                                { type: 'button', className: 'btn btn-success', onClick: this.confirmModal },
 	                                'Potvrdi'
 	                            )
 	                        )
@@ -39697,7 +39639,8 @@
 
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	    return {
-	        placeOrderForm: state.placeOrderForm
+	        placeOrderForm: state.placeOrderForm,
+	        errorMap: state.errorMap
 	    };
 	};
 
@@ -39705,6 +39648,12 @@
 	    return {
 	        updatePlaceOrderForm: function updatePlaceOrderForm(input) {
 	            dispatch((0, _actions.updatePlaceOrderFormAction)(input));
+	        },
+	        addToErrorMap: function addToErrorMap(key, error) {
+	            dispatch((0, _actions.addToErrorMapAction)(key, error));
+	        },
+	        removeFromErrorMap: function removeFromErrorMap(key) {
+	            dispatch((0, _actions.removeFromErrorMapAction)(key));
 	        }
 	    };
 	};
@@ -41683,6 +41632,61 @@
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(299);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var TextInput = function TextInput(_ref) {
+	    var id = _ref.id;
+	    var label = _ref.label;
+	    var defaultValue = _ref.defaultValue;
+	    var placeHolderText = _ref.placeHolderText;
+	    var onChange = _ref.onChange;
+	    var hasError = _ref.hasError;
+
+	    return _react2.default.createElement(
+	        "div",
+	        { className: "row" },
+	        _react2.default.createElement(
+	            "div",
+	            { className: "col-lg-2" },
+	            _react2.default.createElement(
+	                "label",
+	                { htmlFor: id },
+	                label
+	            )
+	        ),
+	        _react2.default.createElement(
+	            "div",
+	            { className: "col-lg-10" },
+	            _react2.default.createElement("input", { type: "text",
+	                className: 'form-control ' + (hasError ? 'alert-danger' : ''),
+	                id: id,
+	                defaultValue: defaultValue,
+	                placeholder: placeHolderText,
+	                onChange: onChange })
+	        )
+	    );
+	};
+
+	exports.default = TextInput;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "textInput.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 614 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -41699,7 +41703,7 @@
 
 	var _commonMappings = __webpack_require__(581);
 
-	var _productDetail = __webpack_require__(614);
+	var _productDetail = __webpack_require__(615);
 
 	var _productDetail2 = _interopRequireDefault(_productDetail);
 
@@ -41761,7 +41765,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "chicken.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 614 */
+/* 615 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -41976,7 +41980,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "productDetail.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 615 */
+/* 616 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -41997,7 +42001,7 @@
 
 	var _commonMappings = __webpack_require__(581);
 
-	var _productDetail = __webpack_require__(614);
+	var _productDetail = __webpack_require__(615);
 
 	var _productDetail2 = _interopRequireDefault(_productDetail);
 
@@ -42059,7 +42063,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "honey.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 616 */
+/* 617 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42069,7 +42073,7 @@
 	});
 	exports.routerMiddleware = exports.routerActions = exports.goForward = exports.goBack = exports.go = exports.replace = exports.push = exports.CALL_HISTORY_METHOD = exports.routerReducer = exports.LOCATION_CHANGE = exports.syncHistoryWithStore = undefined;
 
-	var _reducer = __webpack_require__(617);
+	var _reducer = __webpack_require__(618);
 
 	Object.defineProperty(exports, 'LOCATION_CHANGE', {
 	  enumerable: true,
@@ -42084,7 +42088,7 @@
 	  }
 	});
 
-	var _actions = __webpack_require__(618);
+	var _actions = __webpack_require__(619);
 
 	Object.defineProperty(exports, 'CALL_HISTORY_METHOD', {
 	  enumerable: true,
@@ -42129,11 +42133,11 @@
 	  }
 	});
 
-	var _sync = __webpack_require__(619);
+	var _sync = __webpack_require__(620);
 
 	var _sync2 = _interopRequireDefault(_sync);
 
-	var _middleware = __webpack_require__(620);
+	var _middleware = __webpack_require__(621);
 
 	var _middleware2 = _interopRequireDefault(_middleware);
 
@@ -42143,7 +42147,7 @@
 	exports.routerMiddleware = _middleware2['default'];
 
 /***/ },
-/* 617 */
+/* 618 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42187,7 +42191,7 @@
 	}
 
 /***/ },
-/* 618 */
+/* 619 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -42229,7 +42233,7 @@
 	var routerActions = exports.routerActions = { push: push, replace: replace, go: go, goBack: goBack, goForward: goForward };
 
 /***/ },
-/* 619 */
+/* 620 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42242,7 +42246,7 @@
 
 	exports['default'] = syncHistoryWithStore;
 
-	var _reducer = __webpack_require__(617);
+	var _reducer = __webpack_require__(618);
 
 	var defaultSelectLocationState = function defaultSelectLocationState(state) {
 	  return state.routing;
@@ -42383,7 +42387,7 @@
 	}
 
 /***/ },
-/* 620 */
+/* 621 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42393,7 +42397,7 @@
 	});
 	exports['default'] = routerMiddleware;
 
-	var _actions = __webpack_require__(618);
+	var _actions = __webpack_require__(619);
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -42421,7 +42425,7 @@
 	}
 
 /***/ },
-/* 621 */
+/* 622 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -42434,23 +42438,27 @@
 
 	var _redux = __webpack_require__(476);
 
-	var _reactRouterRedux = __webpack_require__(616);
+	var _reactRouterRedux = __webpack_require__(617);
 
-	var _activeTopNavbarItemReducer = __webpack_require__(622);
+	var _activeTopNavbarItemReducer = __webpack_require__(623);
 
 	var _activeTopNavbarItemReducer2 = _interopRequireDefault(_activeTopNavbarItemReducer);
 
-	var _cartReducer = __webpack_require__(623);
+	var _cartReducer = __webpack_require__(624);
 
 	var _cartReducer2 = _interopRequireDefault(_cartReducer);
 
-	var _placeOrderFormReducer = __webpack_require__(624);
+	var _placeOrderFormReducer = __webpack_require__(625);
 
 	var _placeOrderFormReducer2 = _interopRequireDefault(_placeOrderFormReducer);
 
-	var _sessionReducer = __webpack_require__(625);
+	var _sessionReducer = __webpack_require__(626);
 
 	var _sessionReducer2 = _interopRequireDefault(_sessionReducer);
+
+	var _errorMapReducer = __webpack_require__(627);
+
+	var _errorMapReducer2 = _interopRequireDefault(_errorMapReducer);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42459,7 +42467,8 @@
 	    activeTopNavbarItem: _activeTopNavbarItemReducer2.default,
 	    cart: _cartReducer2.default,
 	    placeOrderForm: _placeOrderFormReducer2.default,
-	    session: _sessionReducer2.default
+	    session: _sessionReducer2.default,
+	    errorMap: _errorMapReducer2.default
 	});
 
 	exports.default = MainReducer;
@@ -42467,7 +42476,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "mainReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 622 */
+/* 623 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -42497,7 +42506,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "activeTopNavbarItemReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 623 */
+/* 624 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -42557,7 +42566,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "cartReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 624 */
+/* 625 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -42587,7 +42596,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "placeOrderFormReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 625 */
+/* 626 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -42615,6 +42624,40 @@
 	exports.default = sessionReducer;
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "sessionReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 627 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _actions = __webpack_require__(557);
+
+	//TODO: Change the map to an array of error objects
+	var errorMapReducer = function errorMapReducer() {
+	    var errorMap = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Map();
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case _actions.ADD_TO_ERROR_MAP_ACTION:
+	            return new Map(errorMap).set(action.key, action.error);
+	        case _actions.REMOVE_FROM_ERROR_MAP_ACTION:
+	            errorMap.delete(action.key);
+	            return new Map(errorMap);
+	        default:
+	            return errorMap;
+	    }
+	};
+
+	exports.default = errorMapReducer;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "errorMapReducer.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }
 /******/ ]);

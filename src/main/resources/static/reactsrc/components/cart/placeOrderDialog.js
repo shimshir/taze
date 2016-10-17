@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
 import Modal from 'react-modal';
 import {connect} from 'react-redux';
-import {updatePlaceOrderFormAction} from '../../actions/actions.js';
+import {updatePlaceOrderFormAction, addToErrorMapAction, removeFromErrorMapAction} from '../../actions/actions.js';
+import TextInput from '../common/textInput.js';
 
 const modalStyle = {
     content: {
-        width                 : '600px',
-        top                   : '50%',
-        left                  : '50%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)',
-        padding               : '0px',
-        border                : 'none'
+        width: '600px',
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        padding: '0px',
+        border: 'none'
     },
     overlay: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)'
@@ -22,7 +23,7 @@ const modalStyle = {
 
 class PlaceOrderDialogView extends Component {
     state = {modalIsOpen: false};
-    
+
     openModal = () => {
         this.setState({modalIsOpen: true});
     };
@@ -31,14 +32,32 @@ class PlaceOrderDialogView extends Component {
         this.setState({modalIsOpen: false});
     };
 
+    confirmModal = () => {
+        var placeOrderFormHasErrors = false;
+        this.props.errorMap.forEach((_, key) => {
+            if (key.startsWith('placeOrderForm'))
+                placeOrderFormHasErrors = true;
+        });
+        if (!placeOrderFormHasErrors) {
+            // TODO: Submit form to backend
+            this.closeModal();
+        }
+    };
+
+
+
     placeOrderInputChange = (event) => {
         const id = event.target.id;
         const value = event.target.value;
         this.props.updatePlaceOrderForm({id, value});
+
+        if (this.props.placeOrderForm.get('eMail') != this.props.placeOrderForm.get('eMailConfirm'))
+            this.props.addToErrorMap('placeOrderForm.eMailConfirm.match', {message: 'You must confirm your e-mail address!'});
+        else
+            this.props.removeFromErrorMap('placeOrderForm.eMailConfirm.match');
     };
-    
+
     render() {
-        // TODO: Make the input row in the #placeOrderForm a component itself
         return (
             <div>
                 <button onClick={this.openModal} className="btn btn-success">Naruči</button>
@@ -60,76 +79,37 @@ class PlaceOrderDialogView extends Component {
                                 Molimo Vas unesite Vaše podatke, potvrda o primljenoj narudžbi biće Vam dostavljena na uneseni e-mail.
                             </p>
                             <form id="placeOrderForm">
-                                <div className="row">
-                                    <div className="col-lg-2">
-                                        <label for="firstName">Ime</label>
-                                    </div>
-                                    <div className="col-lg-10">
-                                        <input type="text"
-                                               className="form-control"
-                                               id="firstName"
-                                               defaultValue={this.props.placeOrderForm.get('firstName')}
-                                               placeholder="Unesite Vaše ime"
-                                               onChange={this.placeOrderInputChange}/>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-lg-2">
-                                        <label for="lastName">Prezime</label>
-                                    </div>
-                                    <div className="col-lg-10">
-                                        <input type="text"
-                                               className="form-control"
-                                               id="lastName"
-                                               defaultValue={this.props.placeOrderForm.get('lastName')}
-                                               placeholder="Unesite Vaše prezime"
-                                               onChange={this.placeOrderInputChange}/>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-lg-2">
-                                        <label for="address">Adresa</label>
-                                    </div>
-                                    <div className="col-lg-10">
-                                        <input type="text"
-                                               className="form-control"
-                                               id="address"
-                                               defaultValue={this.props.placeOrderForm.get('address')}
-                                               placeholder="Vaša adresa (dostava samo unutar grada Sarajevo)"
-                                               onChange={this.placeOrderInputChange}/>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-lg-2">
-                                        <label for="eMail">e-mail</label>
-                                    </div>
-                                    <div className="col-lg-10">
-                                        <input type="text"
-                                               className="form-control"
-                                               id="eMail"
-                                               defaultValue={this.props.placeOrderForm.get('eMail')}
-                                               placeholder="Vaša e-mail adresa na koju će da stigne potvrda o narudžbi"
-                                               onChange={this.placeOrderInputChange}/>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-lg-2">
-                                        <label for="eMailConfirm">e-mail</label>
-                                    </div>
-                                    <div className="col-lg-10">
-                                        <input type="text"
-                                               className="form-control"
-                                               id="eMailConfirm"
-                                               defaultValue={this.props.placeOrderForm.get('eMailConfirm')}
-                                               placeholder="Ponovite vašu e-mail adresu"
-                                               onChange={this.placeOrderInputChange}/>
-                                    </div>
-                                </div>
+                                <TextInput id="firstName"
+                                           label="Ime"
+                                           defaultValue={this.props.placeOrderForm.get('firstName')}
+                                           placeHolderText="Unesite Vaše ime"
+                                           onChange={this.placeOrderInputChange}/>
+                                <TextInput id="lastName"
+                                           label="Prezime"
+                                           defaultValue={this.props.placeOrderForm.get('lastName')}
+                                           placeHolderText="Unesite Vaše prezime"
+                                           onChange={this.placeOrderInputChange}/>
+                                <TextInput id="address"
+                                           label="Adresa"
+                                           defaultValue={this.props.placeOrderForm.get('address')}
+                                           placeHolderText="Vaša adresa (dostava samo unutar grada Sarajevo)"
+                                           onChange={this.placeOrderInputChange}/>
+                                <TextInput id="eMail"
+                                           label="E-Mail"
+                                           defaultValue={this.props.placeOrderForm.get('eMail')}
+                                           placeHolderText="Vaša E-Mail adresa na koju će da stigne potvrda o narudžbi"
+                                           onChange={this.placeOrderInputChange}/>
+                                <TextInput id="eMailConfirm"
+                                           label="E-Mail"
+                                           defaultValue={this.props.placeOrderForm.get('eMailConfirm')}
+                                           placeHolderText="Ponovite vašu e-mail adresu"
+                                           onChange={this.placeOrderInputChange}
+                                           hasError={this.props.errorMap.get('placeOrderForm.eMailConfirm.match')}/>
                             </form>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-default" onClick={this.closeModal}>Prekini</button>
-                            <button type="button" className="btn btn-success">Potvrdi</button>
+                            <button type="button" className="btn btn-success" onClick={this.confirmModal}>Potvrdi</button>
                         </div>
                     </div>
                 </Modal>
@@ -141,7 +121,8 @@ class PlaceOrderDialogView extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        placeOrderForm: state.placeOrderForm
+        placeOrderForm: state.placeOrderForm,
+        errorMap: state.errorMap
     }
 };
 
@@ -149,6 +130,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         updatePlaceOrderForm: (input) => {
             dispatch(updatePlaceOrderFormAction(input));
+        },
+        addToErrorMap: (key, error) => {
+            dispatch(addToErrorMapAction(key, error));
+        },
+        removeFromErrorMap: (key) => {
+            dispatch(removeFromErrorMapAction(key));
         }
     }
 };

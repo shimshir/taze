@@ -9,6 +9,8 @@ export const UPDATE_CART_ENTRY_AMOUNT_ACTION = 'UPDATE_CART_ENTRY_AMOUNT_ACTION'
 export const UPDATE_PLACE_ORDER_FORM_ACTION = 'UPDATE_PLACE_ORDER_FORM_ACTION';
 export const RECEIVE_NEW_SESSION_ACTION = 'RECEIVE_NEW_SESSION_ACTION';
 export const RECEIVE_CART_ACTION = 'RECEIVE_CART_ACTION';
+export const ADD_TO_ERROR_MAP_ACTION = 'ADD_TO_ERROR_MAP_ACTION';
+export const REMOVE_FROM_ERROR_MAP_ACTION = 'REMOVE_FROM_ERROR_MAP_ACTION';
 
 export const changeActiveTopNavbarItemAction = (topNavbarItem) => {
     return {
@@ -103,5 +105,20 @@ export const updatePlaceOrderFormAction = (input) => {
     return {
         type: UPDATE_PLACE_ORDER_FORM_ACTION,
         input
+    }
+};
+
+export const addToErrorMapAction = (key, error) => {
+    return {
+        type: ADD_TO_ERROR_MAP_ACTION,
+        key,
+        error
+    }
+};
+
+export const removeFromErrorMapAction = (key) => {
+    return {
+        type: REMOVE_FROM_ERROR_MAP_ACTION,
+        key
     }
 };
