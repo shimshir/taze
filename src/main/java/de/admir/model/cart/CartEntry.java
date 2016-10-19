@@ -1,21 +1,22 @@
 package de.admir.model.cart;
 
 
+import de.admir.model.IdentifiableModel;
 import de.admir.model.Product;
 
-public class CartEntry {
-    private String uuid;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+@Entity
+public class CartEntry extends IdentifiableModel {
+    @OneToOne
+    @JoinColumn(nullable = false)
     private Product product;
     private int amount;
+    @ManyToOne
     private Cart cart;
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 
     public Product getProduct() {
         return product;

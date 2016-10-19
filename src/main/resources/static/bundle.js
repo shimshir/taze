@@ -36877,22 +36877,22 @@
 	var asyncCheckSessionAction = exports.asyncCheckSessionAction = function asyncCheckSessionAction(dispatch) {
 	    var session = _jsCookie2.default.getJSON('tazeSession');
 	    if (session != undefined) {
-	        _axios2.default.get(_constants.API_ENDPOINT + ('/session/' + session.id)).then(function (res) {
-	            return asyncGetCartAction(dispatch, res.data.id);
+	        _axios2.default.get(_constants.API_REST_BASE_PATH + ('/sessions/search/findByUuidValue?uuid=' + session.uuid)).then(function (res) {
+	            return asyncGetCartAction(dispatch, res.data.uuid);
 	        }).catch(function (res) {
-	            if (res.status == 404) asyncGetNewSessionAction(dispatch);
+	            if (res.status == 404) asyncCreateNewSessionAction(dispatch);
 	        });
 	    } else {
-	        asyncGetNewSessionAction(dispatch);
+	        asyncCreateNewSessionAction(dispatch);
 	    }
 	};
 
-	var asyncGetNewSessionAction = function asyncGetNewSessionAction(dispatch) {
-	    _axios2.default.get(_constants.API_ENDPOINT + '/session').then(function (res) {
+	var asyncCreateNewSessionAction = function asyncCreateNewSessionAction(dispatch) {
+	    _axios2.default.get(_constants.API_CUSTOM_BASE_PATH + '/sessions/create').then(function (res) {
 	        var session = res.data;
 	        _jsCookie2.default.set('tazeSession', session, { path: '/', expires: 1 });
 	        dispatch(receiveNewSessionAction(session));
-	        asyncGetCartAction(dispatch, session.id);
+	        asyncGetCartAction(dispatch, session.uuid);
 	    });
 	};
 
@@ -36903,9 +36903,25 @@
 	    };
 	};
 
-	var asyncGetCartAction = exports.asyncGetCartAction = function asyncGetCartAction(dispatch, sessionId) {
-	    _axios2.default.get(_constants.API_ENDPOINT + ('/cart?sessionId=' + sessionId)).then(function (res) {
-	        return dispatch(receiveCartAction(res.data));
+	var asyncGetCartAction = exports.asyncGetCartAction = function asyncGetCartAction(dispatch, sessionUuid) {
+	    _axios2.default.get(_constants.API_REST_BASE_PATH + ('/carts/search/findBySessionUuidValue?sessionUuid=' + sessionUuid)).then(function (res) {
+	        return asyncGetCartEntriesAction(dispatch, res.data);
+	    }).catch(function (res) {
+	        if (res.status == 404) asyncCreateNewCartAction(dispatch, sessionUuid);
+	    });
+	};
+
+	var asyncCreateNewCartAction = function asyncCreateNewCartAction(dispatch, sessionUuid) {
+	    _axios2.default.get(_constants.API_CUSTOM_BASE_PATH + ('/carts/create?sessionUuid=' + sessionUuid)).then(function (res) {
+	        return asyncGetCartEntriesAction(dispatch, res.data);
+	    });
+	};
+
+	var asyncGetCartEntriesAction = function asyncGetCartEntriesAction(dispatch, cartData) {
+	    _axios2.default.get(cartData._links.entries.href).then(function (res) {
+	        return res.data._embedded.cartEntries;
+	    }).then(function (entries) {
+	        return dispatch(receiveCartAction({ id: cartData.id, entries: entries }));
 	    });
 	};
 
@@ -36917,7 +36933,7 @@
 	};
 
 	var asyncAddToCartAction = exports.asyncAddToCartAction = function asyncAddToCartAction(dispatch, cartId, entry) {
-	    _axios2.default.post(_constants.API_ENDPOINT + ('/cart/' + cartId + '/entries'), entry).then(function (res) {
+	    _axios2.default.post(_constants.API_REST_BASE_PATH + ('/carts/' + cartId + '/entries'), entry).then(function (res) {
 	        return dispatch(addToCartAction(res.data));
 	    });
 	};
@@ -36931,7 +36947,7 @@
 
 	var asyncRemoveCartEntryAction = exports.asyncRemoveCartEntryAction = function asyncRemoveCartEntryAction(dispatch, entryId) {
 	    dispatch(removeCartEntryAction(entryId));
-	    _axios2.default.delete(_constants.API_ENDPOINT + ('/entries/' + entryId));
+	    _axios2.default.delete(_constants.API_REST_BASE_PATH + ('/entries/' + entryId));
 	};
 
 	var removeCartEntryAction = function removeCartEntryAction(entryId) {
@@ -36943,7 +36959,7 @@
 
 	var asyncUpdateCartEntryAction = exports.asyncUpdateCartEntryAction = function asyncUpdateCartEntryAction(dispatch, cartId, entry) {
 	    dispatch(updateCartEntryAmountAction(entry.id, entry.amount));
-	    _axios2.default.put(_constants.API_ENDPOINT + ('/cart/' + cartId + '/entries/' + entry.id), entry);
+	    _axios2.default.put(_constants.API_REST_BASE_PATH + ('/carts/' + cartId + '/entries/' + entry.id), entry);
 	};
 
 	var updateCartEntryAmountAction = function updateCartEntryAmountAction(entryId, amount) {
@@ -38162,7 +38178,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.API_ENDPOINT = exports.HORSE = exports.HONEY = exports.CHICKEN = exports.LOREM_IPSUM_PARAGRAPHS = undefined;
+	exports.API_CUSTOM_BASE_PATH = exports.API_REST_BASE_PATH = exports.HORSE = exports.HONEY = exports.CHICKEN = exports.LOREM_IPSUM_PARAGRAPHS = undefined;
 
 	var _react = __webpack_require__(299);
 
@@ -38230,8 +38246,9 @@
 	    listImage: '/img/products/horse-list.jpg'
 	};
 
-	//export const API_ENDPOINT = "http://localhost:18081/api/v1";
-	var API_ENDPOINT = exports.API_ENDPOINT = window.location.origin + '/api/v1';
+	var API_REST_BASE_PATH = exports.API_REST_BASE_PATH = "http://localhost:18081/api/rest";
+	var API_CUSTOM_BASE_PATH = exports.API_CUSTOM_BASE_PATH = "http://localhost:18081/api/custom";
+	//export const API_REST_BASE_PATH = `${window.location.origin}/api/custom`;
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "constants.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
@@ -39078,7 +39095,7 @@
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
 	            this.props.changeActiveTopNavbarItem('cart');
-	            if (this.props.sessionId) this.props.getCart(this.props.sessionId);
+	            if (this.props.sessionUuid) this.props.getCart(this.props.sessionUuid);
 	        }
 	    }, {
 	        key: 'render',
@@ -39101,15 +39118,15 @@
 
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	    return {
-	        sessionId: state.session.id,
+	        sessionUuid: state.session.uuid,
 	        cart: state.cart
 	    };
 	};
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	    return {
-	        getCart: function getCart(sessionId) {
-	            (0, _actions.asyncGetCartAction)(dispatch, sessionId);
+	        getCart: function getCart(sessionUuid) {
+	            (0, _actions.asyncGetCartAction)(dispatch, sessionUuid);
 	        }
 	    };
 	};
@@ -39213,7 +39230,7 @@
 	}(_react.Component);
 
 	EntriesView.propTypes = {
-	    entries: _react2.default.PropTypes.array
+	    entries: _react2.default.PropTypes.array.isRequired
 	};
 
 	var mapStateToProps = function mapStateToProps(state, ownProps) {

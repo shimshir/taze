@@ -1,21 +1,30 @@
 package de.admir.model.cart;
 
-import de.admir.model.session.Session;
+import de.admir.model.IdentifiableModel;
+import de.admir.model.Session;
 
 import java.util.List;
 
-public class Cart {
-    private String uuid;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+@Entity
+public class Cart extends IdentifiableModel {
+    public Cart() {
+    }
+
+    public Cart(Session session) {
+        this.session = session;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "session_uuid", referencedColumnName = "uuid", unique = true)
     private Session session;
+    @OneToMany(cascade = CascadeType.ALL)
     private List<CartEntry> entries;
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 
     public Session getSession() {
         return session;

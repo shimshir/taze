@@ -9,8 +9,8 @@ import {asyncGetCartAction} from '../../actions/actions.js';
 class CartView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('cart');
-        if (this.props.sessionId)
-            this.props.getCart(this.props.sessionId);
+        if (this.props.sessionUuid)
+            this.props.getCart(this.props.sessionUuid);
     }
 
     render() {
@@ -27,15 +27,15 @@ class CartView extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        sessionId: state.session.id,
+        sessionUuid: state.session.uuid,
         cart: state.cart
     }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        getCart: (sessionId) => {
-            asyncGetCartAction(dispatch, sessionId);
+        getCart: (sessionUuid) => {
+            asyncGetCartAction(dispatch, sessionUuid);
         }
     }
 };

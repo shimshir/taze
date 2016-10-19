@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {API_ENDPOINT} from '../constants/constants.js';
+import {API_REST_BASE_PATH, API_CUSTOM_BASE_PATH} from '../constants/constants.js';
 import Cookies from 'js-cookie';
 
 export const CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = 'CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION';
@@ -22,25 +22,25 @@ export const changeActiveTopNavbarItemAction = (topNavbarItem) => {
 export const asyncCheckSessionAction = (dispatch) => {
     const session = Cookies.getJSON('tazeSession');
     if (session != undefined) {
-        axios.get(API_ENDPOINT + `/session/${session.id}`)
-            .then(res => asyncGetCartAction(dispatch, res.data.id))
+        axios.get(API_REST_BASE_PATH + `/sessions/search/findByUuidValue?uuid=${session.uuid}`)
+            .then(res => asyncGetCartAction(dispatch, res.data.uuid))
             .catch(res => {
                 if (res.status == 404)
-                    asyncGetNewSessionAction(dispatch);
+                    asyncCreateNewSessionAction(dispatch);
             });
     } else {
-        asyncGetNewSessionAction(dispatch);
+        asyncCreateNewSessionAction(dispatch);
     }
 
 };
 
-const asyncGetNewSessionAction = (dispatch) => {
-    axios.get(API_ENDPOINT + '/session')
+const asyncCreateNewSessionAction = (dispatch) => {
+    axios.get(API_CUSTOM_BASE_PATH + '/sessions/create')
         .then(res => {
             const session = res.data;
             Cookies.set('tazeSession', session, { path: '/', expires: 1 });
             dispatch(receiveNewSessionAction(session));
-            asyncGetCartAction(dispatch, session.id);
+            asyncGetCartAction(dispatch, session.uuid);
         });
 
 };
@@ -52,9 +52,24 @@ const receiveNewSessionAction = (session) => {
     }
 };
 
-export const asyncGetCartAction = (dispatch, sessionId) => {
-    axios.get(API_ENDPOINT + `/cart?sessionId=${sessionId}`)
-        .then(res => dispatch(receiveCartAction(res.data)));
+export const asyncGetCartAction = (dispatch, sessionUuid) => {
+    axios.get(API_REST_BASE_PATH + `/carts/search/findBySessionUuidValue?sessionUuid=${sessionUuid}`)
+        .then(res => asyncGetCartEntriesAction(dispatch, res.data))
+        .catch(res => {
+            if (res.status == 404)
+                asyncCreateNewCartAction(dispatch, sessionUuid);
+        });
+};
+
+const asyncCreateNewCartAction = (dispatch, sessionUuid) => {
+    axios.get(API_CUSTOM_BASE_PATH + `/carts/create?sessionUuid=${sessionUuid}`)
+        .then(res => asyncGetCartEntriesAction(dispatch, res.data))
+};
+
+const asyncGetCartEntriesAction = (dispatch, cartData) => {
+    axios.get(cartData._links.entries.href)
+        .then(res => res.data._embedded.cartEntries)
+        .then(entries => dispatch(receiveCartAction({id: cartData.id, entries})));
 };
 
 const receiveCartAction = (cart) => {
@@ -65,7 +80,7 @@ const receiveCartAction = (cart) => {
 };
 
 export const asyncAddToCartAction = (dispatch, cartId, entry) => {
-    axios.post(API_ENDPOINT + `/cart/${cartId}/entries`, entry)
+    axios.post(API_REST_BASE_PATH + `/carts/${cartId}/entries`, entry)
         .then(res => dispatch(addToCartAction(res.data)));
 };
 
@@ -78,7 +93,7 @@ const addToCartAction = (entry) => {
 
 export const asyncRemoveCartEntryAction = (dispatch, entryId) => {
     dispatch(removeCartEntryAction(entryId));
-    axios.delete(API_ENDPOINT + `/entries/${entryId}`);
+    axios.delete(API_REST_BASE_PATH + `/entries/${entryId}`);
 };
 
 const removeCartEntryAction = (entryId) => {
@@ -90,7 +105,7 @@ const removeCartEntryAction = (entryId) => {
 
 export const asyncUpdateCartEntryAction = (dispatch, cartId, entry) => {
     dispatch(updateCartEntryAmountAction(entry.id, entry.amount));
-    axios.put(API_ENDPOINT + `/cart/${cartId}/entries/${entry.id}`, entry);
+    axios.put(API_REST_BASE_PATH + `/carts/${cartId}/entries/${entry.id}`, entry);
 };
 
 const updateCartEntryAmountAction = (entryId, amount) => {

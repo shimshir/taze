@@ -2,22 +2,19 @@ package de.admir.model;
 
 import java.math.BigDecimal;
 
-public class Product {
-    private String uuid;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity
+public class Product extends IdentifiableModel {
+    @Column(unique = true)
     private String code;
     private String name;
     private String listImage;
     private String pdpImage;
     private BigDecimal pricePerUnit;
     private String unitCode;
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
+    private String footnote;
 
     public String getCode() {
         return code;
@@ -65,5 +62,13 @@ public class Product {
 
     public void setUnitCode(String unitCode) {
         this.unitCode = unitCode;
+    }
+
+    public String getFootnote() {
+        return footnote;
+    }
+
+    public void setFootnote(String footnote) {
+        this.footnote = footnote;
     }
 }

@@ -33,7 +33,7 @@ class EntriesView extends Component {
 }
 
 EntriesView.propTypes = {
-    entries: React.PropTypes.array
+    entries: React.PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {

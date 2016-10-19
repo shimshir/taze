@@ -71,5 +71,6 @@ export const HORSE = {
     listImage: '/img/products/horse-list.jpg'
 };
 
-//export const API_ENDPOINT = "http://localhost:18081/api/v1";
-export const API_ENDPOINT = `${window.location.origin}/api/v1`;
+export const API_REST_BASE_PATH = "http://localhost:18081/api/rest";
+export const API_CUSTOM_BASE_PATH = "http://localhost:18081/api/custom";
+//export const API_REST_BASE_PATH = `${window.location.origin}/api/custom`;
