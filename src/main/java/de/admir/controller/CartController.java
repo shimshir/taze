@@ -52,7 +52,7 @@ class CartController {
             }
             return null;
         }, cart -> {
-            request.setAttribute("sessionUuid", cart.getSession().getUuid());
+            request.getParameterMap().forEach(request::setAttribute);
             return "forward:" + API_REST_BASE_PATH + "/carts/search/findBySessionUuidValue";
         });
     }

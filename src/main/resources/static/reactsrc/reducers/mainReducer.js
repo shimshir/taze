@@ -5,6 +5,7 @@ import cartReducer from './cartReducer.js';
 import placeOrderFormReducer from './placeOrderFormReducer.js';
 import sessionReducer from './sessionReducer.js';
 import errorMapReducer from './errorMapReducer.js';
+import productsReducer from './productsReducer.js';
 
 const MainReducer = combineReducers({
     routing: routerReducer,
@@ -12,7 +13,8 @@ const MainReducer = combineReducers({
     cart: cartReducer,
     placeOrderForm: placeOrderFormReducer,
     session: sessionReducer,
-    errorMap: errorMapReducer
+    errorMap: errorMapReducer,
+    products: productsReducer
 });
 
 export default MainReducer

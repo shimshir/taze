@@ -23,7 +23,7 @@ const privateEntryReducer = (entriesState = [], action) => {
   }
 };
 
-const cartReducer = (cartState = {entries: []}, action) => {
+const cartReducer = (cartState = {}, action) => {
     switch (action.type) {
         case RECEIVE_CART_ACTION:
             return action.cart;

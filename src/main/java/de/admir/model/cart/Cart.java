@@ -19,12 +19,14 @@ public class Cart extends IdentifiableModel {
     @OneToOne
     @JoinColumn(name = "session_uuid", referencedColumnName = "uuid", unique = true)
     private Session session;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    /*
     @JoinTable(
             name = "cart_2_entries",
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "entry_id")
     )
+    */
     private Collection<CartEntry> entries;
 
     public Session getSession() {

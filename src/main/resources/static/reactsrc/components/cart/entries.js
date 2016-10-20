@@ -23,7 +23,7 @@ class EntriesView extends Component {
                 }
                 <div className="cart-summary">
                     <b className="text-uppercase">Ukupna cijena: </b>
-                    <b className="price-value">{`${this.props.totalCartValue} KM`}</b>
+                    <b className="price-value">{`${this.props.totalCartPrice} KM`}</b>
                     <br/><br/>
                     <PlaceOrderDialog/>
                 </div>
@@ -38,9 +38,9 @@ EntriesView.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        totalCartValue: state.cart.entries
-            .map(entry => entry.amount * entry.product.pricePerUnit)
-            .reduce((sum, priceValue) => sum + priceValue, 0)
+        totalCartPrice: state.cart.entries
+            .map(entry => entry.totalPrice)
+            .reduce((sum, totalEntryPrice) => sum + totalEntryPrice, 0)
     }
 };
 

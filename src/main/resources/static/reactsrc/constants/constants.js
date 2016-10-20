@@ -43,34 +43,6 @@ export const LOREM_IPSUM_PARAGRAPHS = () => {
     );
 };
 
-export const CHICKEN = {
-    code: 'chicken',
-    name: 'Pile',
-    pricePerUnit: 8,
-    unitCode: 'kg',
-    pdpImage: '/img/products/chicken-pdp.jpg',
-    listImage: '/img/products/chicken-list.jpg',
-    footnote: "* Kilaža i cijena se podešavaju da bude cio broj piladi."
-};
-
-export const HONEY = {
-    code: 'honey',
-    name: 'Med',
-    pricePerUnit: 10,
-    unitCode: 'l',
-    pdpImage: '/img/products/honey-pdp.jpg',
-    listImage: '/img/products/honey-list.jpg'
-};
-
-export const HORSE = {
-    code: 'horse',
-    name: 'Konj',
-    pricePerUnit: 12,
-    unitCode: 'kg',
-    pdpImage: '/img/products/horse-pdp.jpg',
-    listImage: '/img/products/horse-list.jpg'
-};
-
 export const API_REST_BASE_PATH = "http://localhost:18081/api/rest";
 export const API_CUSTOM_BASE_PATH = "http://localhost:18081/api/custom";
 //export const API_REST_BASE_PATH = `${window.location.origin}/api/custom`;
