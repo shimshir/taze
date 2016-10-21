@@ -1,6 +1,6 @@
 package de.admir.model.cart.projection;
 
-import de.admir.model.Product;
+import de.admir.model.product.Product;
 import de.admir.model.cart.CartEntry;
 
 import org.springframework.data.rest.core.config.Projection;

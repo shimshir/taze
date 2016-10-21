@@ -9,7 +9,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import lombok.Data;
+
 @Entity
+@Data
 public class Session extends IdentifiableModel {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "uuid", unique = true)
@@ -21,22 +24,6 @@ public class Session extends IdentifiableModel {
         return uuid.getValue();
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
     @PrePersist
     protected void onCreate() {
         created = new Date();
@@ -46,15 +33,6 @@ public class Session extends IdentifiableModel {
     @PreUpdate
     protected void onUpdate() {
         updated = new Date();
-    }
-
-    @Override
-    public String toString() {
-        return "Session{" +
-                "uuid=" + getUuid() +
-                ", created=" + created +
-                ", updated=" + updated +
-                '}';
     }
 
     @Override
