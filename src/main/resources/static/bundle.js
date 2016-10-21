@@ -36838,7 +36838,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.removeFromErrorMapAction = exports.addToErrorMapAction = exports.updatePlaceOrderFormAction = exports.asyncGetProductAction = exports.asyncGetProductsAction = exports.asyncUpdateCartEntryAction = exports.asyncRemoveCartEntryAction = exports.asyncAddToCartAction = exports.asyncGetCartAction = exports.asyncCheckSessionAction = exports.changeActiveTopNavbarItemAction = exports.REMOVE_FROM_ERROR_MAP_ACTION = exports.ADD_TO_ERROR_MAP_ACTION = exports.RECEIVE_PRODUCT_ACTION = exports.RECEIVE_PRODUCTS_ACTION = exports.RECEIVE_CART_ACTION = exports.RECEIVE_NEW_SESSION_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.REMOVE_CART_ENTRY_ACTION = exports.ADD_TO_CART_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = undefined;
+	exports.removeFromErrorMapAction = exports.addToErrorMapAction = exports.updatePlaceOrderFormAction = exports.asyncGetProductAction = exports.asyncGetProductsAction = exports.asyncUpdateCartEntryAction = exports.asyncRemoveCartEntryAction = exports.asyncAddToCartAction = exports.asyncGetCartAction = exports.asyncCheckSessionAction = exports.changeActiveTopNavbarItemAction = exports.REMOVE_FROM_ERROR_MAP_ACTION = exports.ADD_TO_ERROR_MAP_ACTION = exports.RECEIVE_PRODUCT_ACTION = exports.RECEIVE_PRODUCTS_ACTION = exports.RECEIVE_CART_ENTRIES_ACTION = exports.RECEIVE_CART_ACTION = exports.RECEIVE_NEW_SESSION_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.REMOVE_CART_ENTRY_ACTION = exports.ADD_TO_CART_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = undefined;
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -36861,6 +36861,7 @@
 	var UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = 'UPDATE_PLACE_ORDER_FORM_ACTION';
 	var RECEIVE_NEW_SESSION_ACTION = exports.RECEIVE_NEW_SESSION_ACTION = 'RECEIVE_NEW_SESSION_ACTION';
 	var RECEIVE_CART_ACTION = exports.RECEIVE_CART_ACTION = 'RECEIVE_CART_ACTION';
+	var RECEIVE_CART_ENTRIES_ACTION = exports.RECEIVE_CART_ENTRIES_ACTION = 'RECEIVE_CART_ENTRIES_ACTION';
 	var RECEIVE_PRODUCTS_ACTION = exports.RECEIVE_PRODUCTS_ACTION = 'RECEIVE_PRODUCTS_ACTION';
 	var RECEIVE_PRODUCT_ACTION = exports.RECEIVE_PRODUCT_ACTION = 'RECEIVE_PRODUCT_ACTION';
 	var ADD_TO_ERROR_MAP_ACTION = exports.ADD_TO_ERROR_MAP_ACTION = 'ADD_TO_ERROR_MAP_ACTION';
@@ -36905,8 +36906,9 @@
 	};
 
 	var asyncGetCartAction = exports.asyncGetCartAction = function asyncGetCartAction(dispatch, sessionUuid) {
-	    _axios2.default.get(_constants.API_REST_BASE_PATH + ('/carts/search/findBySessionUuidValue?sessionUuid=' + sessionUuid + '&projection=with-entries')).then(function (res) {
-	        return dispatch(receiveCartAction(res.data));
+	    _axios2.default.get(_constants.API_REST_BASE_PATH + ('/carts/search/findBySessionUuidValue?sessionUuid=' + sessionUuid)).then(function (res) {
+	        dispatch(receiveCartAction(res.data));
+	        asyncGetCartEntriesAction(dispatch, res.data._links.entries.href);
 	    }).catch(function (res) {
 	        if (res.status == 404) {
 	            asyncCreateNewCartAction(dispatch, sessionUuid);
@@ -36915,22 +36917,37 @@
 	};
 
 	var asyncCreateNewCartAction = function asyncCreateNewCartAction(dispatch, sessionUuid) {
-	    _axios2.default.get(_constants.API_CUSTOM_BASE_PATH + ('/carts/create?sessionUuid=' + sessionUuid + '&projection=with-entries')).then(function (res) {
-	        return dispatch(receiveCartAction(res.data));
+	    _axios2.default.get(_constants.API_CUSTOM_BASE_PATH + ('/carts/create?sessionUuid=' + sessionUuid)).then(function (res) {
+	        dispatch(receiveCartAction(res.data));
+	        asyncGetCartEntriesAction(dispatch, res.data._links.entries.href);
 	    });
 	};
 
 	var receiveCartAction = function receiveCartAction(cart) {
-	    // TODO: cart's entries dont contain product data, figure out a way to get it
 	    return {
 	        type: RECEIVE_CART_ACTION,
 	        cart: cart
 	    };
 	};
 
+	var asyncGetCartEntriesAction = function asyncGetCartEntriesAction(dispatch, entriesUri) {
+	    _axios2.default.get(entriesUri, { params: { projection: 'with-product' } }).then(function (res) {
+	        return dispatch(receiveCartEntriesAction(res.data._embedded.cartEntries));
+	    });
+	};
+
+	var receiveCartEntriesAction = function receiveCartEntriesAction(entries) {
+	    return {
+	        type: RECEIVE_CART_ENTRIES_ACTION,
+	        entries: entries
+	    };
+	};
+
 	var asyncAddToCartAction = exports.asyncAddToCartAction = function asyncAddToCartAction(dispatch, cartUri, entry) {
 	    _axios2.default.post(_constants.API_REST_BASE_PATH + '/cartEntries?projection=with-product', _extends({}, entry, { product: entry.product._links.self.href, cart: cartUri })).then(function (postEntryResponse) {
-	        if (postEntryResponse.status == 201) dispatch(addToCartAction(postEntryResponse.data));
+	        if (postEntryResponse.status == 201) {
+	            dispatch(addToCartAction(postEntryResponse.data));
+	        }
 	    });
 	};
 
@@ -36943,7 +36960,9 @@
 
 	var asyncRemoveCartEntryAction = exports.asyncRemoveCartEntryAction = function asyncRemoveCartEntryAction(dispatch, entryId) {
 	    dispatch(removeCartEntryAction(entryId));
-	    _axios2.default.delete(_constants.API_REST_BASE_PATH + ('/cartEntries/' + entryId));
+	    _axios2.default.delete(_constants.API_REST_BASE_PATH + ('/cartEntries/' + entryId)).catch(function (res) {
+	        return console.log(res);
+	    });
 	};
 
 	var removeCartEntryAction = function removeCartEntryAction(entryId) {
@@ -39134,8 +39153,16 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            console.log(this.props.cart.entries);
-	            return _react2.default.createElement('div', null);
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(_stage2.default, { headerText: 'Korpa', stageBackgroundClass: 'cart' }),
+	                _react2.default.createElement(
+	                    _contentContainer2.default,
+	                    null,
+	                    this.props.cart.entries ? _react2.default.createElement(_entries2.default, { entries: this.props.cart.entries }) : null
+	                )
+	            );
 	        }
 	    }]);
 
@@ -39217,7 +39244,7 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement(
+	            return this.props.entries ? _react2.default.createElement(
 	                'div',
 	                { className: 'cart-entries-container' },
 	                this.props.entries ? _react2.default.createElement(
@@ -39248,7 +39275,7 @@
 	                    _react2.default.createElement('br', null),
 	                    _react2.default.createElement(_placeOrderDialog2.default, null)
 	                )
-	            );
+	            ) : null;
 	        }
 	    }]);
 
@@ -39261,11 +39288,11 @@
 
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	    return {
-	        totalCartPrice: state.cart.entries.map(function (entry) {
+	        totalCartPrice: state.cart.entries ? state.cart.entries.map(function (entry) {
 	            return entry.totalPrice;
 	        }).reduce(function (sum, totalEntryPrice) {
 	            return sum + totalEntryPrice;
-	        }, 0)
+	        }, 0) : undefined
 	    };
 	};
 
@@ -42521,6 +42548,8 @@
 	            return entriesState.map(function (entry) {
 	                if (entry.id === action.entryId) return _extends({}, entry, { amount: action.amount });else return entry;
 	            });
+	        case _actions.RECEIVE_CART_ENTRIES_ACTION:
+	            return action.entries;
 	        default:
 	            return entriesState;
 	    }
@@ -42536,6 +42565,7 @@
 	        case _actions.ADD_TO_CART_ACTION:
 	        case _actions.REMOVE_CART_ENTRY_ACTION:
 	        case _actions.UPDATE_CART_ENTRY_AMOUNT_ACTION:
+	        case _actions.RECEIVE_CART_ENTRIES_ACTION:
 	            var entries = privateEntryReducer(cartState.entries, action);
 	            return _extends({}, cartState, { entries: entries });
 	        default:

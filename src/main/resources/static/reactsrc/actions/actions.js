@@ -9,6 +9,7 @@ export const UPDATE_CART_ENTRY_AMOUNT_ACTION = 'UPDATE_CART_ENTRY_AMOUNT_ACTION'
 export const UPDATE_PLACE_ORDER_FORM_ACTION = 'UPDATE_PLACE_ORDER_FORM_ACTION';
 export const RECEIVE_NEW_SESSION_ACTION = 'RECEIVE_NEW_SESSION_ACTION';
 export const RECEIVE_CART_ACTION = 'RECEIVE_CART_ACTION';
+export const RECEIVE_CART_ENTRIES_ACTION = 'RECEIVE_CART_ENTRIES_ACTION';
 export const RECEIVE_PRODUCTS_ACTION = 'RECEIVE_PRODUCTS_ACTION';
 export const RECEIVE_PRODUCT_ACTION = 'RECEIVE_PRODUCT_ACTION';
 export const ADD_TO_ERROR_MAP_ACTION = 'ADD_TO_ERROR_MAP_ACTION';
@@ -56,8 +57,11 @@ const receiveNewSessionAction = (session) => {
 };
 
 export const asyncGetCartAction = (dispatch, sessionUuid) => {
-    axios.get(API_REST_BASE_PATH + `/carts/search/findBySessionUuidValue?sessionUuid=${sessionUuid}&projection=with-entries`)
-        .then(res => dispatch(receiveCartAction(res.data)))
+    axios.get(API_REST_BASE_PATH + `/carts/search/findBySessionUuidValue?sessionUuid=${sessionUuid}`)
+        .then(res => {
+            dispatch(receiveCartAction(res.data));
+            asyncGetCartEntriesAction(dispatch, res.data._links.entries.href)
+        })
         .catch(res => {
             if (res.status == 404) {
                 asyncCreateNewCartAction(dispatch, sessionUuid);
@@ -66,23 +70,38 @@ export const asyncGetCartAction = (dispatch, sessionUuid) => {
 };
 
 const asyncCreateNewCartAction = (dispatch, sessionUuid) => {
-    axios.get(API_CUSTOM_BASE_PATH + `/carts/create?sessionUuid=${sessionUuid}&projection=with-entries`)
-        .then(res => dispatch(receiveCartAction(res.data)));
+    axios.get(API_CUSTOM_BASE_PATH + `/carts/create?sessionUuid=${sessionUuid}`)
+        .then(res => {
+            dispatch(receiveCartAction(res.data));
+            asyncGetCartEntriesAction(dispatch, res.data._links.entries.href)
+        });
 };
 
 const receiveCartAction = (cart) => {
-    // TODO: cart's entries dont contain product data, figure out a way to get it
     return {
         type: RECEIVE_CART_ACTION,
         cart
     }
 };
 
+const asyncGetCartEntriesAction = (dispatch, entriesUri) => {
+    axios.get(entriesUri, {params: {projection: 'with-product'}})
+        .then(res =>dispatch(receiveCartEntriesAction(res.data._embedded.cartEntries)));
+};
+
+const receiveCartEntriesAction = (entries) => {
+    return {
+        type: RECEIVE_CART_ENTRIES_ACTION,
+        entries
+    }
+};
+
 export const asyncAddToCartAction = (dispatch, cartUri, entry) => {
     axios.post(API_REST_BASE_PATH + '/cartEntries?projection=with-product', {...entry, product: entry.product._links.self.href, cart: cartUri})
         .then(postEntryResponse => {
-            if (postEntryResponse.status == 201)
+            if (postEntryResponse.status == 201) {
                 dispatch(addToCartAction(postEntryResponse.data));
+            }
         });
 };
 
@@ -95,7 +114,7 @@ const addToCartAction = (entry) => {
 
 export const asyncRemoveCartEntryAction = (dispatch, entryId) => {
     dispatch(removeCartEntryAction(entryId));
-    axios.delete(API_REST_BASE_PATH + `/cartEntries/${entryId}`);
+    axios.delete(API_REST_BASE_PATH + `/cartEntries/${entryId}`).catch(res => console.log(res));
 };
 
 const removeCartEntryAction = (entryId) => {

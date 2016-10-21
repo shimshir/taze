@@ -15,10 +15,15 @@ class CartView extends Component {
     }
 
     render() {
-        console.log(this.props.cart.entries);
         return (
             <div>
-
+                <Stage headerText="Korpa" stageBackgroundClass="cart"/>
+                <ContentContainer>
+                    {this.props.cart.entries ?
+                     <Entries entries={this.props.cart.entries}/>
+                     : null
+                    }
+                </ContentContainer>
             </div>
         );
     }

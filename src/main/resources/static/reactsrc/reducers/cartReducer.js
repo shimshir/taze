@@ -1,4 +1,4 @@
-import { RECEIVE_CART_ACTION, ADD_TO_CART_ACTION, REMOVE_CART_ENTRY_ACTION, UPDATE_CART_ENTRY_AMOUNT_ACTION } from '../actions/actions.js';
+import { RECEIVE_CART_ACTION, RECEIVE_CART_ENTRIES_ACTION, ADD_TO_CART_ACTION, REMOVE_CART_ENTRY_ACTION, UPDATE_CART_ENTRY_AMOUNT_ACTION } from '../actions/actions.js';
 
 const privateEntryReducer = (entriesState = [], action) => {
   switch (action.type) {
@@ -18,6 +18,8 @@ const privateEntryReducer = (entriesState = [], action) => {
                   else
                      return entry;
               });
+      case RECEIVE_CART_ENTRIES_ACTION:
+          return action.entries;
       default:
           return entriesState;
   }
@@ -30,6 +32,7 @@ const cartReducer = (cartState = {}, action) => {
         case ADD_TO_CART_ACTION:
         case REMOVE_CART_ENTRY_ACTION:
         case UPDATE_CART_ENTRY_AMOUNT_ACTION:
+        case RECEIVE_CART_ENTRIES_ACTION:
             const entries = privateEntryReducer(cartState.entries, action);
             return {...cartState, entries};
         default:
