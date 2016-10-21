@@ -1,14 +1,17 @@
 package de.admir.service;
 
-import de.admir.dao.SessionDao;
-import de.admir.model.session.Session;
+import de.admir.model.Session;
+import de.admir.repository.rest.SessionRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
 public class SessionService {
-    public static Session createNewSession() {
-        return SessionDao.createSession();
-    }
+    @Autowired
+    private SessionRepository sessionRepository;
 
-    public static Session getSessionById(String sessionId) {
-        return SessionDao.findSessionByUuid(sessionId).orElse(null);
+    public Session createNewSession() {
+        return sessionRepository.save(new Session());
     }
 }

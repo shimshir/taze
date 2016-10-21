@@ -1,21 +1,30 @@
 package de.admir.model.cart;
 
 
+import de.admir.model.IdentifiableModel;
 import de.admir.model.Product;
 
-public class CartEntry {
-    private String uuid;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.math.BigDecimal;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
+@Entity
+public class CartEntry extends IdentifiableModel {
+    @OneToOne
+    @JoinColumn(nullable = false)
     private Product product;
     private int amount;
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
     private Cart cart;
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 
     public Product getProduct() {
         return product;
@@ -39,5 +48,10 @@ public class CartEntry {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    @Transient
+    public BigDecimal getTotalPrice() {
+        return product.getPricePerUnit().multiply(BigDecimal.valueOf(amount));
     }
 }

@@ -7,40 +7,43 @@ class EntriesView extends Component {
     componentWillMount() {
         console.log('cart entries mounted');
     }
-    
+
     render() {
         return (
+            this.props.entries ?
             <div className="cart-entries-container">
-                {this.props.entries ? 
-                    <ul className="list-group">
-                        {this.props.entries.map(entry =>
-                            <li key={entry.id} className="list-group-item">
-                                <Entry entry={entry} />
-                            </li>
-                        )}
-                    </ul>
+                {this.props.entries ?
+                 <ul className="list-group">
+                     {this.props.entries.map(entry =>
+                                                 <li key={entry.id} className="list-group-item">
+                                                     <Entry entry={entry}/>
+                                                 </li>
+                     )}
+                 </ul>
                     : null
                 }
                 <div className="cart-summary">
                     <b className="text-uppercase">Ukupna cijena: </b>
-                    <b className="price-value">{`${this.props.totalCartValue} KM`}</b>
+                    <b className="price-value">{`${this.props.totalCartPrice} KM`}</b>
                     <br/><br/>
                     <PlaceOrderDialog/>
                 </div>
             </div>
+                :
+            null
         );
     }
 }
 
 EntriesView.propTypes = {
-    entries: React.PropTypes.array
+    entries: React.PropTypes.array.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        totalCartValue: state.cart.entries
-            .map(entry => entry.amount * entry.product.pricePerUnit)
-            .reduce((sum, priceValue) => sum + priceValue, 0)
+        totalCartPrice: state.cart.entries ? state.cart.entries
+            .map(entry => entry.totalPrice)
+            .reduce((sum, totalEntryPrice) => sum + totalEntryPrice, 0) : undefined
     }
 };
 

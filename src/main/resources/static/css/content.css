@@ -4,11 +4,13 @@ div.content-container {
 
 div.card-deck div.card {
     width: 350px;
+    display: inline-block;
+    margin-right: .5rem;
+    margin-left: .5rem;
 }
 
 div.card-img-container {
     height: 230px;
-    width: 350px;
 }
 
 div.card-img-container.chicken {

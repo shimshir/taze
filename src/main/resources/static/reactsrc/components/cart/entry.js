@@ -4,7 +4,7 @@ import {asyncRemoveCartEntryAction, asyncUpdateCartEntryAction} from '../../acti
 import AmountSelect from '../common/amountSelect.js';
 import {Link} from 'react-router';
 
-const EntryView = ({ cart, entry, removeCartEntry, updateEntryAmount }) => {
+const EntryView = ({ entry, removeCartEntry, updateEntryAmount }) => {
     return (
         <div className="row">
             <div className="col-lg-2">
@@ -29,14 +29,14 @@ const EntryView = ({ cart, entry, removeCartEntry, updateEntryAmount }) => {
                         <span className="pseudo-anchor" onClick={() => removeCartEntry(entry.id)}>Izbaci</span>
                     </div>
                     <div className="col-lg-4">
-                        <span className="price-value"><b>{entry.product.pricePerUnit * entry.amount} KM</b></span>
+                        <span className="price-value"><b>{entry.totalPrice} KM</b></span>
                     </div>
                     <div className="col-lg-4">
                         <AmountSelect id="amount"
                                       amounts={new Array(30).fill(1).map((_, i) => i + 1)}
                                       unitCode={entry.product.unitCode}
                                       selectedValue={entry.amount}
-                                      onChange={(event) => updateEntryAmount(cart.id, entry, event.target.value)}
+                                      onChange={(event) => updateEntryAmount(entry.id, event.target.value)}
                         />
                     </div>
                 </div>
@@ -49,22 +49,16 @@ EntryView.PropTypes = {
     entry: React.PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        cart: state.cart
-    }
-};
-
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         removeCartEntry: (entryId) => {
             asyncRemoveCartEntryAction(dispatch, entryId);
         },
-        updateEntryAmount: (cartId, entry, amount) => {
-            asyncUpdateCartEntryAction(dispatch, cartId, {...entry, amount});
+        updateEntryAmount: (entryId, amount) => {
+            asyncUpdateCartEntryAction(dispatch, entryId, amount);
         }
     }
 };
 
-const Entry = connect(mapStateToProps, mapDispatchToProps)(EntryView);
+const Entry = connect(undefined, mapDispatchToProps)(EntryView);
 export default Entry;
