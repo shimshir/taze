@@ -14,7 +14,7 @@ const privateEntryReducer = (entriesState = [], action) => {
           return entriesState
               .map(entry => {
                  if (entry.id === action.entryId)
-                     return {...entry, amount: action.amount};
+                     return {...entry, totalPrice: entry.totalPrice * (action.amount / entry.amount), amount: action.amount};
                   else
                      return entry;
               });
