@@ -100,7 +100,11 @@ const receiveCartEntriesAction = (entries) => {
 };
 
 export const asyncAddToCartAction = (dispatch, cartUri, entry) => {
-    axios.post(API_REST_BASE_PATH + '/cartEntries?projection=with-product', {...entry, product: entry.product._links.self.href, cart: cartUri})
+    axios.post(API_REST_BASE_PATH + '/cartEntries?projection=with-product', {
+        ...entry,
+        product: entry.product._links.self.href,
+        cart: cartUri
+    })
         .then(postEntryResponse => {
             if (postEntryResponse.status == 201) {
                 dispatch(addToCartAction(postEntryResponse.data));
@@ -171,17 +175,36 @@ export const updatePlaceOrderFormAction = (input) => {
 };
 
 export const asyncPlaceOrderAction = (dispatch, placeOrderForm, entries, session) => {
-    asyncCreateCustomerAction(placeOrderForm, session);
-    // TODO: Create the order now (HIGH)
+    asyncCreateCustomerAction(dispatch, placeOrderForm, session)
+        .then(customerCreateRes => asyncCreateOrderAction(dispatch, customerCreateRes.data, session))
+        .then(orderCreateRes =>
+            entries.map(entry =>
+                asyncCreateOrderEntryAction(dispatch, orderCreateRes.data.id, entry.product.id, entry.amount))
+        );
 };
 
-const asyncCreateCustomerAction = (placeOrderForm, session) => {
+const asyncCreateCustomerAction = (dispatch, placeOrderForm, session) => {
     return axios.post(API_REST_BASE_PATH + '/customers', {
         firstName: placeOrderForm.firstName,
         lastName: placeOrderForm.lastName,
         address: placeOrderForm.address,
         email: placeOrderForm.email,
         session: session._links.self.href
+    });
+};
+
+const asyncCreateOrderAction = (dispatch, customer, session) => {
+    return axios.post(API_REST_BASE_PATH + '/orders', {
+        customer: customer._links.self.href,
+        session: session._links.self.href
+    });
+};
+
+const asyncCreateOrderEntryAction = (dispatch, orderId, productId, amount) => {
+    return axios.post(API_REST_BASE_PATH + '/orderEntries', {
+        order: `${API_REST_BASE_PATH}/orders/${orderId}`,
+        product: `${API_REST_BASE_PATH}/products/${productId}`,
+        amount
     });
 };
 

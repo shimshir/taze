@@ -2,6 +2,8 @@ package de.admir.config;
 
 import de.admir.Constants;
 import de.admir.model.Customer;
+import de.admir.model.order.Order;
+import de.admir.model.order.OrderEntry;
 import de.admir.model.product.Product;
 import de.admir.model.Session;
 import de.admir.model.cart.Cart;
@@ -19,6 +21,13 @@ public class RestMvcConfiguration extends RepositoryRestConfigurerAdapter {
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.setBasePath(Constants.API_REST_BASE_PATH);
-        config.exposeIdsFor(Cart.class, CartEntry.class, Product.class, Session.class, ProductCard.class, Customer.class);
+        config.exposeIdsFor(Cart.class,
+                CartEntry.class,
+                Product.class,
+                Session.class,
+                ProductCard.class,
+                Customer.class,
+                Order.class,
+                OrderEntry.class);
     }
 }

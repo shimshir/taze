@@ -17,7 +17,4 @@ public class Customer extends IdentifiableModel {
     private String address;
     @Column(nullable = false)
     private String email;
-    @OneToOne
-    @JoinColumn(name = "session_uuid", referencedColumnName = "uuid", unique = true, nullable = false)
-    private Session session;
 }
