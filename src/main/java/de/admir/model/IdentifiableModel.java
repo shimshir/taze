@@ -7,10 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import lombok.Data;
+import lombok.Getter;
 
 @MappedSuperclass
-@Data
+@Getter
 public abstract class IdentifiableModel implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

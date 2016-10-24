@@ -1,9 +1,11 @@
 import { UPDATE_PLACE_ORDER_FORM_ACTION } from '../actions/actions.js';
 
-const placeOrderFormReducer = (placeOrderFormState = new Map, action) => {
+const placeOrderFormReducer = (placeOrderFormState = {}, action) => {
     switch (action.type) {
         case UPDATE_PLACE_ORDER_FORM_ACTION:
-            return new Map(placeOrderFormState.set(action.input.id, action.input.value));
+            const newForm = {...placeOrderFormState};
+            newForm[action.input.id] = action.input.value;
+            return newForm;
         default:
             return placeOrderFormState;
     }

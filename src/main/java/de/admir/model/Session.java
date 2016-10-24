@@ -1,38 +1,21 @@
 package de.admir.model;
 
-import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 
 import lombok.Data;
 
 @Entity
 @Data
-public class Session extends IdentifiableModel {
+public class Session extends TimestampedModel {
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "uuid", unique = true)
+    @JoinColumn(name = "uuid", unique = true, nullable = false)
     private TazeUuid uuid = new TazeUuid();
-    private Date created;
-    private Date updated;
 
     public String getUuid() {
         return uuid.getValue();
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        created = new Date();
-        updated = created;
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updated = new Date();
     }
 
     @Override

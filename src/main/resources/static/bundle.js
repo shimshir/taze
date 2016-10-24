@@ -36838,7 +36838,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.removeFromErrorMapAction = exports.addToErrorMapAction = exports.updatePlaceOrderFormAction = exports.asyncGetProductAction = exports.asyncGetProductsAction = exports.asyncUpdateCartEntryAction = exports.asyncRemoveCartEntryAction = exports.asyncAddToCartAction = exports.asyncGetCartAction = exports.asyncCheckSessionAction = exports.changeActiveTopNavbarItemAction = exports.REMOVE_FROM_ERROR_MAP_ACTION = exports.ADD_TO_ERROR_MAP_ACTION = exports.RECEIVE_PRODUCT_ACTION = exports.RECEIVE_PRODUCTS_ACTION = exports.RECEIVE_CART_ENTRIES_ACTION = exports.RECEIVE_CART_ACTION = exports.RECEIVE_NEW_SESSION_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.REMOVE_CART_ENTRY_ACTION = exports.ADD_TO_CART_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = undefined;
+	exports.removeFromErrorMapAction = exports.addToErrorMapAction = exports.asyncPlaceOrderAction = exports.updatePlaceOrderFormAction = exports.asyncGetProductAction = exports.asyncGetProductsAction = exports.asyncUpdateCartEntryAction = exports.asyncRemoveCartEntryAction = exports.asyncAddToCartAction = exports.asyncGetCartAction = exports.asyncCheckSessionAction = exports.changeActiveTopNavbarItemAction = exports.REMOVE_FROM_ERROR_MAP_ACTION = exports.ADD_TO_ERROR_MAP_ACTION = exports.RECEIVE_PRODUCT_ACTION = exports.RECEIVE_PRODUCTS_ACTION = exports.RECEIVE_CART_ENTRIES_ACTION = exports.RECEIVE_CART_ACTION = exports.RECEIVE_NEW_SESSION_ACTION = exports.UPDATE_PLACE_ORDER_FORM_ACTION = exports.UPDATE_CART_ENTRY_AMOUNT_ACTION = exports.REMOVE_CART_ENTRY_ACTION = exports.ADD_TO_CART_ACTION = exports.CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = undefined;
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -36878,7 +36878,8 @@
 	    var session = _jsCookie2.default.getJSON('tazeSession');
 	    if (session != undefined) {
 	        _axios2.default.get(_constants.API_REST_BASE_PATH + ('/sessions/search/findByUuidValue?uuid=' + session.uuid)).then(function (res) {
-	            return asyncGetCartAction(dispatch, res.data.uuid);
+	            dispatch(receiveNewSessionAction(res.data));
+	            asyncGetCartAction(dispatch, res.data);
 	        }).catch(function (res) {
 	            if (res.status == 404) {
 	                asyncCreateNewSessionAction(dispatch);
@@ -36890,11 +36891,11 @@
 	};
 
 	var asyncCreateNewSessionAction = function asyncCreateNewSessionAction(dispatch) {
-	    _axios2.default.get(_constants.API_CUSTOM_BASE_PATH + '/sessions/create').then(function (res) {
+	    _axios2.default.post(_constants.API_REST_BASE_PATH + '/sessions', {}).then(function (res) {
 	        var session = res.data;
 	        _jsCookie2.default.set('tazeSession', session, { path: '/', expires: 1 });
 	        dispatch(receiveNewSessionAction(session));
-	        asyncGetCartAction(dispatch, session.uuid);
+	        asyncGetCartAction(dispatch, session);
 	    });
 	};
 
@@ -36905,19 +36906,19 @@
 	    };
 	};
 
-	var asyncGetCartAction = exports.asyncGetCartAction = function asyncGetCartAction(dispatch, sessionUuid) {
-	    _axios2.default.get(_constants.API_REST_BASE_PATH + ('/carts/search/findBySessionUuidValue?sessionUuid=' + sessionUuid)).then(function (res) {
+	var asyncGetCartAction = exports.asyncGetCartAction = function asyncGetCartAction(dispatch, session) {
+	    _axios2.default.get(_constants.API_REST_BASE_PATH + ('/carts/search/findBySessionUuidValue?sessionUuid=' + session.uuid)).then(function (res) {
 	        dispatch(receiveCartAction(res.data));
 	        asyncGetCartEntriesAction(dispatch, res.data._links.entries.href);
 	    }).catch(function (res) {
 	        if (res.status == 404) {
-	            asyncCreateNewCartAction(dispatch, sessionUuid);
+	            asyncCreateNewCartAction(dispatch, session);
 	        }
 	    });
 	};
 
-	var asyncCreateNewCartAction = function asyncCreateNewCartAction(dispatch, sessionUuid) {
-	    _axios2.default.get(_constants.API_CUSTOM_BASE_PATH + ('/carts/create?sessionUuid=' + sessionUuid)).then(function (res) {
+	var asyncCreateNewCartAction = function asyncCreateNewCartAction(dispatch, session) {
+	    _axios2.default.post(_constants.API_REST_BASE_PATH + '/carts', { session: session._links.self.href }).then(function (res) {
 	        dispatch(receiveCartAction(res.data));
 	        asyncGetCartEntriesAction(dispatch, res.data._links.entries.href);
 	    });
@@ -37016,6 +37017,21 @@
 	        type: UPDATE_PLACE_ORDER_FORM_ACTION,
 	        input: input
 	    };
+	};
+
+	var asyncPlaceOrderAction = exports.asyncPlaceOrderAction = function asyncPlaceOrderAction(dispatch, placeOrderForm, entries, session) {
+	    asyncCreateCustomerAction(placeOrderForm, session);
+	    // TODO: Create the order now (HIGH)
+	};
+
+	var asyncCreateCustomerAction = function asyncCreateCustomerAction(placeOrderForm, session) {
+	    return _axios2.default.post(_constants.API_REST_BASE_PATH + '/customers', {
+	        firstName: placeOrderForm.firstName,
+	        lastName: placeOrderForm.lastName,
+	        address: placeOrderForm.address,
+	        email: placeOrderForm.email,
+	        session: session._links.self.href
+	    });
 	};
 
 	var addToErrorMapAction = exports.addToErrorMapAction = function addToErrorMapAction(key, error) {
@@ -38214,12 +38230,12 @@
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.API_CUSTOM_BASE_PATH = exports.API_REST_BASE_PATH = exports.LOREM_IPSUM_PARAGRAPHS = undefined;
+	exports.API_REST_BASE_PATH = exports.LOREM_IPSUM_PARAGRAPHS = undefined;
 
 	var _react = __webpack_require__(299);
 
@@ -38229,43 +38245,41 @@
 
 	var LOREM_IPSUM_PARAGRAPHS = exports.LOREM_IPSUM_PARAGRAPHS = function LOREM_IPSUM_PARAGRAPHS() {
 	    return _react2.default.createElement(
-	        'div',
+	        "div",
 	        null,
 	        _react2.default.createElement(
-	            'p',
+	            "p",
 	            null,
-	            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper augue vel neque porttitor suscipit. Aliquam accumsan dapibus metus vel dictum. Proin auctor quis ligula sit amet mattis. Duis porta aliquet nibh sit amet dictum. Nunc a finibus eros. Nulla id augue eros. Donec vel dui a mauris rutrum eleifend sed in nisi.'
+	            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper augue vel neque porttitor suscipit. Aliquam accumsan dapibus metus vel dictum. Proin auctor quis ligula sit amet mattis. Duis porta aliquet nibh sit amet dictum. Nunc a finibus eros. Nulla id augue eros. Donec vel dui a mauris rutrum eleifend sed in nisi."
 	        ),
 	        _react2.default.createElement(
-	            'p',
+	            "p",
 	            null,
-	            'Suspendisse vulputate massa elit, rutrum condimentum felis fringilla sit amet. Vivamus diam arcu, ornare imperdiet condimentum a, elementum ac ante. Mauris varius molestie purus, sed varius risus volutpat eget. Duis sagittis erat ex, a pulvinar sapien dapibus id. Aenean sit amet consequat dolor. Pellentesque consequat, risus et vulputate hendrerit, velit sapien malesuada metus, nec efficitur neque ex eget massa. Sed blandit mi et enim molestie laoreet. Etiam luctus, felis quis egestas convallis, nisl est varius nunc, a rhoncus dolor dolor vitae justo.'
+	            "Suspendisse vulputate massa elit, rutrum condimentum felis fringilla sit amet. Vivamus diam arcu, ornare imperdiet condimentum a, elementum ac ante. Mauris varius molestie purus, sed varius risus volutpat eget. Duis sagittis erat ex, a pulvinar sapien dapibus id. Aenean sit amet consequat dolor. Pellentesque consequat, risus et vulputate hendrerit, velit sapien malesuada metus, nec efficitur neque ex eget massa. Sed blandit mi et enim molestie laoreet. Etiam luctus, felis quis egestas convallis, nisl est varius nunc, a rhoncus dolor dolor vitae justo."
 	        ),
 	        _react2.default.createElement(
-	            'p',
+	            "p",
 	            null,
-	            'Fusce mauris risus, molestie ac viverra ut, placerat non libero. Mauris ex quam, tempor a augue vitae, congue malesuada nulla. Suspendisse eu tempor odio. Duis malesuada magna ut dapibus facilisis. Curabitur purus sapien, auctor vitae rhoncus sit amet, ornare nec orci. Morbi ut augue vel urna tempor tempor ac ac lectus. Ut vel egestas sem. Aenean ante magna, condimentum id vehicula id, volutpat vitae urna. Curabitur dictum iaculis hendrerit. Quisque dapibus quis odio ut posuere. Nullam sed congue lorem. Praesent eget nisl non libero facilisis bibendum. Praesent nec orci eros. Aliquam a purus vel nisl ultrices dignissim vitae sit amet diam.'
+	            "Fusce mauris risus, molestie ac viverra ut, placerat non libero. Mauris ex quam, tempor a augue vitae, congue malesuada nulla. Suspendisse eu tempor odio. Duis malesuada magna ut dapibus facilisis. Curabitur purus sapien, auctor vitae rhoncus sit amet, ornare nec orci. Morbi ut augue vel urna tempor tempor ac ac lectus. Ut vel egestas sem. Aenean ante magna, condimentum id vehicula id, volutpat vitae urna. Curabitur dictum iaculis hendrerit. Quisque dapibus quis odio ut posuere. Nullam sed congue lorem. Praesent eget nisl non libero facilisis bibendum. Praesent nec orci eros. Aliquam a purus vel nisl ultrices dignissim vitae sit amet diam."
 	        ),
 	        _react2.default.createElement(
-	            'p',
+	            "p",
 	            null,
-	            ' In mattis lectus at erat sollicitudin, ac pharetra est tempus. Vestibulum nec lorem nec nulla facilisis pulvinar. Aliquam scelerisque, metus pulvinar placerat tincidunt, risus nibh tincidunt risus, a posuere sapien urna vitae nunc. Suspendisse quis tortor justo. Nulla pulvinar tempor interdum. Nunc nec lectus ex. Phasellus auctor elit id pulvinar hendrerit. Duis ut erat varius, tempor libero eget, aliquet augue. Aliquam semper, turpis a pharetra interdum, tortor sem commodo nibh, quis mattis mi ipsum non urna. Vivamus dapibus sed mi in lacinia. Quisque interdum sem volutpat metus faucibus porttitor. Nullam ante ante, sollicitudin auctor elit ac, sollicitudin consectetur purus.'
+	            " In mattis lectus at erat sollicitudin, ac pharetra est tempus. Vestibulum nec lorem nec nulla facilisis pulvinar. Aliquam scelerisque, metus pulvinar placerat tincidunt, risus nibh tincidunt risus, a posuere sapien urna vitae nunc. Suspendisse quis tortor justo. Nulla pulvinar tempor interdum. Nunc nec lectus ex. Phasellus auctor elit id pulvinar hendrerit. Duis ut erat varius, tempor libero eget, aliquet augue. Aliquam semper, turpis a pharetra interdum, tortor sem commodo nibh, quis mattis mi ipsum non urna. Vivamus dapibus sed mi in lacinia. Quisque interdum sem volutpat metus faucibus porttitor. Nullam ante ante, sollicitudin auctor elit ac, sollicitudin consectetur purus."
 	        ),
 	        _react2.default.createElement(
-	            'p',
+	            "p",
 	            null,
-	            'Vestibulum eu nulla vulputate purus aliquet aliquet. Donec tempor dignissim lacus. Nam ultricies mi eget dolor sodales viverra. Aenean rhoncus a nisl id feugiat. Donec vestibulum eros at quam fringilla maximus. Nunc efficitur eleifend justo eu imperdiet. Proin mollis, tortor eu interdum imperdiet, lorem elit venenatis eros, quis varius arcu magna ac eros. Aenean nulla diam, rutrum ut iaculis id, facilisis in lectus. Quisque lobortis non diam eget sollicitudin. Vivamus facilisis ante id metus maximus, vitae tristique ante ornare. Etiam nec laoreet nisi. Cras efficitur ex vel posuere aliquam.'
+	            "Vestibulum eu nulla vulputate purus aliquet aliquet. Donec tempor dignissim lacus. Nam ultricies mi eget dolor sodales viverra. Aenean rhoncus a nisl id feugiat. Donec vestibulum eros at quam fringilla maximus. Nunc efficitur eleifend justo eu imperdiet. Proin mollis, tortor eu interdum imperdiet, lorem elit venenatis eros, quis varius arcu magna ac eros. Aenean nulla diam, rutrum ut iaculis id, facilisis in lectus. Quisque lobortis non diam eget sollicitudin. Vivamus facilisis ante id metus maximus, vitae tristique ante ornare. Etiam nec laoreet nisi. Cras efficitur ex vel posuere aliquam."
 	        )
 	    );
 	};
 
 	// Development
-	// export const API_REST_BASE_PATH = "http://localhost:18081/api/rest";
-	// export const API_CUSTOM_BASE_PATH = "http://localhost:18081/api/custom";
+	var API_REST_BASE_PATH = exports.API_REST_BASE_PATH = "http://localhost:18081/api/rest";
 
 	// Production
-	var API_REST_BASE_PATH = exports.API_REST_BASE_PATH = window.location.origin + '/api/rest';
-	var API_CUSTOM_BASE_PATH = exports.API_CUSTOM_BASE_PATH = window.location.origin + '/api/custom';
+	// export const API_REST_BASE_PATH = `${window.location.origin}/api/rest`;
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/home/amemic/projects/taze/src/main/resources/static/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "constants.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
@@ -39154,8 +39168,8 @@
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
 	            this.props.changeActiveTopNavbarItem('cart');
-	            if (this.props.sessionUuid) {
-	                this.props.getCart(this.props.sessionUuid);
+	            if (this.props.session.uuid) {
+	                this.props.getCart(this.props.session);
 	            }
 	        }
 	    }, {
@@ -39208,15 +39222,15 @@
 
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	    return {
-	        sessionUuid: state.session.uuid,
+	        session: state.session,
 	        cart: state.cart
 	    };
 	};
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	    return {
-	        getCart: function getCart(sessionUuid) {
-	            (0, _actions.asyncGetCartAction)(dispatch, sessionUuid);
+	        getCart: function getCart(session) {
+	            return (0, _actions.asyncGetCartAction)(dispatch, session);
 	        }
 	    };
 	};
@@ -39598,7 +39612,7 @@
 	                if (key.startsWith('placeOrderForm')) placeOrderFormHasErrors = true;
 	            });
 	            if (!placeOrderFormHasErrors) {
-	                // TODO: Submit form to backend
+	                _this.props.placeOrder(_this.props.placeOrderForm, _this.props.entries, _this.props.session);
 	                _this.closeModal();
 	            }
 	        }, _this.placeOrderInputChange = function (event) {
@@ -39606,7 +39620,7 @@
 	            var value = event.target.value;
 	            _this.props.updatePlaceOrderForm({ id: id, value: value });
 
-	            if (_this.props.placeOrderForm.get('eMail') != _this.props.placeOrderForm.get('eMailConfirm')) _this.props.addToErrorMap('placeOrderForm.eMailConfirm.match', { message: 'You must confirm your e-mail address!' });else _this.props.removeFromErrorMap('placeOrderForm.eMailConfirm.match');
+	            if (id == 'emailConfirm' && value != _this.props.placeOrderForm.email || id == 'email' && value != _this.props.placeOrderForm.emailConfirm) _this.props.addToErrorMap('placeOrderForm.emailConfirm.match', { message: 'You must confirm your e-mail address!' });else _this.props.removeFromErrorMap('placeOrderForm.emailConfirm.match');
 	        }, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
@@ -39665,30 +39679,30 @@
 	                                { id: 'placeOrderForm' },
 	                                _react2.default.createElement(_textInput2.default, { id: 'firstName',
 	                                    label: 'Ime',
-	                                    defaultValue: this.props.placeOrderForm.get('firstName'),
+	                                    defaultValue: this.props.placeOrderForm.firstName,
 	                                    placeHolderText: 'Unesite Va\u0161e ime',
 	                                    onChange: this.placeOrderInputChange }),
 	                                _react2.default.createElement(_textInput2.default, { id: 'lastName',
 	                                    label: 'Prezime',
-	                                    defaultValue: this.props.placeOrderForm.get('lastName'),
+	                                    defaultValue: this.props.placeOrderForm.lastName,
 	                                    placeHolderText: 'Unesite Va\u0161e prezime',
 	                                    onChange: this.placeOrderInputChange }),
 	                                _react2.default.createElement(_textInput2.default, { id: 'address',
 	                                    label: 'Adresa',
-	                                    defaultValue: this.props.placeOrderForm.get('address'),
+	                                    defaultValue: this.props.placeOrderForm.address,
 	                                    placeHolderText: 'Va\u0161a adresa (dostava samo unutar grada Sarajevo)',
 	                                    onChange: this.placeOrderInputChange }),
-	                                _react2.default.createElement(_textInput2.default, { id: 'eMail',
+	                                _react2.default.createElement(_textInput2.default, { id: 'email',
 	                                    label: 'E-Mail',
-	                                    defaultValue: this.props.placeOrderForm.get('eMail'),
+	                                    defaultValue: this.props.placeOrderForm.email,
 	                                    placeHolderText: 'Va\u0161a E-Mail adresa na koju \u0107e da stigne potvrda o narud\u017Ebi',
 	                                    onChange: this.placeOrderInputChange }),
-	                                _react2.default.createElement(_textInput2.default, { id: 'eMailConfirm',
+	                                _react2.default.createElement(_textInput2.default, { id: 'emailConfirm',
 	                                    label: 'E-Mail',
-	                                    defaultValue: this.props.placeOrderForm.get('eMailConfirm'),
+	                                    defaultValue: this.props.placeOrderForm.emailConfirm,
 	                                    placeHolderText: 'Ponovite va\u0161u e-mail adresu',
 	                                    onChange: this.placeOrderInputChange,
-	                                    hasError: this.props.errorMap.get('placeOrderForm.eMailConfirm.match') })
+	                                    hasError: this.props.errorMap.get('placeOrderForm.emailConfirm.match') })
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -39717,6 +39731,8 @@
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
 	    return {
 	        placeOrderForm: state.placeOrderForm,
+	        entries: state.cart.entries,
+	        session: state.session,
 	        errorMap: state.errorMap
 	    };
 	};
@@ -39731,6 +39747,9 @@
 	        },
 	        removeFromErrorMap: function removeFromErrorMap(key) {
 	            dispatch((0, _actions.removeFromErrorMapAction)(key));
+	        },
+	        placeOrder: function placeOrder(placeOrderForm, entries, session) {
+	            (0, _actions.asyncPlaceOrderAction)(dispatch, placeOrderForm, entries, session);
 	        }
 	    };
 	};
@@ -42609,15 +42628,19 @@
 	    value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _actions = __webpack_require__(557);
 
 	var placeOrderFormReducer = function placeOrderFormReducer() {
-	    var placeOrderFormState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Map();
+	    var placeOrderFormState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case _actions.UPDATE_PLACE_ORDER_FORM_ACTION:
-	            return new Map(placeOrderFormState.set(action.input.id, action.input.value));
+	            var newForm = _extends({}, placeOrderFormState);
+	            newForm[action.input.id] = action.input.value;
+	            return newForm;
 	        default:
 	            return placeOrderFormState;
 	    }

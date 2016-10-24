@@ -10,8 +10,8 @@ import PlaceOrderDialog from './placeOrderDialog.js';
 class CartView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('cart');
-        if (this.props.sessionUuid) {
-            this.props.getCart(this.props.sessionUuid);
+        if (this.props.session.uuid) {
+            this.props.getCart(this.props.session);
         }
     }
 
@@ -44,16 +44,14 @@ class CartView extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        sessionUuid: state.session.uuid,
+        session: state.session,
         cart: state.cart
     }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        getCart: (sessionUuid) => {
-            asyncGetCartAction(dispatch, sessionUuid);
-        }
+        getCart: (session) => asyncGetCartAction(dispatch, session)
     }
 };
 

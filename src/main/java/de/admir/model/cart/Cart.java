@@ -27,7 +27,7 @@ public class Cart extends IdentifiableModel {
     }
 
     @OneToOne
-    @JoinColumn(name = "session_uuid", referencedColumnName = "uuid", unique = true)
+    @JoinColumn(name = "session_uuid", referencedColumnName = "uuid", unique = true, nullable = false)
     private Session session;
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartEntry> entries = new ArrayList<>();

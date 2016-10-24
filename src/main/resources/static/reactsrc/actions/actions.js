@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {API_REST_BASE_PATH, API_CUSTOM_BASE_PATH} from '../constants/constants.js';
+import {API_REST_BASE_PATH} from '../constants/constants.js';
 import Cookies from 'js-cookie';
 
 export const CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = 'CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION';
@@ -26,7 +26,10 @@ export const asyncCheckSessionAction = (dispatch) => {
     const session = Cookies.getJSON('tazeSession');
     if (session != undefined) {
         axios.get(API_REST_BASE_PATH + `/sessions/search/findByUuidValue?uuid=${session.uuid}`)
-            .then(res => asyncGetCartAction(dispatch, res.data.uuid))
+            .then(res => {
+                dispatch(receiveNewSessionAction(res.data));
+                asyncGetCartAction(dispatch, res.data);
+            })
             .catch(res => {
                 if (res.status == 404) {
                     asyncCreateNewSessionAction(dispatch);
@@ -39,12 +42,12 @@ export const asyncCheckSessionAction = (dispatch) => {
 };
 
 const asyncCreateNewSessionAction = (dispatch) => {
-    axios.get(API_CUSTOM_BASE_PATH + '/sessions/create')
+    axios.post(API_REST_BASE_PATH + '/sessions', {})
         .then(res => {
             const session = res.data;
             Cookies.set('tazeSession', session, {path: '/', expires: 1});
             dispatch(receiveNewSessionAction(session));
-            asyncGetCartAction(dispatch, session.uuid);
+            asyncGetCartAction(dispatch, session);
         });
 
 };
@@ -56,21 +59,21 @@ const receiveNewSessionAction = (session) => {
     }
 };
 
-export const asyncGetCartAction = (dispatch, sessionUuid) => {
-    axios.get(API_REST_BASE_PATH + `/carts/search/findBySessionUuidValue?sessionUuid=${sessionUuid}`)
+export const asyncGetCartAction = (dispatch, session) => {
+    axios.get(API_REST_BASE_PATH + `/carts/search/findBySessionUuidValue?sessionUuid=${session.uuid}`)
         .then(res => {
             dispatch(receiveCartAction(res.data));
             asyncGetCartEntriesAction(dispatch, res.data._links.entries.href)
         })
         .catch(res => {
             if (res.status == 404) {
-                asyncCreateNewCartAction(dispatch, sessionUuid);
+                asyncCreateNewCartAction(dispatch, session);
             }
         });
 };
 
-const asyncCreateNewCartAction = (dispatch, sessionUuid) => {
-    axios.get(API_CUSTOM_BASE_PATH + `/carts/create?sessionUuid=${sessionUuid}`)
+const asyncCreateNewCartAction = (dispatch, session) => {
+    axios.post(API_REST_BASE_PATH + '/carts', {session: session._links.self.href})
         .then(res => {
             dispatch(receiveCartAction(res.data));
             asyncGetCartEntriesAction(dispatch, res.data._links.entries.href)
@@ -165,6 +168,21 @@ export const updatePlaceOrderFormAction = (input) => {
         type: UPDATE_PLACE_ORDER_FORM_ACTION,
         input
     }
+};
+
+export const asyncPlaceOrderAction = (dispatch, placeOrderForm, entries, session) => {
+    asyncCreateCustomerAction(placeOrderForm, session);
+    // TODO: Create the order now (HIGH)
+};
+
+const asyncCreateCustomerAction = (placeOrderForm, session) => {
+    return axios.post(API_REST_BASE_PATH + '/customers', {
+        firstName: placeOrderForm.firstName,
+        lastName: placeOrderForm.lastName,
+        address: placeOrderForm.address,
+        email: placeOrderForm.email,
+        session: session._links.self.href
+    });
 };
 
 export const addToErrorMapAction = (key, error) => {
