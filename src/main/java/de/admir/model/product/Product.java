@@ -14,12 +14,14 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Product extends IdentifiableModel {
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String code;
     private String name;
     private String listImage;
     private String pdpImage;
+    @Column(nullable = false)
     private BigDecimal pricePerUnit;
+    @Column(nullable = false)
     private String unitCode;
     private String footnote;
 }

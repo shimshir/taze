@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Entry from './entry.js';
-import PlaceOrderDialog from './placeOrderDialog.js';
 
 class EntriesView extends Component {
     componentWillMount() {
@@ -10,27 +9,16 @@ class EntriesView extends Component {
 
     render() {
         return (
-            this.props.entries ?
             <div className="cart-entries-container">
-                {this.props.entries ?
                  <ul className="list-group">
-                     {this.props.entries.map(entry =>
-                                                 <li key={entry.id} className="list-group-item">
-                                                     <Entry entry={entry}/>
-                                                 </li>
+                     {this.props.entries.map(
+                         entry =>
+                             <li key={entry.id} className="list-group-item">
+                                 <Entry entry={entry}/>
+                             </li>
                      )}
                  </ul>
-                    : null
-                }
-                <div className="cart-summary">
-                    <b className="text-uppercase">Ukupna cijena: </b>
-                    <b className="price-value">{`${this.props.totalCartPrice} KM`}</b>
-                    <br/><br/>
-                    <PlaceOrderDialog/>
-                </div>
             </div>
-                :
-            null
         );
     }
 }

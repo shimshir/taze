@@ -125,15 +125,14 @@ const removeCartEntryAction = (entryId) => {
 };
 
 export const asyncUpdateCartEntryAction = (dispatch, entryId, amount) => {
-    dispatch(updateCartEntryAmountAction(entryId, amount));
-    axios.patch(API_REST_BASE_PATH + `/cartEntries/${entryId}`, {amount});
+    axios.patch(API_REST_BASE_PATH + `/cartEntries/${entryId}?projection=with-product`, {amount})
+        .then(res => dispatch(updateCartEntryAmountAction(res.data)));
 };
 
-const updateCartEntryAmountAction = (entryId, amount) => {
+const updateCartEntryAmountAction = (entry) => {
     return {
         type: UPDATE_CART_ENTRY_AMOUNT_ACTION,
-        entryId,
-        amount
+        entry
     }
 };
 

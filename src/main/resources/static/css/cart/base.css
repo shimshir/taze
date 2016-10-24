@@ -8,9 +8,7 @@ div.cart-entries-container {
     text-align: right;
     padding: 1.25rem;
     background-color: #f1f1f1;
-    border-bottom: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
+    border: 1px solid #ddd;
 }
 
 .cart-summary b {
