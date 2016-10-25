@@ -18,5 +18,10 @@ module.exports = {
                 include: path.join(__dirname, 'reactsrc')
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: { warnings: false }
+        })
+    ]
 };
