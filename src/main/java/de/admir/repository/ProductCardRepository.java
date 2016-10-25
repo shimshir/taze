@@ -1,4 +1,4 @@
-package de.admir.repository.rest;
+package de.admir.repository;
 
 import de.admir.model.product.ProductCard;
 

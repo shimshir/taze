@@ -1,4 +1,4 @@
-package de.admir.repository.rest;
+package de.admir.repository;
 
 import de.admir.model.order.OrderEntry;
 import org.springframework.data.jpa.repository.JpaRepository;

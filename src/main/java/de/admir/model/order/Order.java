@@ -10,25 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-import org.springframework.data.annotation.PersistenceConstructor;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "taze_order")
+@ToString(exclude = "entries")
 public class Order extends TimestampedModel {
-    @PersistenceConstructor
-    public Order() {
-    }
-
-    public Order(Session session) {
-        this.session = session;
-    }
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     OrderStatusEnum status;
@@ -37,6 +31,7 @@ public class Order extends TimestampedModel {
     private Customer customer;
     @OneToOne
     @JoinColumn(name = "session_uuid", referencedColumnName = "uuid", nullable = false)
+    @NotNull
     private Session session;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderEntry> entries = new ArrayList<>();
