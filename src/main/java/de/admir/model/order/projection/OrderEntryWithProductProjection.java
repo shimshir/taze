@@ -1,15 +1,15 @@
-package de.admir.model.cart.projection;
+package de.admir.model.order.projection;
 
+import de.admir.model.order.OrderEntry;
 import de.admir.model.product.Product;
-import de.admir.model.cart.CartEntry;
 
 import org.springframework.data.rest.core.config.Projection;
 
 import java.math.BigDecimal;
 
 
-@Projection(name = "with-product", types = CartEntry.class)
-public interface CartEntryWithProductProjection {
+@Projection(name = "with-product", types = OrderEntry.class)
+public interface OrderEntryWithProductProjection {
     Long getId();
     int getAmount();
     Product getProduct();

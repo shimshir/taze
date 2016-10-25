@@ -6,6 +6,7 @@ import {changeActiveTopNavbarItemDispatchMapping} from '../common/commonMappings
 import Entries from './entries.js';
 import {asyncGetCartAction} from '../../actions/actions.js';
 import PlaceOrderDialog from './placeOrderDialog.js';
+import ConfirmedOrderDialog from './confirmedOrderDialog.js';
 
 class CartView extends Component {
     componentWillMount() {
@@ -20,22 +21,21 @@ class CartView extends Component {
             <div>
                 <Stage headerText="Korpa" stageBackgroundClass="cart"/>
                 <ContentContainer>
-                    {this.props.cart.entries &&
-                     (this.props.cart.entries.length != 0 ?
-                      <div>
-                          <Entries entries={this.props.cart.entries}/>
-                          <div className="cart-summary">
-                              <b className="text-uppercase">Ukupna cijena: </b>
-                              <b className="price-value">{`${this.props.cart.totalPrice} KM`}</b>
-                              <br/><br/>
-                              <PlaceOrderDialog/>
-                          </div>
-                      </div> :
-                      <div className="cart-summary">
-                          <b className="text-uppercase">Korpa je prazna</b>
-                      </div>
-                     )
+                    {(this.props.cart.entries && this.props.cart.entries.length != 0) ?
+                     <div>
+                         <Entries entries={this.props.cart.entries}/>
+                         <div className="cart-summary">
+                             <b className="text-uppercase">Ukupna cijena: </b>
+                             <b className="price-value">{`${this.props.cart.totalPrice} KM`}</b>
+                             <br/><br/>
+                             <PlaceOrderDialog/>
+                         </div>
+                     </div> :
+                     <div className="cart-summary">
+                         <b className="text-uppercase">Korpa je prazna</b>
+                     </div>
                     }
+                    <ConfirmedOrderDialog/>
                 </ContentContainer>
             </div>
         );

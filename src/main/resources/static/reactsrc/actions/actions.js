@@ -14,6 +14,7 @@ export const RECEIVE_PRODUCTS_ACTION = 'RECEIVE_PRODUCTS_ACTION';
 export const RECEIVE_PRODUCT_ACTION = 'RECEIVE_PRODUCT_ACTION';
 export const ADD_TO_ERROR_MAP_ACTION = 'ADD_TO_ERROR_MAP_ACTION';
 export const REMOVE_FROM_ERROR_MAP_ACTION = 'REMOVE_FROM_ERROR_MAP_ACTION';
+export const TOGGLE_CONFIRMED_ORDER_DIALOG_ACTION = 'TOGGLE_CONFIRMED_ORDER_DIALOG_ACTION';
 
 export const changeActiveTopNavbarItemAction = (topNavbarItem) => {
     return {
@@ -60,7 +61,7 @@ const receiveNewSessionAction = (session) => {
 };
 
 export const asyncGetCartAction = (dispatch, session) => {
-    axios.get(API_REST_BASE_PATH + `/carts/search/findBySessionUuidValue?sessionUuid=${session.uuid}`)
+    axios.get(API_REST_BASE_PATH + `/orders/search/findBySessionUuidValueAndStatus?sessionUuid=${session.uuid}&status=CART`)
         .then(res => {
             dispatch(receiveCartAction(res.data));
             asyncGetCartEntriesAction(dispatch, res.data._links.entries.href)
@@ -73,7 +74,7 @@ export const asyncGetCartAction = (dispatch, session) => {
 };
 
 const asyncCreateNewCartAction = (dispatch, session) => {
-    axios.post(API_REST_BASE_PATH + '/carts', {session: session._links.self.href})
+    return axios.post(API_REST_BASE_PATH + '/orders', {session: session._links.self.href, status: 'CART'})
         .then(res => {
             dispatch(receiveCartAction(res.data));
             asyncGetCartEntriesAction(dispatch, res.data._links.entries.href)
@@ -89,7 +90,7 @@ const receiveCartAction = (cart) => {
 
 const asyncGetCartEntriesAction = (dispatch, entriesUri) => {
     axios.get(entriesUri, {params: {projection: 'with-product'}})
-        .then(res =>dispatch(receiveCartEntriesAction(res.data._embedded.cartEntries)));
+        .then(res => dispatch(receiveCartEntriesAction(res.data._embedded.orderEntries)));
 };
 
 const receiveCartEntriesAction = (entries) => {
@@ -100,10 +101,10 @@ const receiveCartEntriesAction = (entries) => {
 };
 
 export const asyncAddToCartAction = (dispatch, cartUri, entry) => {
-    axios.post(API_REST_BASE_PATH + '/cartEntries?projection=with-product', {
+    axios.post(API_REST_BASE_PATH + '/orderEntries?projection=with-product', {
         ...entry,
         product: entry.product._links.self.href,
-        cart: cartUri
+        order: cartUri
     })
         .then(postEntryResponse => {
             if (postEntryResponse.status == 201) {
@@ -121,7 +122,7 @@ const addToCartAction = (entry) => {
 
 export const asyncRemoveCartEntryAction = (dispatch, entryId) => {
     dispatch(removeCartEntryAction(entryId));
-    axios.delete(API_REST_BASE_PATH + `/cartEntries/${entryId}`).catch(res => console.log(res));
+    axios.delete(API_REST_BASE_PATH + `/orderEntries/${entryId}`).catch(res => console.log(res));
 };
 
 const removeCartEntryAction = (entryId) => {
@@ -132,7 +133,7 @@ const removeCartEntryAction = (entryId) => {
 };
 
 export const asyncUpdateCartEntryAction = (dispatch, entryId, amount) => {
-    axios.patch(API_REST_BASE_PATH + `/cartEntries/${entryId}?projection=with-product`, {amount})
+    axios.patch(API_REST_BASE_PATH + `/orderEntries/${entryId}?projection=with-product`, {amount})
         .then(res => dispatch(updateCartEntryAmountAction(res.data)));
 };
 
@@ -174,13 +175,11 @@ export const updatePlaceOrderFormAction = (input) => {
     }
 };
 
-export const asyncPlaceOrderAction = (dispatch, placeOrderForm, entries, session) => {
+export const asyncPlaceOrderAction = (dispatch, placeOrderForm, cart, session) => {
     asyncCreateCustomerAction(dispatch, placeOrderForm, session)
-        .then(customerCreateRes => asyncCreateOrderAction(dispatch, customerCreateRes.data, session))
-        .then(orderCreateRes =>
-            entries.map(entry =>
-                asyncCreateOrderEntryAction(dispatch, orderCreateRes.data.id, entry.product.id, entry.amount))
-        );
+        .then(customerCreateRes => asyncCreateOrderAction(dispatch, cart, session, customerCreateRes.data))
+        .then(createOrderRes => asyncCreateNewCartAction(dispatch, session))
+        .then(createNewCartRes => dispatch(toggleConfirmedOrderDialogAction(true)));
 };
 
 const asyncCreateCustomerAction = (dispatch, placeOrderForm, session) => {
@@ -193,18 +192,11 @@ const asyncCreateCustomerAction = (dispatch, placeOrderForm, session) => {
     });
 };
 
-const asyncCreateOrderAction = (dispatch, customer, session) => {
-    return axios.post(API_REST_BASE_PATH + '/orders', {
+const asyncCreateOrderAction = (dispatch, cart, session, customer) => {
+    return axios.patch(cart._links.self.href, {
         customer: customer._links.self.href,
-        session: session._links.self.href
-    });
-};
-
-const asyncCreateOrderEntryAction = (dispatch, orderId, productId, amount) => {
-    return axios.post(API_REST_BASE_PATH + '/orderEntries', {
-        order: `${API_REST_BASE_PATH}/orders/${orderId}`,
-        product: `${API_REST_BASE_PATH}/products/${productId}`,
-        amount
+        session: session._links.self.href,
+        status: 'ORDERED'
     });
 };
 
@@ -220,5 +212,12 @@ export const removeFromErrorMapAction = (key) => {
     return {
         type: REMOVE_FROM_ERROR_MAP_ACTION,
         key
+    }
+};
+
+export const toggleConfirmedOrderDialogAction = (isOpen) => {
+    return {
+        type: TOGGLE_CONFIRMED_ORDER_DIALOG_ACTION,
+        isOpen
     }
 };

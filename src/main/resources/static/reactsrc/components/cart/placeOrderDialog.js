@@ -39,7 +39,7 @@ class PlaceOrderDialogView extends Component {
                 placeOrderFormHasErrors = true;
         });
         if (!placeOrderFormHasErrors) {
-            this.props.placeOrder(this.props.placeOrderForm, this.props.entries, this.props.session);
+            this.props.placeOrder(this.props.placeOrderForm, this.props.cart, this.props.session);
             this.closeModal();
         }
     };
@@ -120,7 +120,7 @@ class PlaceOrderDialogView extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         placeOrderForm: state.placeOrderForm,
-        entries: state.cart.entries,
+        cart: state.cart,
         session: state.session,
         errorMap: state.errorMap
     }
@@ -137,8 +137,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         removeFromErrorMap: (key) => {
             dispatch(removeFromErrorMapAction(key));
         },
-        placeOrder: (placeOrderForm, entries, session) => {
-            asyncPlaceOrderAction(dispatch, placeOrderForm, entries, session);
+        placeOrder: (placeOrderForm, cart, session) => {
+            asyncPlaceOrderAction(dispatch, placeOrderForm, cart, session);
         }
     }
 };

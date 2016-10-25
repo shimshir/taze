@@ -1,6 +1,7 @@
 package de.admir.model.order;
 
 import de.admir.model.Customer;
+import de.admir.model.OrderStatusEnum;
 import de.admir.model.Session;
 import de.admir.model.TimestampedModel;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import org.springframework.data.annotation.PersistenceConstructor;
 
 @Entity
@@ -27,6 +29,9 @@ public class Order extends TimestampedModel {
         this.session = session;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    OrderStatusEnum status;
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
