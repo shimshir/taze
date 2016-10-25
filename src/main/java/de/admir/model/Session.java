@@ -1,21 +1,30 @@
 package de.admir.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-
-import lombok.Data;
+import javax.persistence.PrePersist;
+import javax.persistence.Transient;
 
 @Entity
-@Data
 public class Session extends TimestampedModel {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "uuid", unique = true, nullable = false)
-    private TazeUuid uuid = new TazeUuid();
+    private TazeUuid tazeUuid;
 
+    @Transient
     public String getUuid() {
-        return uuid.getValue();
+        return tazeUuid.getValue();
+    }
+
+    @PrePersist
+    public void onCreate() {
+        super.onCreate();
+        this.tazeUuid = new TazeUuid();
     }
 
     @Override
@@ -25,11 +34,11 @@ public class Session extends TimestampedModel {
 
         Session session = (Session) o;
 
-        return getUuid().equals(session.getUuid());
+        return this.getUuid().equals(session.getUuid());
     }
 
     @Override
     public int hashCode() {
-        return getUuid().hashCode();
+        return this.getUuid().hashCode();
     }
 }

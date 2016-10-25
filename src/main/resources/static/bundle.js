@@ -36878,7 +36878,7 @@
 	var asyncCheckSessionAction = exports.asyncCheckSessionAction = function asyncCheckSessionAction(dispatch) {
 	    var session = _jsCookie2.default.getJSON('tazeSession');
 	    if (session != undefined) {
-	        _axios2.default.get(_constants.API_REST_BASE_PATH + ('/sessions/search/findByUuidValue?uuid=' + session.uuid)).then(function (res) {
+	        _axios2.default.get(_constants.API_REST_BASE_PATH + ('/sessions/search/findByTazeUuidValue?uuid=' + session.uuid)).then(function (res) {
 	            dispatch(receiveNewSessionAction(res.data));
 	            asyncGetCartAction(dispatch, res.data);
 	        }).catch(function (res) {
@@ -36908,7 +36908,7 @@
 	};
 
 	var asyncGetCartAction = exports.asyncGetCartAction = function asyncGetCartAction(dispatch, session) {
-	    _axios2.default.get(_constants.API_REST_BASE_PATH + ('/orders/search/findBySessionUuidValueAndStatus?sessionUuid=' + session.uuid + '&status=CART')).then(function (res) {
+	    _axios2.default.get(_constants.API_REST_BASE_PATH + ('/orders/search/findBySessionTazeUuidValueAndStatus?sessionUuid=' + session.uuid + '&status=CART')).then(function (res) {
 	        dispatch(receiveCartAction(res.data));
 	        asyncGetCartEntriesAction(dispatch, res.data._links.entries.href);
 	    }).catch(function (res) {

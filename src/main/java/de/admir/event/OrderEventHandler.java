@@ -24,7 +24,6 @@ public class OrderEventHandler {
     @HandleAfterSave
     public void handleOrderAfterSave(Order order) {
         if (order.getStatus().equals(OrderStatusEnum.ORDERED)) {
-            LOG.info("Order placed: " + order.toString());
             msg.setTo(order.getCustomer().getEmail());
             msg.setSubject("Primljena narud\u017Eba");
             msg.setText("order: " + order.toString() + "\n\n" + "entries: " + order.getEntries().toString());

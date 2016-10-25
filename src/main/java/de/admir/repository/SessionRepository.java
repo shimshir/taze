@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @RepositoryRestResource
 public interface SessionRepository extends JpaRepository<Session, Long> {
-    Optional<Session> findByUuidValue(@Param("uuid") String uuid);
+    Optional<Session> findByTazeUuidValue(@Param("uuid") String uuid);
 }

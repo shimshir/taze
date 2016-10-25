@@ -26,7 +26,7 @@ export const changeActiveTopNavbarItemAction = (topNavbarItem) => {
 export const asyncCheckSessionAction = (dispatch) => {
     const session = Cookies.getJSON('tazeSession');
     if (session != undefined) {
-        axios.get(API_REST_BASE_PATH + `/sessions/search/findByUuidValue?uuid=${session.uuid}`)
+        axios.get(API_REST_BASE_PATH + `/sessions/search/findByTazeUuidValue?uuid=${session.uuid}`)
             .then(res => {
                 dispatch(receiveNewSessionAction(res.data));
                 asyncGetCartAction(dispatch, res.data);
@@ -61,7 +61,7 @@ const receiveNewSessionAction = (session) => {
 };
 
 export const asyncGetCartAction = (dispatch, session) => {
-    axios.get(API_REST_BASE_PATH + `/orders/search/findBySessionUuidValueAndStatus?sessionUuid=${session.uuid}&status=CART`)
+    axios.get(API_REST_BASE_PATH + `/orders/search/findBySessionTazeUuidValueAndStatus?sessionUuid=${session.uuid}&status=CART`)
         .then(res => {
             dispatch(receiveCartAction(res.data));
             asyncGetCartEntriesAction(dispatch, res.data._links.entries.href)
