@@ -28,13 +28,13 @@ export const asyncCheckSessionAction = (dispatch) => {
     if (session != undefined) {
         axios.get(API_REST_BASE_PATH + `/sessions/search/findByTazeUuidValue?uuid=${session.uuid}`)
             .then(res => {
-                dispatch(receiveNewSessionAction(res.data));
-                asyncGetCartAction(dispatch, res.data);
-            })
-            .catch(res => {
-                if (res.status == 404) {
+                if (res.data.uuid) {
+                    dispatch(receiveNewSessionAction(res.data));
+                    asyncGetCartAction(dispatch, res.data);
+                } else {
                     asyncCreateNewSessionAction(dispatch);
                 }
+
             });
     } else {
         asyncCreateNewSessionAction(dispatch);
@@ -44,8 +44,9 @@ export const asyncCheckSessionAction = (dispatch) => {
 
 const asyncCreateNewSessionAction = (dispatch) => {
     axios.post(API_REST_BASE_PATH + '/sessions', {})
-        .then(res => {
-            const session = res.data;
+        .then(sessionPostRes => axios.get(sessionPostRes.headers.location))
+        .then(sessionGetRes => {
+            const session = sessionGetRes.data;
             Cookies.set('tazeSession', session, {path: '/', expires: 1});
             dispatch(receiveNewSessionAction(session));
             asyncGetCartAction(dispatch, session);

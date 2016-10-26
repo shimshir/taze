@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CustomErrorController implements ErrorController {
     private static final String ERROR_PATH = "/error";
 
-    @RequestMapping(path = ERROR_PATH, produces = "text/html")
+    @RequestMapping(value = ERROR_PATH, produces = "text/html")
     public String error() {
         return "forward:/";
     }

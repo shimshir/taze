@@ -44,7 +44,7 @@ export const LOREM_IPSUM_PARAGRAPHS = () => {
 };
 
 // Development
-// export const API_REST_BASE_PATH = "http://localhost:18081/api/rest";
+export const API_REST_BASE_PATH = "http://localhost:18081/api/rest";
 
 // Production
-export const API_REST_BASE_PATH = `${window.location.origin}/api/rest`;
+// export const API_REST_BASE_PATH = `${window.location.origin}/api/rest`;

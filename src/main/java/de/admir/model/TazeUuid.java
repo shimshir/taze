@@ -10,6 +10,8 @@ import lombok.Data;
 
 @Entity
 @Data
+@Deprecated
+// TODO: Try without this
 public class TazeUuid {
     @Id
     @GeneratedValue(generator = "uuid")

@@ -1,14 +1,10 @@
 package de.admir.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
-import javax.persistence.Transient;
 
 @Entity
 public class Session extends TimestampedModel {
@@ -16,7 +12,6 @@ public class Session extends TimestampedModel {
     @JoinColumn(name = "uuid", unique = true, nullable = false)
     private TazeUuid tazeUuid;
 
-    @Transient
     public String getUuid() {
         return tazeUuid.getValue();
     }
