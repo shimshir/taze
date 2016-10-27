@@ -1,6 +1,7 @@
 package de.admir.model.order;
 
 import de.admir.model.Customer;
+import de.admir.model.OrderStatus;
 import de.admir.model.OrderStatusEnum;
 import de.admir.model.Session;
 import de.admir.model.TimestampedModel;
@@ -23,9 +24,10 @@ import lombok.ToString;
 @Table(name = "taze_order")
 @ToString(exclude = "entries")
 public class Order extends TimestampedModel {
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    OrderStatusEnum status;
+    @ManyToOne
+    @JoinColumn(name = "status", nullable = false)
+    @NotNull
+    OrderStatus status;
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;

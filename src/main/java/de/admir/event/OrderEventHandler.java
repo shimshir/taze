@@ -1,6 +1,5 @@
 package de.admir.event;
 
-import de.admir.model.OrderStatusEnum;
 import de.admir.model.order.Order;
 
 import org.apache.log4j.Logger;
@@ -23,7 +22,7 @@ public class OrderEventHandler {
 
     @HandleAfterSave(Order.class)
     public void handleOrderAfterSave(Order order) {
-        if (order.getStatus().equals(OrderStatusEnum.ORDERED)) {
+        if ("ordered".equalsIgnoreCase(order.getStatus().getValue())) {
             msg.setTo(order.getCustomer().getEmail());
             msg.setSubject("Primljena narud\u017Eba");
             msg.setText("order: " + order.toString() + "\n\n" + "entries: " + order.getEntries().toString());

@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 public class Product extends IdentifiableModel {
     @Column(nullable = false, unique = true)
     private String code;
+    @Column(nullable = false)
     private String name;
     private String listImage;
     private String pdpImage;
