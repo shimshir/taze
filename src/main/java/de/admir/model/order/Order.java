@@ -2,7 +2,6 @@ package de.admir.model.order;
 
 import de.admir.model.Customer;
 import de.admir.model.OrderStatus;
-import de.admir.model.OrderStatusEnum;
 import de.admir.model.Session;
 import de.admir.model.TimestampedModel;
 
