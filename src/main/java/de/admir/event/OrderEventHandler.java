@@ -21,7 +21,7 @@ public class OrderEventHandler {
     @Autowired
     private MailSender mailSender;
 
-    @HandleAfterSave
+    @HandleAfterSave(Order.class)
     public void handleOrderAfterSave(Order order) {
         if (order.getStatus().equals(OrderStatusEnum.ORDERED)) {
             msg.setTo(order.getCustomer().getEmail());

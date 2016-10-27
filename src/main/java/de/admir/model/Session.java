@@ -1,25 +1,43 @@
 package de.admir.model;
 
-import javax.persistence.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.Date;
+
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-public class Session extends TimestampedModel {
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "uuid", unique = true, nullable = false)
-    private TazeUuid tazeUuid;
+@Getter
+@Setter
+public class Session {
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String uuid;
 
-    public String getUuid() {
-        return tazeUuid.getValue();
+    private void setUuid(String uuid) {
+        throw new UnsupportedOperationException();
     }
 
+    private Date created;
+    private Date updated;
+
     @PrePersist
-    public void onCreate() {
-        super.onCreate();
-        this.tazeUuid = new TazeUuid();
+    protected void onCreate() {
+        created = new Date();
+        updated = created;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updated = new Date();
     }
 
     @Override
