@@ -47,13 +47,13 @@ public class OrderEntryAdministration extends AdministrationConfiguration<OrderE
         fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("ID", "id"));
         fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Narudzba", "order"));
         fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Proizvod", "product"));
-        fieldSetConfigurationUnit.addField(new CustomFieldMetadata("Kolicina", (FieldValueRenderer<Object>) input -> {
+        fieldSetConfigurationUnit.addField(new CustomFieldMetadata("Kolicina", input -> {
             OrderEntry orderEntry = (OrderEntry) input;
             return String.format("%d %s", orderEntry.getAmount(), orderEntry.getProduct().getUnitCode());
         }));
-        fieldSetConfigurationUnit.addField(new CustomFieldMetadata("Ukupna cijena", (FieldValueRenderer<Object>) input -> {
+        fieldSetConfigurationUnit.addField(new CustomFieldMetadata("Ukupna cijena", input -> {
             OrderEntry orderEntry = (OrderEntry) input;
-            return String.format("%.2f %s", orderEntry.getTotalPrice(), "KM");
+            return orderEntry.getTotalPrice() == null ? null : String.format("%.2f %s", orderEntry.getTotalPrice(), "KM");
         }));
 
         return fieldSetConfigurationUnit;

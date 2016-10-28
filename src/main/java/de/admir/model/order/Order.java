@@ -5,6 +5,8 @@ import de.admir.model.OrderStatus;
 import de.admir.model.Session;
 import de.admir.model.TimestampedModel;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,6 @@ public class Order extends TimestampedModel {
 
     @Transient
     public BigDecimal getTotalPrice() {
-        return entries.stream().map(OrderEntry::getTotalPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return CollectionUtils.isEmpty(entries) ? null : entries.stream().map(OrderEntry::getTotalPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

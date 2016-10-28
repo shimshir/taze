@@ -9,8 +9,8 @@ import org.lightadmin.api.config.builder.FiltersConfigurationUnitBuilder;
 import org.lightadmin.api.config.unit.EntityMetadataConfigurationUnit;
 import org.lightadmin.api.config.unit.FieldSetConfigurationUnit;
 import org.lightadmin.api.config.unit.FiltersConfigurationUnit;
+import org.lightadmin.core.config.domain.field.CustomFieldMetadata;
 import org.lightadmin.core.config.domain.field.PersistentFieldMetadata;
-import org.lightadmin.core.config.domain.field.TransientFieldMetadata;
 
 public class OrderAdministration extends AdministrationConfiguration<Order> implements CustomFieldViews {
 
@@ -45,7 +45,10 @@ public class OrderAdministration extends AdministrationConfiguration<Order> impl
         fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Unosi", "entries"));
         fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Sesija", "session"));
         fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Status", "status"));
-        fieldSetConfigurationUnit.addField(new TransientFieldMetadata("Ukupna cijena", "totalPrice"));
+        fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Kreirano", "created"));
+        fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Azurirano", "updated"));
+        fieldSetConfigurationUnit.addField(new CustomFieldMetadata("Ukupna cijena", input ->
+                ((Order) input).getTotalPrice() == null ? null : String.format("%.2f KM", ((Order) input).getTotalPrice())));
 
         return fieldSetConfigurationUnit;
     }

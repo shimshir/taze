@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,11 +24,15 @@ public class Session {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String uuid;
 
+    private String ipAddress;
+
     private void setUuid(String uuid) {
         throw new UnsupportedOperationException();
     }
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updated;
 
     @PrePersist

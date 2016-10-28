@@ -3,6 +3,7 @@ package de.admir.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class OrderStatus {
 
     @Id
     @Column(nullable = false)
+    @NotNull
     private String value;
     private String description;
 
