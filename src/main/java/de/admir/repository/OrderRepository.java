@@ -8,4 +8,5 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface OrderRepository extends JpaRepository<Order, Long> {
     Order findBySessionUuidAndStatusValue(@Param("sessionUuid") String sessionUuid, @Param("status") String status);
+    Order findByTokenValue(@Param("tokenValue") String tokenValue);
 }

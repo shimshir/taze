@@ -45,6 +45,7 @@ public class OrderAdministration extends AdministrationConfiguration<Order> impl
         fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Unosi", "entries"));
         fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Sesija", "session"));
         fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Status", "status"));
+        fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Token", "token"));
         fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Kreirano", "created"));
         fieldSetConfigurationUnit.addField(new PersistentFieldMetadata("Azurirano", "updated"));
         fieldSetConfigurationUnit.addField(new CustomFieldMetadata("Ukupna cijena", input ->

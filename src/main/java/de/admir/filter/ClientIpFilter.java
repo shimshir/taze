@@ -20,22 +20,18 @@ import static de.admir.Constants.API_REST_BASE_PATH;
 public class ClientIpFilter extends OncePerRequestFilter {
     private static final Logger LOG = Logger.getLogger(ClientIpFilter.class);
     private static final Pattern REGEX_PATTERN = Pattern.compile(API_REST_BASE_PATH + "/sessions/?.*");
-    private Optional<String> clientIpAddress = Optional.empty();
+    private String clientIpAddress;
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
         if (REGEX_PATTERN.matcher(req.getRequestURI()).matches()) {
-            String ipAddress = req.getHeader("X-FORWARDED-FOR");
-            if (ipAddress == null) {
-                ipAddress = req.getRemoteAddr();
-            }
-            clientIpAddress = Optional.of(ipAddress);
+            clientIpAddress = req.getHeader("X-FORWARDED-FOR") == null ? req.getRemoteAddr() : req.getRemoteAddr() + ";" + req.getHeader("X-FORWARDED-FOR");
         } else {
-            clientIpAddress = Optional.empty();
+            clientIpAddress = null;
         }
         chain.doFilter(req, res);
     }
 
     public Optional<String> getClientIpAddress() {
-        return clientIpAddress;
+        return Optional.ofNullable(clientIpAddress);
     }
 }
