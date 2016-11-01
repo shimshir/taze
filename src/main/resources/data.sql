@@ -16,7 +16,8 @@ insert into
   order_status (value, description)
 values
   ('CART', 'Narudzba je u korpi'),
-  ('ORDERED', 'Narudzba je potvrdjena'),
+  ('ORDERED', 'Narudzba je zatrazena'),
+  ('CONFIRMED', 'Narudzba je potvrdjena'),
   ('PROCESSING', 'Narudzba je u obradi'),
   ('COMPLETED', 'Narudzba je uspjesno obradjena'),
   ('FAILED', 'Narudzba je bila neuspjesna'),

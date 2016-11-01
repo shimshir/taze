@@ -25,7 +25,7 @@ import lombok.ToString;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = {"entries", "token"})
 @Table(name = "taze_order")
 @ToString(exclude = "entries")
 public class Order extends IdentifiableModel {
@@ -42,9 +42,8 @@ public class Order extends IdentifiableModel {
     private Session session;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderEntry> entries = new ArrayList<>();
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "token_value", referencedColumnName = "value", nullable = false)
-    @NotNull
+    @OneToOne
+    @JoinColumn(name = "token_value", referencedColumnName = "value")
     private ConfirmationToken token;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -55,7 +54,6 @@ public class Order extends IdentifiableModel {
     protected void onCreate() {
         created = new Date();
         updated = created;
-        token = new ConfirmationToken();
     }
 
     @PreUpdate

@@ -39,4 +39,20 @@ public class ConfirmationToken {
     protected void onUpdate() {
         updated = new Date();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ConfirmationToken)) return false;
+
+        ConfirmationToken that = (ConfirmationToken) o;
+
+        return getValue().equals(that.getValue());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getValue().hashCode();
+    }
 }
