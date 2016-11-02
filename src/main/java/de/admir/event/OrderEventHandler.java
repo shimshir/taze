@@ -27,7 +27,7 @@ public class OrderEventHandler {
 
     @HandleBeforeSave(Order.class)
     public void handleOrderBeforeSave(Order order) {
-        if ("ordered".equalsIgnoreCase(order.getStatus().getValue())) {
+        if ("ordered".equalsIgnoreCase(order.getStatus().getCode())) {
             ConfirmationToken token = new ConfirmationToken();
             confirmationTokenRepository.save(token);
             order.setToken(token);
@@ -36,11 +36,20 @@ public class OrderEventHandler {
 
     @HandleAfterSave(Order.class)
     public void handleOrderAfterSave(Order order) {
-        if ("ordered".equalsIgnoreCase(order.getStatus().getValue())) {
+        if ("ordered".equalsIgnoreCase(order.getStatus().getCode())) {
             msg.setTo(order.getCustomer().getEmail());
             msg.setSubject("Primljena narud\u017Eba");
-            msg.setText("order: " + order.toString() + "\n\n" + "entries: " + order.getEntries().toString());
+            msg.setText("order: " + order.toString() + "\n\n" + createConfirmationLink(order.getId(), order.getToken().getValue()) + "\n\n" + "entries: " + order.getEntries().toString());
             mailSender.send(msg);
         }
+        if ("confirmed".equalsIgnoreCase(order.getStatus().getCode())) {
+            ConfirmationToken token = order.getToken();
+            token.setUsed(true);
+            confirmationTokenRepository.save(token);
+        }
+    }
+
+    private static String createConfirmationLink(Long orderId, String token) {
+        return String.format("http://localhost:18080/confirmedOrder?orderId=%d&token=%s", orderId, token);
     }
 }

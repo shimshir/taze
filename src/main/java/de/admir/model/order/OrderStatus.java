@@ -1,4 +1,4 @@
-package de.admir.model;
+package de.admir.model.order;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,14 +15,14 @@ public class OrderStatus {
     public OrderStatus() {
     }
 
-    public OrderStatus(String value) {
-        this.value = value;
+    public OrderStatus(String code) {
+        this.code = code;
     }
 
     @Id
     @Column(nullable = false)
     @NotNull
-    private String value;
+    private String code;
     private String description;
 
     @Override
@@ -32,12 +32,12 @@ public class OrderStatus {
 
         OrderStatus orderStatus = (OrderStatus) o;
 
-        return getValue().equals(orderStatus.getValue());
+        return getCode().equals(orderStatus.getCode());
 
     }
 
     @Override
     public int hashCode() {
-        return getValue().hashCode();
+        return getCode().hashCode();
     }
 }

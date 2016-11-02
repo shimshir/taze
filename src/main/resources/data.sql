@@ -13,7 +13,7 @@ values
   (3, 'Konji', 'Kažu da konjsko meso daje snagu i energiju za cijeli dan.', 'Ovo je samo privremeni tekst.', 3);
 
 insert into
-  order_status (value, description)
+  order_status (code, description)
 values
   ('CART', 'Narudzba je u korpi'),
   ('ORDERED', 'Narudzba je zatrazena'),

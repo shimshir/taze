@@ -63,7 +63,7 @@ const receiveNewSessionAction = (session) => {
 };
 
 export const asyncGetCartAction = (dispatch, session) => {
-    axios.get(API_REST_BASE_PATH + `/orders/search/findBySessionUuidAndStatusValue?sessionUuid=${session.uuid}&status=CART`)
+    axios.get(API_REST_BASE_PATH + `/orders/search/findBySessionUuidAndStatusCode?sessionUuid=${session.uuid}&status=CART`)
         .then(res => {
             if (res.data._embedded) {
                 const order = res.data._embedded.orders[0];
@@ -190,7 +190,7 @@ export const updatePlaceOrderFormAction = (input) => {
 export const asyncPlaceOrderAction = (dispatch, placeOrderForm, cart, session) => {
     asyncCreateCustomerAction(dispatch, placeOrderForm, session)
         .then(customerCreateRes => axios.get(customerCreateRes.headers.location))
-        .then(customerGetRes => asyncCreateOrderAction(dispatch, cart, session, customerGetRes.data))
+        .then(customerGetRes => asyncCreateOrderAction(dispatch, cart, customerGetRes.data))
         .then(createOrderRes => asyncCreateNewCartAction(dispatch, session))
         .then(createNewCartRes => dispatch(toggleConfirmedOrderDialogAction(true)));
 };
@@ -205,12 +205,24 @@ const asyncCreateCustomerAction = (dispatch, placeOrderForm, session) => {
     });
 };
 
-const asyncCreateOrderAction = (dispatch, cart, session, customer) => {
+const asyncCreateOrderAction = (dispatch, cart, customer) => {
     return axios.patch(cart._links.self.href, {
         customer: customer._links.self.href,
-        session: session._links.self.href,
         status: 'ORDERED'
     });
+};
+
+export const asyncConfirmOrderAction = (dispatch, orderId, token) => {
+    return axios({
+                     method: 'patch',
+                     url: API_REST_BASE_PATH + `/orders/${orderId}`,
+                     data: {
+                         status: 'CONFIRMED'
+                     },
+                     headers: {
+                         'X-Confirmation-Token': token
+                     }
+                 });
 };
 
 export const addToErrorMapAction = (key, error) => {

@@ -1,6 +1,6 @@
 package de.admir.administration;
 
-import de.admir.model.OrderStatus;
+import de.admir.model.order.OrderStatus;
 
 import org.lightadmin.api.config.AdministrationConfiguration;
 import org.lightadmin.api.config.builder.EntityMetadataConfigurationUnitBuilder;
@@ -11,7 +11,7 @@ public class OrderStatusAdministration extends AdministrationConfiguration<Order
     @Override
     public EntityMetadataConfigurationUnit configuration(EntityMetadataConfigurationUnitBuilder configurationBuilder) {
         return configurationBuilder
-                .nameField("value")
+                .nameField("code")
                 .singularName("Status")
                 .pluralName("Statusi")
                 .build();

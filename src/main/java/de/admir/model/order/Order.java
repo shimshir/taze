@@ -1,11 +1,7 @@
 package de.admir.model.order;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import de.admir.model.Customer;
 import de.admir.model.IdentifiableModel;
-import de.admir.model.OrderStatus;
 import de.admir.model.Session;
 
 import org.apache.commons.collections.CollectionUtils;
