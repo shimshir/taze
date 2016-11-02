@@ -1,6 +1,6 @@
 package de.admir.util;
 
-public class Helper {
+public class TazeUtils {
     public static boolean isSafeRequest(String requestMethod) {
         return !(requestMethod.equalsIgnoreCase("post") ||
                 requestMethod.equalsIgnoreCase("put") ||

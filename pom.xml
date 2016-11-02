@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.2.8.RELEASE</version>
+        <version>1.4.1.RELEASE</version>
     </parent>
 
     <properties>
@@ -85,15 +85,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.lightadmin</groupId>
-            <artifactId>lightadmin</artifactId>
-            <version>1.2.0.RC1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-            <!--  Please change scope to "provided" for deploying as a web module to servlet container  -->
-            <scope>compile</scope>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
         </dependency>
     </dependencies>
 

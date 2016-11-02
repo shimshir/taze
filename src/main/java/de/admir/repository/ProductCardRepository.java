@@ -6,8 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.Optional;
 
 @RepositoryRestResource
 public interface ProductCardRepository extends JpaRepository<ProductCard, Long> {
-    ProductCard findByProductCode(@Param("code") String code);
+    Optional<ProductCard> findByProductCode(@Param("code") String code);
 }

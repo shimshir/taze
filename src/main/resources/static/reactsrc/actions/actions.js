@@ -65,8 +65,8 @@ const receiveNewSessionAction = (session) => {
 export const asyncGetCartAction = (dispatch, session) => {
     axios.get(API_REST_BASE_PATH + `/orders/search/findBySessionUuidAndStatusCode?sessionUuid=${session.uuid}&status=CART`)
         .then(res => {
-            if (res.data._embedded) {
-                const order = res.data._embedded.orders[0];
+            if (res.data.id) {
+                const order = res.data;
                 dispatch(receiveCartAction(order));
                 asyncGetCartEntriesAction(dispatch, order._links.entries.href);
             } else {
