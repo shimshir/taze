@@ -24,6 +24,7 @@ public class TazeCorsFilter extends OncePerRequestFilter {
         res.setHeader("Access-Control-Allow-Methods", req.getHeader("Access-Control-Request-Method"));
         res.setHeader("Access-Control-Allow-Headers", req.getHeader("Access-Control-Request-Headers"));
         res.setHeader("Access-Control-Max-Age", "3600");
+        res.setHeader("Access-Control-Expose-Headers", "Location");
         chain.doFilter(req, res);
     }
 }

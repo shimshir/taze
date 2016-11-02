@@ -9,6 +9,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.Optional;
 
 @RepositoryRestResource
-public interface SessionRepository extends JpaRepository<Session, Long> {
-    Optional<Session> findByTazeUuidValue(@Param("uuid") String uuid);
+public interface SessionRepository extends JpaRepository<Session, String> {
+    Optional<Session> findByUuid(@Param("uuid") String uuid);
 }

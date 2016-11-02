@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,5 +17,6 @@ public class Customer extends IdentifiableModel {
     private String lastName;
     private String address;
     @Column(nullable = false)
+    @NotNull
     private String email;
 }

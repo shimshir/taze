@@ -7,7 +7,6 @@ import de.admir.model.order.OrderEntry;
 import de.admir.model.product.Product;
 import de.admir.model.Session;
 import de.admir.model.product.ProductCard;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;

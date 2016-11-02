@@ -1,30 +1,49 @@
 package de.admir.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.CascadeType;
+import java.util.Date;
+
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.PrePersist;
-import javax.persistence.Transient;
+import javax.persistence.PreUpdate;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-public class Session extends TimestampedModel {
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "uuid", unique = true, nullable = false)
-    private TazeUuid tazeUuid;
+@Getter
+@Setter
+public class Session {
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String uuid;
 
-    @Transient
-    public String getUuid() {
-        return tazeUuid.getValue();
+    private String ipAddress;
+
+    private void setUuid(String uuid) {
+        throw new UnsupportedOperationException();
     }
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updated;
+
     @PrePersist
-    public void onCreate() {
-        super.onCreate();
-        this.tazeUuid = new TazeUuid();
+    protected void onCreate() {
+        created = new Date();
+        updated = created;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updated = new Date();
     }
 
     @Override

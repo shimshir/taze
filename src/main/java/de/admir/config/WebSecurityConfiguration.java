@@ -15,6 +15,6 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().anyRequest().permitAll().and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .headers().frameOptions().disable().and();
+                .headers().frameOptions().disable();
     }
 }
