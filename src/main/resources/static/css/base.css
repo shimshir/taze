@@ -3,7 +3,7 @@ html, body {
 }
 
 body {
-    background-color: #232f3e;
+    background-color: #E6E6E6;
 }
 
 div#root, div.react-root {
@@ -13,9 +13,8 @@ div#root, div.react-root {
 div.container {
     padding-left: 0;
     padding-right: 0;
-    min-height: calc(100% - 50px);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    background-color: #F1F1F1;
+    background-color: #FFFFFF;
 }
 
 .no-padding {

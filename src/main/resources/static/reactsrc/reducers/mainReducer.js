@@ -7,6 +7,7 @@ import sessionReducer from './sessionReducer.js';
 import errorMapReducer from './errorMapReducer.js';
 import productsReducer from './productsReducer.js';
 import confirmedOrderDialogReducer from './confirmedOrderDialogReducer.js';
+import orderConfirmationResultsReducer from './orderConfirmationResultsReducer.js';
 
 const MainReducer = combineReducers({
     routing: routerReducer,
@@ -16,7 +17,8 @@ const MainReducer = combineReducers({
     session: sessionReducer,
     errorMap: errorMapReducer,
     products: productsReducer,
-    confirmedOrderDialog: confirmedOrderDialogReducer
+    confirmedOrderDialog: confirmedOrderDialogReducer,
+    orderConfirmationResults: orderConfirmationResultsReducer
 });
 
 export default MainReducer

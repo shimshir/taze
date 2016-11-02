@@ -10,15 +10,24 @@ class ConfirmedOrderView extends Component {
     }
 
     render() {
+        const confirmationResult = this.props.confirmationResults[this.props.location.query.orderId];
         return (
+            confirmationResult ?
             <div>
                 <Stage headerText="Order Confirmed" stageBackgroundClass="confirmed-order"/>
                 <ContentContainer>
+                    {confirmationResult.message}
                 </ContentContainer>
-            </div>
+            </div> : null
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        confirmationResults: state.orderConfirmationResults
+    }
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
@@ -28,5 +37,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
-const ConfirmedOrder = connect(undefined, mapDispatchToProps)(ConfirmedOrderView);
+const ConfirmedOrder = connect(mapStateToProps, mapDispatchToProps)(ConfirmedOrderView);
 export default ConfirmedOrder;

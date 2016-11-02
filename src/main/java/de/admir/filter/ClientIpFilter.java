@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import static de.admir.Constants.API_REST_BASE_PATH;
 
 @Component
+@Deprecated
+// TODO: Implement a session controller to get the ip, similar to order controller
 public class ClientIpFilter extends OncePerRequestFilter {
     private static final Logger LOG = Logger.getLogger(ClientIpFilter.class);
     private static final Pattern REGEX_PATTERN = Pattern.compile(API_REST_BASE_PATH + "/sessions/?.*");
