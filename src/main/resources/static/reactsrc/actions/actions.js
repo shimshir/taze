@@ -190,7 +190,7 @@ export const updatePlaceOrderFormAction = (input) => {
 export const asyncPlaceOrderAction = (dispatch, placeOrderForm, cart, session) => {
     asyncCreateCustomerAction(dispatch, placeOrderForm, session)
         .then(customerCreateRes => axios.get(customerCreateRes.headers.location))
-        .then(customerGetRes => asyncCreateOrderAction(dispatch, cart, customerGetRes.data))
+        .then(customerGetRes => asyncCreateOrderAction(dispatch, cart, customerGetRes.data, placeOrderForm.pickupType))
         .then(createOrderRes => asyncCreateNewCartAction(dispatch, session))
         .then(createNewCartRes => dispatch(toggleConfirmedOrderDialogAction(true)));
 };
@@ -205,10 +205,11 @@ const asyncCreateCustomerAction = (dispatch, placeOrderForm, session) => {
     });
 };
 
-const asyncCreateOrderAction = (dispatch, cart, customer) => {
+const asyncCreateOrderAction = (dispatch, cart, customer, pickupType) => {
     return axios.patch(cart._links.self.href, {
         customer: customer._links.self.href,
-        status: 'ORDERED'
+        status: 'ORDERED',
+        pickupType
     });
 };
 

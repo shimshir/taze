@@ -33,6 +33,11 @@ public class OrderService {
                     return order;
                 })
                 .mapRight(order -> {
+                    if (requestOrder.getPickupType() != null)
+                        order.setPickupType(requestOrder.getPickupType());
+                    return order;
+                })
+                .mapRight(order -> {
                     if (handleSaveEvents)
                         orderEventHandler.handleOrderBeforeSave(order);
                     return order;

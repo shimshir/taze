@@ -1,8 +1,15 @@
-import React, {Component} from 'react';
-import Modal from 'react-modal';
-import {connect} from 'react-redux';
-import {updatePlaceOrderFormAction, addToErrorMapAction, removeFromErrorMapAction, asyncPlaceOrderAction} from '../../actions/actions.js';
-import TextInput from '../common/textInput.js';
+import React, {Component} from "react";
+import Modal from "react-modal";
+import {connect} from "react-redux";
+import {
+    updatePlaceOrderFormAction,
+    addToErrorMapAction,
+    removeFromErrorMapAction,
+    asyncPlaceOrderAction
+} from "../../actions/actions.js";
+import TextInput from "../common/textInput.js";
+import SelectInput from "../common/selectInput.js";
+import {DELIVERY_OPTIONS} from "../../constants/constants.js";
 
 const modalStyle = {
     content: {
@@ -95,7 +102,7 @@ class PlaceOrderDialogView extends Component {
                                 <TextInput id="email"
                                            label="E-Mail"
                                            defaultValue={this.props.placeOrderForm.email}
-                                           placeHolderText="Vaša E-Mail adresa na koju će da stigne potvrda o narudžbi"
+                                           placeHolderText="Vaša E-Mail adresa za potvrdu narudžbe"
                                            onChange={this.placeOrderInputChange}/>
                                 <TextInput id="emailConfirm"
                                            label="E-Mail"
@@ -103,6 +110,11 @@ class PlaceOrderDialogView extends Component {
                                            placeHolderText="Ponovite vašu e-mail adresu"
                                            onChange={this.placeOrderInputChange}
                                            hasError={this.props.errorMap.get('placeOrderForm.emailConfirm.match')}/>
+                                <SelectInput id="pickupType"
+                                             label="Preuzimanje"
+                                             options={DELIVERY_OPTIONS}
+                                             onChange={this.placeOrderInputChange}
+                                />
                             </form>
                         </div>
                         <div className="modal-footer">

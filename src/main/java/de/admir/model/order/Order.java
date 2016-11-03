@@ -2,6 +2,7 @@ package de.admir.model.order;
 
 import de.admir.model.Customer;
 import de.admir.model.IdentifiableModel;
+import de.admir.model.PickupTypeEnum;
 import de.admir.model.Session;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,6 +39,9 @@ public class Order extends IdentifiableModel {
     @OneToOne
     @JoinColumn(name = "token_value", referencedColumnName = "value")
     private ConfirmationToken token;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "pickupType")
+    private PickupTypeEnum pickupType;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Temporal(TemporalType.TIMESTAMP)

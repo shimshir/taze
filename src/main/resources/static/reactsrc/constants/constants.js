@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const LOREM_IPSUM_PARAGRAPHS = () => {
     return (
@@ -42,6 +42,11 @@ export const LOREM_IPSUM_PARAGRAPHS = () => {
         </div>
     );
 };
+
+export const DELIVERY_OPTIONS = [
+    {value: 'COLLECT', text: 'Preuzet cu ja'},
+    {value: 'DELIVERY', text: 'Dostavite mi na adresu'}
+];
 
 // Development
 // export const API_REST_BASE_PATH = "http://localhost:18081/api/rest";
