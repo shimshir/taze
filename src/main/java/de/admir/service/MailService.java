@@ -51,6 +51,7 @@ public class MailService {
             model.put("confirmationLink", createConfirmationLink(order));
             String text = FreeMarkerTemplateUtils.processTemplateIntoString(emailTemplate, model);
             mimeMessageHelper.setTo(order.getCustomer().getEmail());
+            mimeMessageHelper.setSubject("Molimo potvrdite narud\u017ebu");
             mimeMessageHelper.setText(text, true);
             mailSender.send(mimeMessage);
             LOG.info("Order confirmation e-mail sent to " + order.getCustomer().getEmail());
