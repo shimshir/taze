@@ -67,9 +67,9 @@ export const asyncGetCartAction = (dispatch, session) => {
     axios.get(API_REST_BASE_PATH + `/orders/search/findBySessionUuidAndStatusCode?sessionUuid=${session.uuid}&status=CART`)
         .then(res => {
             if (res.data.id) {
-                const order = res.data;
-                dispatch(receiveCartAction(order));
-                asyncGetCartEntriesAction(dispatch, order._links.entries.href);
+                const cart = res.data;
+                asyncGetCartEntriesAction(dispatch, cart._links.entries.href)
+                    .then(entries => dispatch(receiveCartAction({...cart, entries})));
             } else {
                 asyncCreateNewCartAction(dispatch, session);
             }
@@ -83,11 +83,11 @@ export const asyncGetCartAction = (dispatch, session) => {
 
 const asyncCreateNewCartAction = (dispatch, session) => {
     return axios.post(API_REST_BASE_PATH + '/orders', {session: session._links.self.href, status: 'CART'})
-        .then(cartPostRes => axios.get(cartPostRes.headers.location))
-        .then(cartGetRes => {
-            dispatch(receiveCartAction(cartGetRes.data));
-            asyncGetCartEntriesAction(dispatch, cartGetRes.data._links.entries.href)
-        });
+        .then(postCartRes => axios.get(postCartRes.headers.location))
+        .then(getCartRes =>
+                  asyncGetCartEntriesAction(dispatch, getCartRes.data._links.entries.href)
+                      .then(entries => dispatch(receiveCartAction({...getCartRes.data, entries})))
+        );
 };
 
 const receiveCartAction = (cart) => {
@@ -98,8 +98,12 @@ const receiveCartAction = (cart) => {
 };
 
 const asyncGetCartEntriesAction = (dispatch, entriesUri) => {
-    axios.get(entriesUri, {params: {projection: 'with-product'}})
-        .then(res => dispatch(receiveCartEntriesAction(res.data._embedded ? res.data._embedded.orderEntries : [])));
+    return axios.get(entriesUri, {params: {projection: 'with-product'}})
+        .then(res => {
+            const entries = res.data._embedded ? res.data._embedded.orderEntries : [];
+            dispatch(receiveCartEntriesAction(entries));
+            return entries;
+        });
 };
 
 const receiveCartEntriesAction = (entries) => {
