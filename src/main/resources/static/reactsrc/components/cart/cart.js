@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import Stage from '../stage/stage.js';
-import ContentContainer from '../common/contentContainer.js';
-import {changeActiveTopNavbarItemDispatchMapping} from '../common/commonMappings.js';
-import Entries from './entries.js';
-import {asyncGetCartAction} from '../../actions/actions.js';
-import PlaceOrderDialog from './placeOrderDialog.js';
-import ConfirmedOrderDialog from './confirmedOrderDialog.js';
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import Stage from "../stage/stage.js";
+import ContentContainer from "../common/contentContainer.js";
+import {changeActiveTopNavbarItemDispatchMapping} from "../common/commonMappings.js";
+import Entries from "./entries.js";
+import {asyncGetCartAction} from "../../actions/actions.js";
+import PlaceOrderDialog from "./placeOrderDialog.js";
+import ConfirmedOrderDialog from "./confirmedOrderDialog.js";
 
 class CartView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('cart');
-        if (this.props.session.uuid) {
+        if (this.props.session.id) {
             this.props.getCart(this.props.session);
         }
     }

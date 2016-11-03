@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @RepositoryRestResource
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    Optional<Order> findBySessionUuidAndStatusCode(@Param("sessionUuid") String sessionUuid, @Param("status") String statusCode);
+    Optional<Order> findBySessionIdAndStatusId(@Param("sessionId") String sessionId, @Param("status") String id);
     Optional<Order> findByTokenValue(@Param("tokenValue") String tokenValue);
 }

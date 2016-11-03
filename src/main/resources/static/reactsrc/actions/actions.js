@@ -1,6 +1,6 @@
-import axios from 'axios';
-import {API_REST_BASE_PATH} from '../constants/constants.js';
-import Cookies from 'js-cookie';
+import axios from "axios";
+import {API_REST_BASE_PATH} from "../constants/constants.js";
+import Cookies from "js-cookie";
 
 export const CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = 'CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION';
 export const ADD_TO_CART_ACTION = 'ADD_TO_CART_ACTION';
@@ -27,7 +27,7 @@ export const changeActiveTopNavbarItemAction = (topNavbarItem) => {
 export const asyncCheckSessionAction = (dispatch) => {
     const session = Cookies.getJSON('tazeSession');
     if (session != undefined) {
-        axios.get(API_REST_BASE_PATH + `/sessions/${session.uuid}`)
+        axios.get(API_REST_BASE_PATH + `/sessions/${session.id}`)
             .then(res => {
                       dispatch(receiveNewSessionAction(res.data));
                       asyncGetCartAction(dispatch, res.data);
@@ -64,7 +64,7 @@ const receiveNewSessionAction = (session) => {
 };
 
 export const asyncGetCartAction = (dispatch, session) => {
-    axios.get(API_REST_BASE_PATH + `/orders/search/findBySessionUuidAndStatusCode?sessionUuid=${session.uuid}&status=CART`)
+    axios.get(API_REST_BASE_PATH + `/orders/search/findBySessionIdAndStatusId?sessionId=${session.id}&status=CART`)
         .then(res => {
             if (res.data.id) {
                 const cart = res.data;

@@ -4,7 +4,6 @@ import de.admir.model.order.ConfirmationToken;
 import de.admir.model.order.Order;
 import de.admir.repository.ConfirmationTokenRepository;
 import de.admir.service.MailService;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
@@ -25,7 +24,7 @@ public class OrderEventHandler {
 
     @HandleBeforeSave
     public void handleOrderBeforeSave(Order order) {
-        if ("ordered".equalsIgnoreCase(order.getStatus().getCode())) {
+        if ("ordered".equalsIgnoreCase(order.getStatus().getId())) {
             ConfirmationToken token = new ConfirmationToken();
             confirmationTokenRepository.save(token);
             order.setToken(token);
@@ -34,10 +33,10 @@ public class OrderEventHandler {
 
     @HandleAfterSave
     public void handleOrderAfterSave(Order order) {
-        if ("ordered".equalsIgnoreCase(order.getStatus().getCode())) {
+        if ("ordered".equalsIgnoreCase(order.getStatus().getId())) {
             mailService.sendConfirmationEmail(order);
         }
-        if ("confirmed".equalsIgnoreCase(order.getStatus().getCode())) {
+        if ("confirmed".equalsIgnoreCase(order.getStatus().getId())) {
             ConfirmationToken token = order.getToken();
             token.setUsed(true);
             confirmationTokenRepository.save(token);

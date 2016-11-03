@@ -3,20 +3,17 @@ package de.admir.model.order;
 import de.admir.model.Customer;
 import de.admir.model.IdentifiableModel;
 import de.admir.model.Session;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.apache.commons.collections.CollectionUtils;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 
 @Entity
@@ -33,7 +30,7 @@ public class Order extends IdentifiableModel {
     @JoinColumn(name = "customer_id")
     private Customer customer;
     @OneToOne
-    @JoinColumn(name = "session_uuid", referencedColumnName = "uuid", nullable = false)
+    @JoinColumn(name = "session_id", referencedColumnName = "id", nullable = false)
     @NotNull
     private Session session;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

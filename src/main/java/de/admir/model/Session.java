@@ -1,32 +1,25 @@
 package de.admir.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.hateoas.Identifiable;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
-public class Session {
+public class Session implements Identifiable<String> {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String uuid;
+    private String id;
 
     private String ipAddress;
 
-    private void setUuid(String uuid) {
+    private void setId(String id) {
         throw new UnsupportedOperationException();
     }
 
@@ -53,11 +46,11 @@ public class Session {
 
         Session session = (Session) o;
 
-        return this.getUuid().equals(session.getUuid());
+        return this.getId().equals(session.getId());
     }
 
     @Override
     public int hashCode() {
-        return this.getUuid().hashCode();
+        return this.getId().hashCode();
     }
 }

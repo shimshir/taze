@@ -1,28 +1,29 @@
 package de.admir.model.order;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.hateoas.Identifiable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
 @Getter
 @Setter
-public class OrderStatus {
+public class OrderStatus implements Identifiable<String> {
     public OrderStatus() {
     }
 
-    public OrderStatus(String code) {
-        this.code = code;
+    public OrderStatus(String id) {
+        this.id = id;
     }
 
     @Id
     @Column(nullable = false)
     @NotNull
-    private String code;
+    private String id;
     private String description;
 
     @Override
@@ -32,12 +33,12 @@ public class OrderStatus {
 
         OrderStatus orderStatus = (OrderStatus) o;
 
-        return getCode().equals(orderStatus.getCode());
+        return getId().equals(orderStatus.getId());
 
     }
 
     @Override
     public int hashCode() {
-        return getCode().hashCode();
+        return getId().hashCode();
     }
 }

@@ -5,13 +5,12 @@ import de.admir.model.order.ConfirmationToken;
 import de.admir.model.order.Order;
 import de.admir.repository.ConfirmationTokenRepository;
 import de.admir.repository.OrderRepository;
+import de.admir.util.Error;
+import de.admir.util.Xor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionSystemException;
-
-import de.admir.util.Error;
-import de.admir.util.Xor;
 
 @Service
 public class OrderService {
@@ -78,7 +77,7 @@ public class OrderService {
     private Xor<Error, Order> handleStatusChange(Order requestOrder, Order persistedOrder, String token) {
         ConfirmationToken persistedToken = persistedOrder.getToken();
 
-        boolean isSetToConfirmed = "confirmed".equalsIgnoreCase(requestOrder.getStatus().getCode());
+        boolean isSetToConfirmed = "confirmed".equalsIgnoreCase(requestOrder.getStatus().getId());
         boolean isTokenAlreadyUsed = persistedToken != null && persistedToken.isUsed();
         boolean hasValidToken = token.equals(persistedToken == null ? null : persistedOrder.getToken().getValue());
 
