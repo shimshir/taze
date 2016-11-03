@@ -7,6 +7,7 @@ const productsReducer = (productsState = [], action) => {
         case RECEIVE_PRODUCT_ACTION:
             const filteredProducts = productsState.filter(product => product.code != action.product.code);
             filteredProducts.push(action.product);
+            console.log(filteredProducts);
             return filteredProducts;
         default:
             return productsState

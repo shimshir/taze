@@ -15,10 +15,12 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapt
 
 @Configuration
 @EnableJpaRepositories(basePackages = "de.admir.repository")
-public class RestMvcConfiguration extends RepositoryRestConfigurerAdapter {
+public class RestRepositoryConfiguration extends RepositoryRestConfigurerAdapter {
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.setBasePath(Constants.API_REST_BASE_PATH);
         config.exposeIdsFor(Product.class, Session.class, ProductCard.class, Customer.class, Order.class, OrderEntry.class, OrderStatus.class);
     }
+
+
 }

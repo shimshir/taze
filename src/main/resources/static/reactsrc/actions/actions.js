@@ -170,12 +170,7 @@ const receiveProductsAction = (products) => {
 
 export const asyncGetProductAction = (dispatch, productcode) => {
     axios.get(API_REST_BASE_PATH + `/products/search/findByCode?code=${productcode}`)
-        .then(res => {
-            if (res.data._embedded) {
-                const product = res.data._embedded.products[0];
-                dispatch(receiveProductAction(product))
-            }
-        });
+        .then(res => dispatch(receiveProductAction(res.data)));
 };
 
 const receiveProductAction = (product) => {

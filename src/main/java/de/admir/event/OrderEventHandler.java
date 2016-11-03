@@ -23,7 +23,7 @@ public class OrderEventHandler {
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
 
-    @HandleBeforeSave(Order.class)
+    @HandleBeforeSave
     public void handleOrderBeforeSave(Order order) {
         if ("ordered".equalsIgnoreCase(order.getStatus().getCode())) {
             ConfirmationToken token = new ConfirmationToken();
@@ -32,7 +32,7 @@ public class OrderEventHandler {
         }
     }
 
-    @HandleAfterSave(Order.class)
+    @HandleAfterSave
     public void handleOrderAfterSave(Order order) {
         if ("ordered".equalsIgnoreCase(order.getStatus().getCode())) {
             mailService.sendConfirmationEmail(order);

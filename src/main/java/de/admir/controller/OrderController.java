@@ -3,6 +3,7 @@ package de.admir.controller;
 import de.admir.model.order.Order;
 
 import de.admir.service.OrderService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 import static org.springframework.web.bind.annotation.RequestMethod.PATCH;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RepositoryRestController
 public class OrderController {
@@ -25,7 +27,16 @@ public class OrderController {
     public ResponseEntity<?> patchOrder(@PathVariable("id") Long orderId,
                                         @RequestBody Resource<Order> requestOrderResource,
                                         @RequestHeader(value = "X-Confirmation-Token", required = false, defaultValue = StringUtils.EMPTY) String token) {
-        return orderService.updateOrder(orderId, requestOrderResource.getContent(), token, true).fold(
+        return orderService.patchOrder(orderId, requestOrderResource.getContent(), token, true).fold(
+                error -> ResponseEntity.badRequest().body(error),
+                order -> ResponseEntity.noContent().build());
+    }
+
+    @RequestMapping(path = "/orders/{id}", method = PUT)
+    public ResponseEntity<?> putOrder(@PathVariable("id") Long orderId,
+                                      @RequestBody Resource<Order> requestOrderResource,
+                                      @RequestHeader(value = "X-Confirmation-Token", required = false, defaultValue = StringUtils.EMPTY) String token) {
+        return orderService.putOrder(orderId, requestOrderResource.getContent(), token, true).fold(
                 error -> ResponseEntity.badRequest().body(error),
                 order -> ResponseEntity.noContent().build());
     }

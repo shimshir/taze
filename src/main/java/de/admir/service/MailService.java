@@ -2,30 +2,68 @@ package de.admir.service;
 
 import de.admir.model.order.Order;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import freemarker.template.Template;
+import freemarker.template.Configuration;
+import freemarker.template.TemplateException;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Service
 public class MailService {
-    private static final SimpleMailMessage MSG = new SimpleMailMessage();
-
+    private static final Logger LOG = Logger.getLogger(MailService.class);
     @Autowired
-    private MailSender mailSender;
+    private Configuration configuration;
+    @Autowired
+    private JavaMailSender mailSender;
+
+    private MimeMessage mimeMessage;
+    private MimeMessageHelper mimeMessageHelper;
+
+    @PostConstruct
+    private void initMailing() {
+        mimeMessage = mailSender.createMimeMessage();
+        mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+    }
 
     @Value("${taze.frontend.host}")
     private String host;
 
+    @Async
     public void sendConfirmationEmail(Order order) {
-        MSG.setTo(order.getCustomer().getEmail());
-        MSG.setSubject("Primljena narud\u017Eba");
-        MSG.setText("order: " + order.toString() + "\n\n" + createConfirmationLink(order.getId(), order.getToken().getValue()) + "\n\n" + "entries: " + order.getEntries().toString());
-        mailSender.send(MSG);
+        try {
+            Template emailTemplate = configuration.getTemplate("email/confirmEmail.ftl");
+            Map<String, Object> model = new HashMap<>();
+            model.put("order", order);
+            model.put("confirmationLink", createConfirmationLink(order));
+            String text = FreeMarkerTemplateUtils.processTemplateIntoString(emailTemplate, model);
+            mimeMessageHelper.setTo(order.getCustomer().getEmail());
+            mimeMessageHelper.setText(text, true);
+            mailSender.send(mimeMessage);
+            LOG.info("Order confirmation e-mail sent to " + order.getCustomer().getEmail());
+        } catch (IOException e) {
+            LOG.error("Failed to read confirmEmail.ftl template", e);
+        } catch (TemplateException e) {
+            LOG.error("Template runtime exception", e);
+        } catch (MessagingException e) {
+            LOG.error("Messaging exception", e);
+        }
     }
 
-    private String createConfirmationLink(Long orderId, String token) {
-        return String.format("%s/confirmedOrder?orderId=%d&token=%s", host, orderId, token);
+    private String createConfirmationLink(Order order) {
+        return String.format("%s/confirmedOrder?orderId=%d&token=%s", host, order.getId(), order.getToken().getValue());
     }
 }

@@ -1,0 +1,1 @@
+<a href="${confirmationLink}">Confirm order</a>
