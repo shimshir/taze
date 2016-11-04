@@ -19,10 +19,6 @@ public class Session implements Identifiable<String> {
 
     private String ipAddress;
 
-    private void setId(String id) {
-        throw new UnsupportedOperationException();
-    }
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Temporal(TemporalType.TIMESTAMP)

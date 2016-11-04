@@ -5,7 +5,7 @@
 
     <groupId>de.admir</groupId>
     <artifactId>taze</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
 
     <name>taze</name>
