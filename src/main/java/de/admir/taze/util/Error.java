@@ -5,6 +5,10 @@ public class Error {
         this.message = message;
     }
 
+    public Error(Exception e) {
+        this.message = e.getMessage();
+    }
+
     private String message;
 
     public String getMessage() {

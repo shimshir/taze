@@ -8,7 +8,7 @@ const EntryView = ({ entry, removeCartEntry, updateEntryAmount }) => {
     return (
         <div className="row">
             <div className="col-lg-2">
-                <Link to={`/products/${entry.product.code}`}><img src={entry.product.listImage}/></Link>
+                <Link to={`/products/${entry.product.code}`}><img className="entry-product-image" src={entry.product.listImage}/></Link>
             </div>
             <div className="col-lg-10">
                 <div className="row">

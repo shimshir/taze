@@ -3,7 +3,9 @@ package de.admir.taze.util;
 import com.spencerwi.either.Either;
 
 import java.util.NoSuchElementException;
+import java.util.concurrent.Callable;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public abstract class Xor<L, R> extends Either<L, R> {
 
@@ -15,10 +17,22 @@ public abstract class Xor<L, R> extends Either<L, R> {
         return new Xor.Right<>(right);
     }
 
+    public static <R> Xor<Exception, R> catchNonFatal(Callable<R> callable) {
+        try {
+            return Xor.right(callable.call());
+        } catch (Exception e) {
+            return Xor.left(e);
+        }
+    }
+
     public abstract <T, U> Xor<T, U> map(Function<L, T> transformLeft, Function<R, U> transformRight);
 
     public <U> Xor<L, U> mapRight(Function<R, U> transformRight) {
         return this.map(left -> left, transformRight);
+    }
+
+    public <U> Xor<U, R> mapLeft(Function<L, U> transformLeft) {
+        return this.map(transformLeft, right -> right);
     }
 
     public abstract <T, U> Xor<T, U> flatMap(Function<L, Xor<T, U>> transformLeft, Function<R, Xor<T, U>> transformRight);

@@ -8,7 +8,7 @@ const ProductCardDeck = ({products}) => {
     const horse = products.find(product => product.code == 'horse');
     return (
         // TODO: Definitely needs to be changed, make the ProductCard drawing dynamic
-        products.length == 3 ?
+        products.length >= 3 ?
         <div className="card-deck-wrapper">
             <div className="card-deck">
                 <ProductCard product={chicken}
