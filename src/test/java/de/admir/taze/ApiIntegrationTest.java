@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.HashMap;
 import java.util.Map;
 
+import static de.admir.taze.Constants.API_REST_CONTEXT_PATH;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.assertj.core.api.Assertions.*;
 
@@ -78,13 +79,13 @@ public class ApiIntegrationTest {
         urlParams.put("sessionId", createSessionRes.getBody().getId());
         urlParams.put("status", CART_STATUS_ID);
 
-        ResponseEntity<String> findNonExistingOrderRes = restTemplate.getForEntity(Constants.API_REST_BASE_PATH +
+        ResponseEntity<String> findNonExistingOrderRes = restTemplate.getForEntity(API_REST_CONTEXT_PATH +
                 "/orders/search/findBySessionIdAndStatusId", String.class, urlParams);
         assertThat(findNonExistingOrderRes.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
         createNewOrder(createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION), CART_STATUS_ID);
 
-        ResponseEntity<String> findExistingOrderRes = restTemplate.getForEntity(Constants.API_REST_BASE_PATH +
+        ResponseEntity<String> findExistingOrderRes = restTemplate.getForEntity(API_REST_CONTEXT_PATH +
                 "/orders/search/findBySessionIdAndStatusId?sessionId={sessionId}&status={status}", String.class, urlParams);
         assertThat(findExistingOrderRes.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
@@ -97,10 +98,10 @@ public class ApiIntegrationTest {
         Product chicken = productRepository.findByCode("chicken").get();
         JSONObject orderEntryReqJson = new JSONObject().put("amount", 42)
                 .put("order", createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION))
-                .put("product", restTemplate.getRestTemplate().getUriTemplateHandler().expand(Constants.API_REST_BASE_PATH) + "/products/" + chicken.getId());
+                .put("product", restTemplate.getRestTemplate().getUriTemplateHandler().expand(API_REST_CONTEXT_PATH) + "/products/" + chicken.getId());
         HttpEntity<String> orderEntryHttpEntity = new HttpEntity<>(orderEntryReqJson.toString(), commonHeaders);
 
-        ResponseEntity<String> addOrderEntryWithProductToOrderRes = restTemplate.postForEntity(Constants.API_REST_BASE_PATH +
+        ResponseEntity<String> addOrderEntryWithProductToOrderRes = restTemplate.postForEntity(API_REST_CONTEXT_PATH +
                 "/orderEntries", orderEntryHttpEntity, String.class);
         assertThat(addOrderEntryWithProductToOrderRes.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
@@ -123,12 +124,12 @@ public class ApiIntegrationTest {
 
     private ResponseEntity<Session> createNewSession() {
         HttpEntity<String> httpEntity = new HttpEntity<>("{}", commonHeaders);
-        return restTemplate.postForEntity(Constants.API_REST_BASE_PATH + "/sessions", httpEntity, Session.class);
+        return restTemplate.postForEntity(API_REST_CONTEXT_PATH + "/sessions", httpEntity, Session.class);
     }
 
     private ResponseEntity<String> createNewOrder(String sessionLink, String status) {
         String orderReqBody = String.format("{\"session\": \"%s\", \"status\": \"%s\"}", sessionLink, status);
         HttpEntity<String> httpEntity = new HttpEntity<>(orderReqBody, commonHeaders);
-        return restTemplate.postForEntity(Constants.API_REST_BASE_PATH + "/orders", httpEntity, String.class);
+        return restTemplate.postForEntity(API_REST_CONTEXT_PATH + "/orders", httpEntity, String.class);
     }
 }

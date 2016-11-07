@@ -1,5 +1,5 @@
 import axios from "axios";
-import {API_REST_BASE_PATH} from "../constants/constants.js";
+import {API_REST_PATH} from "../constants/constants.js";
 import Cookies from "js-cookie";
 
 export const CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION = 'CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION';
@@ -27,7 +27,7 @@ export const changeActiveTopNavbarItemAction = (topNavbarItem) => {
 export const asyncCheckSessionAction = (dispatch) => {
     const session = Cookies.getJSON('tazeSession');
     if (session != undefined) {
-        axios.get(API_REST_BASE_PATH + `/sessions/${session.id}`)
+        axios.get(API_REST_PATH + `/sessions/${session.id}`)
             .then(res => {
                       dispatch(receiveNewSessionAction(res.data));
                       asyncGetCartAction(dispatch, res.data);
@@ -45,7 +45,7 @@ export const asyncCheckSessionAction = (dispatch) => {
 };
 
 const asyncCreateNewSessionAction = (dispatch) => {
-    axios.post(API_REST_BASE_PATH + '/sessions', {})
+    axios.post(API_REST_PATH + '/sessions', {})
         .then(sessionPostRes => axios.get(sessionPostRes.headers.location))
         .then(sessionGetRes => {
             const session = sessionGetRes.data;
@@ -64,7 +64,7 @@ const receiveNewSessionAction = (session) => {
 };
 
 export const asyncGetCartAction = (dispatch, session) => {
-    axios.get(API_REST_BASE_PATH + `/orders/search/findBySessionIdAndStatusId?sessionId=${session.id}&status=CART`)
+    axios.get(API_REST_PATH + `/orders/search/findBySessionIdAndStatusId?sessionId=${session.id}&status=CART`)
         .then(res => {
             if (res.data.id) {
                 const cart = res.data;
@@ -82,7 +82,7 @@ export const asyncGetCartAction = (dispatch, session) => {
 };
 
 const asyncCreateNewCartAction = (dispatch, session) => {
-    return axios.post(API_REST_BASE_PATH + '/orders', {session: session._links.self.href, status: 'CART'})
+    return axios.post(API_REST_PATH + '/orders', {session: session._links.self.href, status: 'CART'})
         .then(postCartRes => axios.get(postCartRes.headers.location))
         .then(getCartRes =>
                   asyncGetCartEntriesAction(dispatch, getCartRes.data._links.entries.href)
@@ -114,7 +114,7 @@ const receiveCartEntriesAction = (entries) => {
 };
 
 export const asyncAddToCartAction = (dispatch, cartUri, entry) => {
-    axios.post(API_REST_BASE_PATH + '/orderEntries?projection=with-product',
+    axios.post(API_REST_PATH + '/orderEntries?projection=with-product',
                {
                    ...entry,
                    product: entry.product._links.self.href,
@@ -133,7 +133,7 @@ const addToCartAction = (entry) => {
 
 export const asyncRemoveCartEntryAction = (dispatch, entryId) => {
     dispatch(removeCartEntryAction(entryId));
-    axios.delete(API_REST_BASE_PATH + `/orderEntries/${entryId}`).catch(res => console.log(res));
+    axios.delete(API_REST_PATH + `/orderEntries/${entryId}`).catch(res => console.log(res));
 };
 
 const removeCartEntryAction = (entryId) => {
@@ -144,8 +144,8 @@ const removeCartEntryAction = (entryId) => {
 };
 
 export const asyncUpdateCartEntryAction = (dispatch, entryId, amount) => {
-    axios.patch(API_REST_BASE_PATH + `/orderEntries/${entryId}?projection=with-product`, {amount})
-        .then(orderEntryPatchRes => axios.get(API_REST_BASE_PATH + `/orderEntries/${entryId}?projection=with-product`))
+    axios.patch(API_REST_PATH + `/orderEntries/${entryId}?projection=with-product`, {amount})
+        .then(orderEntryPatchRes => axios.get(API_REST_PATH + `/orderEntries/${entryId}?projection=with-product`))
         .then(orderEntryGetRes => dispatch(updateCartEntryAmountAction(orderEntryGetRes.data)));
 };
 
@@ -157,7 +157,7 @@ const updateCartEntryAmountAction = (entry) => {
 };
 
 export const asyncGetProductsAction = (dispatch) => {
-    axios.get(API_REST_BASE_PATH + '/products')
+    axios.get(API_REST_PATH + '/products')
         .then(res => dispatch(receiveProductsAction(res.data._embedded.products)));
 };
 
@@ -169,7 +169,7 @@ const receiveProductsAction = (products) => {
 };
 
 export const asyncGetProductAction = (dispatch, productcode) => {
-    axios.get(API_REST_BASE_PATH + `/products/search/findByCode?code=${productcode}`)
+    axios.get(API_REST_PATH + `/products/search/findByCode?code=${productcode}`)
         .then(res => dispatch(receiveProductAction(res.data)));
 };
 
@@ -196,7 +196,7 @@ export const asyncPlaceOrderAction = (dispatch, placeOrderForm, cart, session) =
 };
 
 const asyncCreateCustomerAction = (dispatch, placeOrderForm, session) => {
-    return axios.post(API_REST_BASE_PATH + '/customers', {
+    return axios.post(API_REST_PATH + '/customers', {
         firstName: placeOrderForm.firstName,
         lastName: placeOrderForm.lastName,
         address: placeOrderForm.address,
@@ -216,7 +216,7 @@ const asyncCreateOrderAction = (dispatch, cart, customer, pickupType) => {
 export const asyncConfirmOrderAction = (dispatch, orderId, token) => {
     return axios({
                      method: 'patch',
-                     url: API_REST_BASE_PATH + `/orders/${orderId}`,
+                     url: API_REST_PATH + `/orders/${orderId}`,
                      data: {
                          status: 'CONFIRMED'
                      },

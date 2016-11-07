@@ -18,4 +18,13 @@ const TextInput = ({id, label, defaultValue, placeHolderText, onChange, hasError
     );
 };
 
+TextInput.propTypes = {
+    id: React.PropTypes.string.isRequired,
+    label: React.PropTypes.string.isRequired,
+    defaultValue: React.PropTypes.string,
+    placeHolderText: React.PropTypes.string,
+    onChange: React.PropTypes.func,
+    hasError: React.PropTypes.object
+};
+
 export default TextInput;

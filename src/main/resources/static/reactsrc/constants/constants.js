@@ -48,8 +48,10 @@ export const DELIVERY_OPTIONS = [
     {value: 'DELIVERY', text: 'Dostavite mi na adresu'}
 ];
 
-// Development
-// export const API_REST_BASE_PATH = "http://localhost:18081/api/rest";
+const productionBackendHost = window.location.origin;
+const developmentBackendHost = "http://localhost:18081";
 
-// Production
-export const API_REST_BASE_PATH = `${window.location.origin}/api/rest`;
+const currentBackendHost = productionBackendHost;
+
+export const API_REST_PATH = `${currentBackendHost}/api/rest`;
+export const API_ADMIN_PATH = `${currentBackendHost}/api/admin`;
