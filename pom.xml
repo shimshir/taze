@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>taze</name>
-    <description>Taze app</description>
+    <description>Taze products web shop</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
