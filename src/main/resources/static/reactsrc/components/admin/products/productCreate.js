@@ -2,13 +2,10 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import TextInput from "../../common/textInput.js";
 import FileInput from "../../common/fileInput.js";
-import axios from 'axios';
 import ContentContainer from '../../common/contentContainer.js';
-import {API_ADMIN_PATH} from '../../../constants/constants.js';
+import {asyncCreateProductAction, updateCreateProductFormAction} from '../../../actions/admin/actions.js'
 
 class ProductCreateView extends Component {
-    // TODO: Use redux state instead
-    state = {createProductForm: {}};
 
     reader = new FileReader();
 
@@ -18,26 +15,21 @@ class ProductCreateView extends Component {
     handleProductInputChange = (event) => {
         const id = event.target.id;
         const value = event.target.value;
-        this.updateCreateProductForm(id, value);
+        this.props.updateCreateProductForm({id, value});
     };
 
-    handleFormSubmit = (event) => {
-        // TODO: Do this in a proper action
-        axios.post(API_ADMIN_PATH + "/products", this.state.createProductForm)
-            .then(res => console.log(res.data));
+    handleFormSubmit = () => {
+        this.props.createProduct(this.props.createProductForm);
     };
 
     handleFileInputChange = (inputChangeEvent) => {
         const id = inputChangeEvent.target.id;
         this.reader.onload = (onLoadEvent) => {
-            this.updateCreateProductForm(id, onLoadEvent.target.result);
+            this.props.updateCreateProductForm({id, value: onLoadEvent.target.result});
+            console.log(onLoadEvent.target.result)
         };
 
         this.reader.readAsDataURL(inputChangeEvent.target.files[0]);
-    };
-
-    updateCreateProductForm = (id, value) => {
-        this.state.createProductForm[id] = value;
     };
 
     render() {
@@ -46,19 +38,24 @@ class ProductCreateView extends Component {
                 <form id="createProductForm" onSubmit={this.handleFormSubmit}>
                     <TextInput id="code"
                                label="Code"
-                               onChange={this.handleProductInputChange}/>
+                               onChange={this.handleProductInputChange}
+                               defaultValue={this.props.createProductForm.code}/>
                     <TextInput id="name"
                                label="Name"
-                               onChange={this.handleProductInputChange}/>
+                               onChange={this.handleProductInputChange}
+                               defaultValue={this.props.createProductForm.name}/>
                     <TextInput id="pricePerUnit"
                                label="Price per unit"
-                               onChange={this.handleProductInputChange}/>
+                               onChange={this.handleProductInputChange}
+                               defaultValue={this.props.createProductForm.pricePerUnit}/>
                     <TextInput id="unitCode"
                                label="Unit code"
-                               onChange={this.handleProductInputChange}/>
+                               onChange={this.handleProductInputChange}
+                               defaultValue={this.props.createProductForm.unitCode}/>
                     <TextInput id="footnote"
                                label="Footnote"
-                               onChange={this.handleProductInputChange}/>
+                               onChange={this.handleProductInputChange}
+                               defaultValue={this.props.createProductForm.footnote}/>
                     <FileInput id="pdpImageData"
                                label="Detail image"
                                accept="image/*"
@@ -75,11 +72,16 @@ class ProductCreateView extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return {}
+    return {
+        createProductForm: state.createProductForm
+    }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return {}
+    return {
+        createProduct: (createProductForm) => asyncCreateProductAction(dispatch, createProductForm),
+        updateCreateProductForm: (input) => dispatch(updateCreateProductFormAction(input))
+    }
 };
 
 const ProductCreate = connect(mapStateToProps, mapDispatchToProps)(ProductCreateView);
