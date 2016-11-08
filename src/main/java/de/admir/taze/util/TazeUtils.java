@@ -1,10 +1,14 @@
 package de.admir.taze.util;
 
 public class TazeUtils {
-    public static boolean isSafeRequest(String requestMethod) {
-        return !(requestMethod.equalsIgnoreCase("post") ||
-                requestMethod.equalsIgnoreCase("put") ||
-                requestMethod.equalsIgnoreCase("patch") ||
-                requestMethod.equalsIgnoreCase("delete"));
+
+    public static void assertNotNull(Object object) throws NullPointerException {
+        if (object == null)
+            throw new NullPointerException();
+    }
+
+    public static void assertNotNull(Object object, String message) throws NullPointerException {
+        if (object == null)
+            throw new NullPointerException(message);
     }
 }

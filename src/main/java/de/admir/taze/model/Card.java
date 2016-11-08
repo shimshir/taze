@@ -12,4 +12,5 @@ public class Card extends IdentifiableModel {
     private String title;
     private String paragraph;
     private String small;
+    private String image;
 }

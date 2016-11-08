@@ -26,7 +26,6 @@ class ProductCreateView extends Component {
         const id = inputChangeEvent.target.id;
         this.reader.onload = (onLoadEvent) => {
             this.props.updateCreateProductForm({id, value: onLoadEvent.target.result});
-            console.log(onLoadEvent.target.result)
         };
 
         this.reader.readAsDataURL(inputChangeEvent.target.files[0]);

@@ -5,7 +5,8 @@ import de.admir.taze.model.order.Order;
 import de.admir.taze.repository.ConfirmationTokenRepository;
 import de.admir.taze.service.MailService;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.HandleBeforeSave;
@@ -15,8 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RepositoryEventHandler
 public class OrderEventHandler {
-
-    private static final Logger LOG = Logger.getLogger(OrderEventHandler.class);
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private MailService mailService;

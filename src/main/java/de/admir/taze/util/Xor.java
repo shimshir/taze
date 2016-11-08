@@ -3,6 +3,7 @@ package de.admir.taze.util;
 import com.spencerwi.either.Either;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -23,6 +24,11 @@ public abstract class Xor<L, R> extends Either<L, R> {
         } catch (Exception e) {
             return Xor.left(e);
         }
+    }
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static <L, R>  Xor<L, R> fromOptional(Optional<R> optional, L elseValue) {
+        return optional.isPresent() ? Xor.right(optional.get()) : Xor.left(elseValue);
     }
 
     public abstract <T, U> Xor<T, U> map(Function<L, T> transformLeft, Function<R, U> transformRight);

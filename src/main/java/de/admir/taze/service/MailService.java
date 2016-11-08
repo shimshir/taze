@@ -2,7 +2,8 @@ package de.admir.taze.service;
 
 import de.admir.taze.model.order.Order;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -24,7 +25,7 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 public class MailService {
-    private static final Logger LOG = Logger.getLogger(MailService.class);
+    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private Configuration configuration;
     @Autowired
