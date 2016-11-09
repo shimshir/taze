@@ -11,6 +11,7 @@ export const RECEIVE_NEW_SESSION_ACTION = 'RECEIVE_NEW_SESSION_ACTION';
 export const RECEIVE_CART_ACTION = 'RECEIVE_CART_ACTION';
 export const RECEIVE_CART_ENTRIES_ACTION = 'RECEIVE_CART_ENTRIES_ACTION';
 export const RECEIVE_PRODUCTS_ACTION = 'RECEIVE_PRODUCTS_ACTION';
+export const RECEIVE_PRODUCT_CARDS_ACTION = 'RECEIVE_PRODUCT_CARDS_ACTION';
 export const RECEIVE_PRODUCT_ACTION = 'RECEIVE_PRODUCT_ACTION';
 export const ADD_TO_ERROR_MAP_ACTION = 'ADD_TO_ERROR_MAP_ACTION';
 export const REMOVE_FROM_ERROR_MAP_ACTION = 'REMOVE_FROM_ERROR_MAP_ACTION';
@@ -177,6 +178,18 @@ const receiveProductAction = (product) => {
     return {
         type: RECEIVE_PRODUCT_ACTION,
         product
+    }
+};
+
+export const asyncGetProductCardsAction = (dispatch) => {
+    return axios.get(API_REST_PATH + '/productCards')
+        .then(res => dispatch(receiveProductCardsAction(res.data._embedded.productCards)));
+};
+
+const receiveProductCardsAction = (productCards) => {
+    return {
+        type: RECEIVE_PRODUCT_CARDS_ACTION,
+        productCards
     }
 };
 

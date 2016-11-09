@@ -6,6 +6,7 @@ import placeOrderFormReducer from './placeOrderFormReducer.js';
 import sessionReducer from './sessionReducer.js';
 import errorMapReducer from './errorMapReducer.js';
 import productsReducer from './productsReducer.js';
+import productCardsReducer from './productCardsReducer.js';
 import confirmedOrderDialogReducer from './confirmedOrderDialogReducer.js';
 import orderConfirmationResultsReducer from './orderConfirmationResultsReducer.js';
 import createProductFormReducer from './admin/createProductFormReducer.js';
@@ -20,6 +21,7 @@ const MainReducer = combineReducers({
     session: sessionReducer,
     errorMap: errorMapReducer,
     products: productsReducer,
+    productCards: productCardsReducer,
     confirmedOrderDialog: confirmedOrderDialogReducer,
     orderConfirmationResults: orderConfirmationResultsReducer,
     createProductForm: createProductFormReducer,

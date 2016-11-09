@@ -1,0 +1,14 @@
+div.card-deck div.card {
+    width: 350px;
+    display: inline-block;
+    margin-right: .5rem;
+    margin-left: .5rem;
+}
+
+div.card-img-container {
+    height: 230px;
+}
+
+div.card-img-container:hover {
+    box-shadow: inset 0 0 20px 10px rgba(0,0,0,0.6);
+}

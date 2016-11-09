@@ -4,6 +4,7 @@ import de.admir.taze.model.Card;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,4 +15,9 @@ import lombok.EqualsAndHashCode;
 public class ProductCard extends Card {
     @OneToOne(optional = false)
     private Product product;
+
+    @Transient
+    public String getTransientProductCode() {
+        return product.getCode();
+    }
 }

@@ -1,37 +1,37 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import ProductCard from './productCard.js';
+import {asyncGetProductCardsAction} from '../../../actions/actions.js';
 
-const ProductCardDeck = ({products}) => {
+class ProductCardDeckView extends Component {
 
-    const chicken = products.find(product => product.code == 'chicken');
-    const honey = products.find(product => product.code == 'honey');
-    const horse = products.find(product => product.code == 'horse');
-    return (
-        // TODO: Definitely needs to be changed, make the ProductCard drawing dynamic
-        products.length >= 3 ?
-        <div className="card-deck-wrapper">
-            <div className="card-deck">
-                <ProductCard product={chicken}
-                             titleText="Pilad"
-                             paragraphText="Ništa nema bolju kombinaciju ukusa i jednostavnosti kao domaće pile sa ražnja."
-                             smallText="Ovo je samo privremeni tekst."/>
-                <ProductCard product={honey}
-                             titleText="Med"
-                             paragraphText="Činjenica da med nema rok trajanja dovoljno govori o kvaliteti ovog proizvoda."
-                             smallText="Ovo je samo privremeni tekst."/>
-                <ProductCard product={horse}
-                             titleText="Konji"
-                             paragraphText="Kažu da konjsko meso daje snagu i energiju za cijeli dan."
-                             smallText="Ovo je samo privremeni tekst."/>
+    componentWillMount() {
+        console.log("mounting productCardDec");
+        this.props.getProductCards();
+    }
+
+    render() {
+        return (
+            <div className="card-deck-wrapper">
+                <div className="card-deck">
+                    {this.props.productCards.map(productCard => <ProductCard key={productCard.id} productCard={productCard}/>)}
+                </div>
             </div>
-        </div>
-            :
-        null
-    );
+        );
+    }
+}
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        productCards: state.productCards
+    }
 };
 
-ProductCardDeck.PropTypes = {
-    products: React.PropTypes.array.isRequired
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        getProductCards: () => asyncGetProductCardsAction(dispatch)
+    }
 };
 
+const ProductCardDeck = connect(mapStateToProps, mapDispatchToProps)(ProductCardDeckView);
 export default ProductCardDeck;
