@@ -3,6 +3,7 @@ package de.admir.taze.controller.admin;
 import de.admir.taze.admin.form.ProductForm;
 import de.admir.taze.model.product.Product;
 import de.admir.taze.service.ProductAdminService;
+import de.admir.taze.util.TazeUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
@@ -37,7 +38,11 @@ public class ProductAdminController {
                     Link productEntityLink = entityLinks.linkToSingleResource(product);
                     responseProductResource.add(productEntityLink.withSelfRel());
                     responseProductResource.add(productEntityLink);
-                    return ResponseEntity.created(URI.create(productEntityLink.getHref())).body(responseProductResource);
+                    return ResponseEntity.created(
+                            URI.create(
+                                    TazeUtils.removeTemplateVariables(productEntityLink.getHref())
+                            )
+                    ).body(responseProductResource);
                 });
     }
 }

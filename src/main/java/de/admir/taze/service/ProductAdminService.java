@@ -14,6 +14,7 @@ import static de.admir.taze.util.TazeUtils.assertNotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.NestedRuntimeException;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,12 @@ public class ProductAdminService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Value("${taze.cloudinary.folder.product.pdpImage}")
+    private String pdpImageFolder;
+
+    @Value("${taze.cloudinary.folder.product.listImage}")
+    private String listImageFolder;
+
     // TODO: Write unit test
     public Xor<Error, Product> createProduct(ProductForm requestProductForm) {
         final String productCode = requestProductForm.getCode();
@@ -35,7 +42,7 @@ public class ProductAdminService {
             return cloudinary
                     .uploader()
                     .upload(requestProductForm.getPdpImageData(), ObjectUtils.asMap("public_id",
-                            "productPdpImages/" + productCode));
+                            pdpImageFolder + '/' + productCode));
         }).map(
                 e -> {
                     LOG.warn(String.format("pdpImage upload for product: %s failed", productCode), e);
@@ -52,7 +59,7 @@ public class ProductAdminService {
             return cloudinary
                     .uploader()
                     .upload(requestProductForm.getListImageData(), ObjectUtils.asMap("public_id",
-                            "productListImages/" + productCode));
+                            listImageFolder + '/' + productCode));
         }).map(
                 e -> {
                     LOG.warn(String.format("listImage upload for product: %s failed", productCode), e);

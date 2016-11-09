@@ -27,8 +27,8 @@ public abstract class Xor<L, R> extends Either<L, R> {
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public static <L, R>  Xor<L, R> fromOptional(Optional<R> optional, L elseValue) {
-        return optional.isPresent() ? Xor.right(optional.get()) : Xor.left(elseValue);
+    public static <L, R>  Xor<L, R> fromOptional(Optional<R> optional, Supplier<L> elseValueSupplier) {
+        return optional.isPresent() ? Xor.right(optional.get()) : Xor.left(elseValueSupplier.get());
     }
 
     public abstract <T, U> Xor<T, U> map(Function<L, T> transformLeft, Function<R, U> transformRight);
