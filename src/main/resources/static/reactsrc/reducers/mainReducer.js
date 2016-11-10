@@ -11,7 +11,7 @@ import confirmedOrderDialogReducer from './confirmedOrderDialogReducer.js';
 import orderConfirmationResultsReducer from './orderConfirmationResultsReducer.js';
 import createProductFormReducer from './admin/createProductFormReducer.js';
 import createProductCardFormReducer from './admin/createProductCardFormReducer.js';
-
+import pagesReducer from './pagesReducer.js';
 
 const MainReducer = combineReducers({
     routing: routerReducer,
@@ -25,7 +25,8 @@ const MainReducer = combineReducers({
     confirmedOrderDialog: confirmedOrderDialogReducer,
     orderConfirmationResults: orderConfirmationResultsReducer,
     createProductForm: createProductFormReducer,
-    createProductCardForm: createProductCardFormReducer
+    createProductCardForm: createProductCardFormReducer,
+    pages: pagesReducer
 });
 
 export default MainReducer

@@ -1,21 +1,22 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import Stage from '../../stage/stage.js';
+import StageContainer from '../../stage/stageContainer.js';
 import ContentContainer from '../../common/contentContainer.js';
 import ProductCardDeck from './productCardDeck.js';
-import {changeActiveTopNavbarItemDispatchMapping} from '../../common/commonMappings.js';
+import {pageDispatchToPropsMappings} from '../../common/pageDispatchToPropsMappings.js';
 import {asyncGetProductsAction} from '../../../actions/actions.js';
 
 class ProductsPageView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('products');
         this.props.getProducts();
+        this.props.getPage('products');
     }
 
     render() {
         return (
             <div>
-                <Stage headerText="Proizvodi" stageBackgroundClass="products"/>
+                {this.props.page && <StageContainer page={this.props.page}/>}
                 <ContentContainer>
                     <ProductCardDeck products={this.props.products}/>
                 </ContentContainer>
@@ -26,7 +27,8 @@ class ProductsPageView extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        products: state.products
+        products: state.products,
+        page: state.pages['products']
     }
 };
 
@@ -40,7 +42,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const ProductsPage = connect(mapStateToProps, (dispatch, ownProps) => {
     return {
-        ...mapDispatchToProps(dispatch, ownProps), ...changeActiveTopNavbarItemDispatchMapping(
+        ...mapDispatchToProps(dispatch, ownProps), ...pageDispatchToPropsMappings(
             dispatch, ownProps)
     }
 })(ProductsPageView);

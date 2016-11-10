@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import Stage from '../stage/stage.js';
+import StageContainer from '../stage/stageContainer.js';
 import ContentContainer from '../common/contentContainer.js';
 import {asyncConfirmOrderAction} from '../../actions/actions.js';
+import {pageDispatchToPropsMappings} from '../common/pageDispatchToPropsMappings.js';
 
 class ConfirmedOrderPageView extends Component {
     componentWillMount() {
-        this.props.confirmOrder(this.props.location.query.orderId, this.props.location.query.token)
+        this.props.confirmOrder(this.props.location.query.orderId, this.props.location.query.token);
+        this.props.getPage('confirmed-order');
     }
 
     render() {
@@ -14,7 +16,7 @@ class ConfirmedOrderPageView extends Component {
         return (
             confirmationResult ?
             <div>
-                <Stage headerText="Order Confirmed" stageBackgroundClass="confirmed-order"/>
+                {this.props.page && <StageContainer page={this.props.page}/>}
                 <ContentContainer>
                     {confirmationResult.message}
                 </ContentContainer>
@@ -25,7 +27,8 @@ class ConfirmedOrderPageView extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        confirmationResults: state.orderConfirmationResults
+        confirmationResults: state.orderConfirmationResults,
+        page: state.pages['confirmed-order']
     }
 };
 
@@ -37,5 +40,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
-const ConfirmedOrderPage = connect(mapStateToProps, mapDispatchToProps)(ConfirmedOrderPageView);
+const ConfirmedOrderPage = connect(mapStateToProps, (dispatch, ownProps) => {
+    return {
+        ...mapDispatchToProps(dispatch, ownProps), ...pageDispatchToPropsMappings(
+            dispatch, ownProps)
+    }
+})(ConfirmedOrderPageView);
 export default ConfirmedOrderPage;

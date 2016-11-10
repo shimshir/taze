@@ -17,6 +17,7 @@ export const ADD_TO_ERROR_MAP_ACTION = 'ADD_TO_ERROR_MAP_ACTION';
 export const REMOVE_FROM_ERROR_MAP_ACTION = 'REMOVE_FROM_ERROR_MAP_ACTION';
 export const TOGGLE_CONFIRMED_ORDER_DIALOG_ACTION = 'TOGGLE_CONFIRMED_ORDER_DIALOG_ACTION';
 export const RECEIVE_ORDER_CONFIRMATION_RESULT_ACTION = 'RECEIVE_ORDER_CONFIRMATION_RESULT_ACTION';
+export const RECEIVE_PAGE_ACTION = 'RECEIVE_PAGE_ACTION';
 
 export const changeActiveTopNavbarItemAction = (topNavbarItem) => {
     return {
@@ -237,11 +238,11 @@ export const asyncConfirmOrderAction = (dispatch, orderId, token) => {
                          'X-Confirmation-Token': token
                      }
                  })
-        .then(confirmOrderRes => dispatch(orderConfirmedAction(orderId, {status: 'success', message: 'Your order has been confirmed'})))
-        .catch(errorRes => dispatch(orderConfirmedAction(orderId, {status: 'error', message: errorRes.data.message})));
+        .then(confirmOrderRes => dispatch(receiveOrderConfirmationResultAction(orderId, {status: 'success', message: 'Your order has been confirmed'})))
+        .catch(errorRes => dispatch(receiveOrderConfirmationResultAction(orderId, {status: 'error', message: errorRes.data.message})));
 };
 
-const orderConfirmedAction = (orderId, confirmationResult) => {
+const receiveOrderConfirmationResultAction = (orderId, confirmationResult) => {
     return {
         type: RECEIVE_ORDER_CONFIRMATION_RESULT_ACTION,
         orderId,
@@ -268,5 +269,17 @@ export const toggleConfirmedOrderDialogAction = (isOpen) => {
     return {
         type: TOGGLE_CONFIRMED_ORDER_DIALOG_ACTION,
         isOpen
+    }
+};
+
+export const asyncGetPageAction = (dispatch, code) => {
+    return axios.get(API_REST_PATH + `/pages/search/findByCode?code=${code}`)
+        .then(res => dispatch(receivePageAction(res.data)));
+};
+
+const receivePageAction = (page) => {
+    return {
+        type: RECEIVE_PAGE_ACTION,
+        page
     }
 };

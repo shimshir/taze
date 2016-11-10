@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {changeActiveTopNavbarItemDispatchMapping} from '../../common/commonMappings.js';
+import {pageDispatchToPropsMappings} from '../../common/pageDispatchToPropsMappings.js';
 import ProductDetailContent from './productDetailContent.js';
-import Stage from '../../stage/stage.js';
+import StageContainer from '../../stage/stageContainer.js';
 import ContentContainer from '../../common/contentContainer.js';
 import {asyncGetProductAction} from '../../../actions/actions.js';
 
@@ -12,14 +12,16 @@ class ProductDetailPageView extends Component {
         this.props.changeActiveTopNavbarItem('products');
         if (!this.props.products.find(product => product.code == this.props.params.productCode))
             this.props.getProduct(this.props.params.productCode);
+        this.props.getPage(`products:${this.props.params.productCode}`);
     }
 
     render() {
         const product = this.props.products.find(product => product.code == this.props.params.productCode);
+        const page = this.props.pages[`products:${this.props.params.productCode}`];
         return (
             product ?
             <div>
-                <Stage headerText={product.name} stageBackgroundClass={product.code}/>
+                {page && <StageContainer page={page}/>}
                 <ContentContainer>
                     <ProductDetailContent product={product}/>
                 </ContentContainer>
@@ -33,7 +35,8 @@ class ProductDetailPageView extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        products: state.products
+        products: state.products,
+        pages: state.pages
     }
 };
 
@@ -47,7 +50,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const ProductDetailPage = connect(mapStateToProps, (dispatch, ownProps) => {
     return {
-        ...mapDispatchToProps(dispatch, ownProps), ...changeActiveTopNavbarItemDispatchMapping(
+        ...mapDispatchToProps(dispatch, ownProps), ...pageDispatchToPropsMappings(
             dispatch, ownProps)
     }
 })(ProductDetailPageView);

@@ -33,6 +33,9 @@ values
   (2, 'about-us', '/about-us', 1),
   (3, 'gallery', '/gallery', 1),
   (4, 'products', '/products', 1),
+  (41, 'products:chicken', '/products/chicken', 4),
+  (42, 'products:honey', '/products/honey', 4),
+  (43, 'products:potato', '/products/potato', 4),
   (5, 'contact', '/contact', 1),
   (6, 'cart', '/cart', 1),
   (7, 'confirmed-order', '/confirmed-order', 1);
@@ -44,6 +47,9 @@ values
   (2, 'O nama', '/img/about-us.jpg', 2),
   (3, 'Galerija', '/img/gallery.jpg', 3),
   (4, 'Proizvodi', '/img/products.jpg', 4),
+  (41, 'Pile', '/img/products/chicken-stage.jpg', 41),
+  (42, 'Med', '/img/products/honey-stage.jpg', 42),
+  (43, 'Krompir', '/img/products/potato-stage.jpg', 43),
   (5, 'Kontakt', '/img/contact.jpg', 5),
   (6, 'Korpa', '/img/cart.jpg', 6),
   (7, 'Potvrdjena narudzba', '/img/confirmed-order.jpg', 7);

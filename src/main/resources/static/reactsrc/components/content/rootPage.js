@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import Stage from '../stage/stage.js';
+import StageContainer from '../stage/stageContainer.js';
 import ContentContainer from '../common/contentContainer.js';
 import {LOREM_IPSUM_PARAGRAPHS} from '../../constants/constants.js';
-import {changeActiveTopNavbarItemDispatchMapping} from '../common/commonMappings.js';
+import {pageDispatchToPropsMappings} from '../common/pageDispatchToPropsMappings.js';
 
 class RootPageView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('root');
+        this.props.getPage('root');
     }
 
     render() {
         return (
             <div>
-                <Stage headerText="Pocetna" stageBackgroundClass="root"/>
+                {this.props.page && <StageContainer page={this.props.page}/>}
                 <ContentContainer>
                     <LOREM_IPSUM_PARAGRAPHS />
                 </ContentContainer>
@@ -22,5 +23,11 @@ class RootPageView extends Component {
     }
 }
 
-const RootPage = connect(undefined, changeActiveTopNavbarItemDispatchMapping)(RootPageView);
+const mapStateToProps = (state, ownProps) => {
+    return {
+        page: state.pages['root']
+    }
+};
+
+const RootPage = connect(mapStateToProps, pageDispatchToPropsMappings)(RootPageView);
 export default RootPage;

@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import Stage from '../stage/stage.js';
+import StageContainer from '../stage/stageContainer.js';
 import ContentContainer from '../common/contentContainer.js';
 import {LOREM_IPSUM_PARAGRAPHS} from '../../constants/constants.js';
-import {changeActiveTopNavbarItemDispatchMapping} from '../common/commonMappings.js';
+import {pageDispatchToPropsMappings} from '../common/pageDispatchToPropsMappings.js';
 
 class ContactPageView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('contact');
+        this.props.getPage('contact');
     }
 
     render() {
         return (
             <div>
-                <Stage headerText="Kontakt" stageBackgroundClass="contact"/>
+                {this.props.page && <StageContainer page={this.props.page}/>}
                 <ContentContainer>
                     <LOREM_IPSUM_PARAGRAPHS />
                 </ContentContainer>
@@ -22,5 +23,11 @@ class ContactPageView extends Component {
     }
 }
 
-const ContactPage = connect(undefined, changeActiveTopNavbarItemDispatchMapping)(ContactPageView);
+const mapStateToProps = (state, ownProps) => {
+    return {
+        page: state.pages['contact']
+    }
+};
+
+const ContactPage = connect(mapStateToProps, pageDispatchToPropsMappings)(ContactPageView);
 export default ContactPage;
