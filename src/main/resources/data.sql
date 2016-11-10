@@ -43,13 +43,13 @@ values
 insert into
   stage (id, header, image_url, page_id)
 values
-  (1, 'Pocetna', '/img/root.jpg', 1),
-  (2, 'O nama', '/img/about-us.jpg', 2),
-  (3, 'Galerija', '/img/gallery.jpg', 3),
-  (4, 'Proizvodi', '/img/products.jpg', 4),
-  (41, 'Pile', '/img/products/chicken-stage.jpg', 41),
-  (42, 'Med', '/img/products/honey-stage.jpg', 42),
-  (43, 'Krompir', '/img/products/potato-stage.jpg', 43),
-  (5, 'Kontakt', '/img/contact.jpg', 5),
-  (6, 'Korpa', '/img/cart.jpg', 6),
-  (7, 'Potvrdjena narudzba', '/img/confirmed-order.jpg', 7);
+  (1, 'Pocetna', 'https://res.cloudinary.com/taze/image/upload/v1478817153/stage/root.jpg', 1),
+  (2, 'O nama', 'https://res.cloudinary.com/taze/image/upload/v1478817152/stage/about-us.jpg', 2),
+  (3, 'Galerija', 'https://res.cloudinary.com/taze/image/upload/v1478817153/stage/gallery.jpg', 3),
+  (4, 'Proizvodi', 'https://res.cloudinary.com/taze/image/upload/v1478817153/stage/products.jpg', 4),
+  (41, 'Pile', 'https://res.cloudinary.com/taze/image/upload/v1478817189/stage/product/chicken.jpg', 41),
+  (42, 'Med', 'https://res.cloudinary.com/taze/image/upload/v1478817207/stage/product/honey.jpg', 42),
+  (43, 'Krompir', 'https://res.cloudinary.com/taze/image/upload/v1478817238/stage/product/potato.jpg', 43),
+  (5, 'Kontakt', 'https://res.cloudinary.com/taze/image/upload/v1478817152/stage/contact.jpg', 5),
+  (6, 'Korpa', 'https://res.cloudinary.com/taze/image/upload/v1478817151/stage/cart.jpg', 6),
+  (7, 'Potvrdjena narudzba', 'https://res.cloudinary.com/taze/image/upload/v1478817152/stage/confirmed-order.jpg', 7);
