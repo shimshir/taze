@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import Stage from '../stage/stage.js';
 import ContentContainer from '../common/contentContainer.js';
 import {asyncConfirmOrderAction} from '../../actions/actions.js';
 
-class ConfirmedOrderView extends Component {
+class ConfirmedOrderPageView extends Component {
     componentWillMount() {
         this.props.confirmOrder(this.props.location.query.orderId, this.props.location.query.token)
     }
@@ -19,7 +19,7 @@ class ConfirmedOrderView extends Component {
                     {confirmationResult.message}
                 </ContentContainer>
             </div> : null
-        );
+        )
     }
 }
 
@@ -37,5 +37,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
-const ConfirmedOrder = connect(mapStateToProps, mapDispatchToProps)(ConfirmedOrderView);
-export default ConfirmedOrder;
+const ConfirmedOrderPage = connect(mapStateToProps, mapDispatchToProps)(ConfirmedOrderPageView);
+export default ConfirmedOrderPage;

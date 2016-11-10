@@ -6,7 +6,7 @@ import Stage from '../../stage/stage.js';
 import ContentContainer from '../../common/contentContainer.js';
 import {asyncGetProductAction} from '../../../actions/actions.js';
 
-class ProductDetailView extends Component {
+class ProductDetailPageView extends Component {
 
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('products');
@@ -27,7 +27,7 @@ class ProductDetailView extends Component {
             </div>
                 :
             null
-        );
+        )
     }
 }
 
@@ -45,10 +45,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     };
 };
 
-const ProductDetail = connect(mapStateToProps, (dispatch, ownProps) => {
+const ProductDetailPage = connect(mapStateToProps, (dispatch, ownProps) => {
     return {
         ...mapDispatchToProps(dispatch, ownProps), ...changeActiveTopNavbarItemDispatchMapping(
             dispatch, ownProps)
     }
-})(ProductDetailView);
-export default ProductDetail;
+})(ProductDetailPageView);
+export default ProductDetailPage;

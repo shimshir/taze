@@ -6,7 +6,7 @@ import ProductCardDeck from './productCardDeck.js';
 import {changeActiveTopNavbarItemDispatchMapping} from '../../common/commonMappings.js';
 import {asyncGetProductsAction} from '../../../actions/actions.js';
 
-class ProductsView extends Component {
+class ProductsPageView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('products');
         this.props.getProducts();
@@ -20,7 +20,7 @@ class ProductsView extends Component {
                     <ProductCardDeck products={this.props.products}/>
                 </ContentContainer>
             </div>
-        );
+        )
     }
 }
 
@@ -38,10 +38,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
-const Products = connect(mapStateToProps, (dispatch, ownProps) => {
+const ProductsPage = connect(mapStateToProps, (dispatch, ownProps) => {
     return {
         ...mapDispatchToProps(dispatch, ownProps), ...changeActiveTopNavbarItemDispatchMapping(
             dispatch, ownProps)
     }
-})(ProductsView);
-export default Products;
+})(ProductsPageView);
+export default ProductsPage;

@@ -2,15 +2,15 @@ import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 
 import App from './components/app.js';
-import Root from './components/content/root.js';
-import AboutUs from './components/content/aboutUs.js';
-import Gallery from './components/content/gallery.js';
-import Products from './components/content/products/products.js';
-import Contact from './components/content/contact.js';
-import Cart from './components/cart/cart.js';
-import ProductDetail from './components/content/products/productDetail.js';
-import ConfirmedOrder from './components/content/confirmedOrder.js';
-import ProductCreate from './components/admin/products/productCreate.js';
+import RootPage from './components/content/rootPage.js';
+import AboutUsPage from './components/content/aboutUsPage.js';
+import GalleryPage from './components/content/galleryPage.js';
+import ProductsPage from './components/content/products/productsPage.js';
+import ContactPage from './components/content/contactPage.js';
+import CartPage from './components/cart/cartPage.js';
+import ProductDetailPage from './components/content/products/productDetailPage.js';
+import ConfirmedOrderPage from './components/content/confirmedOrderPage.js';
+import ProductCreatePage from './components/admin/products/productCreatePage.js';
 
 const NoMatch = () => {
     return (<div><h1>404</h1></div>)
@@ -18,15 +18,15 @@ const NoMatch = () => {
 
 export default (
     <Route path="/" components={App}>
-        <IndexRoute component={Root}/>
-        <Route path="/about-us" component={AboutUs}/>
-        <Route path="/gallery" component={Gallery}/>
-        <Route path="/products" component={Products}/>
-        <Route path="/products/:productCode" component={ProductDetail}/>
-        <Route path="/contact" component={Contact}/>
-        <Route path="/cart" component={Cart}/>
-        <Route path="/confirmed-order" component={ConfirmedOrder}/>
-        <Route path="/admin/products/create" component={ProductCreate}/>
+        <IndexRoute component={RootPage}/>
+        <Route path="/about-us" component={AboutUsPage}/>
+        <Route path="/gallery" component={GalleryPage}/>
+        <Route path="/products" component={ProductsPage}/>
+        <Route path="/products/:productCode" component={ProductDetailPage}/>
+        <Route path="/contact" component={ContactPage}/>
+        <Route path="/cart" component={CartPage}/>
+        <Route path="/confirmed-order" component={ConfirmedOrderPage}/>
+        <Route path="/admin/products/create" component={ProductCreatePage}/>
         <Route path="*" component={NoMatch}/>
     </Route>
 );

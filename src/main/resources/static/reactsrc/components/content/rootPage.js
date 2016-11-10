@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Stage from '../stage/stage.js';
 import ContentContainer from '../common/contentContainer.js';
-import { LOREM_IPSUM_PARAGRAPHS } from '../../constants/constants.js';
+import {LOREM_IPSUM_PARAGRAPHS} from '../../constants/constants.js';
 import {changeActiveTopNavbarItemDispatchMapping} from '../common/commonMappings.js';
 
-class RootView extends Component {
+class RootPageView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('root');
     }
@@ -18,9 +18,9 @@ class RootView extends Component {
                     <LOREM_IPSUM_PARAGRAPHS />
                 </ContentContainer>
             </div>
-        );
+        )
     }
 }
 
-const Root = connect(undefined, changeActiveTopNavbarItemDispatchMapping)(RootView);
-export default Root;
+const RootPage = connect(undefined, changeActiveTopNavbarItemDispatchMapping)(RootPageView);
+export default RootPage;

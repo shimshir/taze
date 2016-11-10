@@ -8,7 +8,7 @@ import {asyncGetCartAction} from "../../actions/actions.js";
 import PlaceOrderDialog from "./placeOrderDialog.js";
 import ConfirmedOrderDialog from "./confirmedOrderDialog.js";
 
-class CartView extends Component {
+class CartPageView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('cart');
         if (this.props.session.id) {
@@ -38,7 +38,7 @@ class CartView extends Component {
                     <ConfirmedOrderDialog/>
                 </ContentContainer>
             </div>
-        );
+        )
     }
 }
 
@@ -55,10 +55,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
-const Cart = connect(mapStateToProps, (dispatch, ownProps) => {
+const CartPage = connect(mapStateToProps, (dispatch, ownProps) => {
     return {
         ...mapDispatchToProps(dispatch, ownProps), ...changeActiveTopNavbarItemDispatchMapping(
             dispatch, ownProps)
     }
-})(CartView);
-export default Cart;
+})(CartPageView);
+export default CartPage;

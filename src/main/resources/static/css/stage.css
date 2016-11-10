@@ -4,42 +4,6 @@
     box-shadow: inset 0 0 20px 10px rgba(0,0,0,0.6);
 }
 
-.stage.root {
-    background-image: url('/img/root.jpg');
-}
-
-.stage.about-us {
-    background-image: url('/img/about-us.jpg');
-}
-
-.stage.gallery {
-    background-image: url('/img/gallery.jpg');
-}
-
-.stage.products {
-    background-image: url('/img/products.jpg');
-}
-
-.stage.contact {
-    background-image: url('/img/contact.jpg');
-}
-
-.stage.cart {
-    background-image: url('/img/cart.jpg');
-}
-
-.stage.chicken {
-    background-image: url('/img/products/chicken-stage.jpg');
-}
-
-.stage.honey {
-    background-image: url('/img/products/honey-stage.jpg');
-}
-
-.stage.confirmed-order {
-    background-image: url('/img/confirmed-order.jpg');
-}
-
 .stage h1 {
     margin: 0;
     color: #fff;

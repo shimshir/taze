@@ -10,7 +10,7 @@ import {
     updateCreateProductCardFormAction
 } from '../../../actions/admin/actions.js'
 
-class ProductCreateView extends Component {
+class ProductCreatePageView extends Component {
 
     reader = new FileReader();
 
@@ -127,5 +127,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 };
 
-const ProductCreate = connect(mapStateToProps, mapDispatchToProps)(ProductCreateView);
-export default ProductCreate;
+const ProductCreatePage = connect(mapStateToProps, mapDispatchToProps)(ProductCreatePageView);
+export default ProductCreatePage;
