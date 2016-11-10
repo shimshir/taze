@@ -7,18 +7,11 @@ import routes from './routes';
 import {createStore} from 'redux';
 import {syncHistoryWithStore} from 'react-router-redux';
 import MainReducer from './reducers/mainReducer.js';
-import axios from 'axios';
 
 const store = createStore(MainReducer);
 //const unsubscribe = store.subscribe(() => console.log(store.getState()))
 
 const history = syncHistoryWithStore(browserHistory, store);
-
-axios.get('/img/root.jpg').then(response => console.log('root.jpg'));
-axios.get('/img/about-us.jpg').then(response => console.log('about-us.jpg'));
-axios.get('/img/gallery.jpg').then(response => console.log('gallery.jpg'));
-axios.get('/img/products.jpg').then(response => console.log('products.jpg'));
-axios.get('/img/contact.jpg').then(response => console.log('contact.jpg'));
 
 ReactDOM.render(
     <Provider store={store}>
