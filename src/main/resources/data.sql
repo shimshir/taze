@@ -25,3 +25,25 @@ values
   ('COMPLETED', 'Narudzba je uspjesno obradjena'),
   ('FAILED', 'Narudzba je bila neuspjesna'),
   ('CANCELLED', 'Narudzba je otkazana');
+
+insert into
+  page (id, code, path, parent_page_id)
+values
+  (1, 'root', '/', null),
+  (2, 'about-us', '/about-us', 1),
+  (3, 'gallery', '/gallery', 1),
+  (4, 'products', '/products', 1),
+  (5, 'contact', '/contact', 1),
+  (6, 'cart', '/cart', 1),
+  (7, 'confirmed-order', '/confirmed-order', 1);
+
+insert into
+  stage (id, header, image_url, page_id)
+values
+  (1, 'Pocetna', '/img/root.jpg', 1),
+  (2, 'O nama', '/img/about-us.jpg', 2),
+  (3, 'Galerija', '/img/gallery.jpg', 3),
+  (4, 'Proizvodi', '/img/products.jpg', 4),
+  (5, 'Kontakt', '/img/contact.jpg', 5),
+  (6, 'Korpa', '/img/cart.jpg', 6),
+  (7, 'Potvrdjena narudzba', '/img/confirmed-order.jpg', 7);

@@ -8,7 +8,7 @@ import Gallery from './components/content/gallery.js';
 import Products from './components/content/products/products.js';
 import Contact from './components/content/contact.js';
 import Cart from './components/cart/cart.js';
-import ProductDetail from './components/content/products/productDetail';
+import ProductDetail from './components/content/products/productDetail.js';
 import ConfirmedOrder from './components/content/confirmedOrder.js';
 import ProductCreate from './components/admin/products/productCreate.js';
 
@@ -25,7 +25,7 @@ export default (
         <Route path="/products/:productCode" component={ProductDetail}/>
         <Route path="/contact" component={Contact}/>
         <Route path="/cart" component={Cart}/>
-        <Route path="/confirmedOrder" component={ConfirmedOrder}/>
+        <Route path="/confirmed-order" component={ConfirmedOrder}/>
         <Route path="/admin/products/create" component={ProductCreate}/>
         <Route path="*" component={NoMatch}/>
     </Route>
