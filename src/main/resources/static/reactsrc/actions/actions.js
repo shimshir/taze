@@ -13,8 +13,8 @@ export const RECEIVE_CART_ENTRIES_ACTION = 'RECEIVE_CART_ENTRIES_ACTION';
 export const RECEIVE_PRODUCTS_ACTION = 'RECEIVE_PRODUCTS_ACTION';
 export const RECEIVE_PRODUCT_CARDS_ACTION = 'RECEIVE_PRODUCT_CARDS_ACTION';
 export const RECEIVE_PRODUCT_ACTION = 'RECEIVE_PRODUCT_ACTION';
-export const ADD_TO_ERROR_MAP_ACTION = 'ADD_TO_ERROR_MAP_ACTION';
-export const REMOVE_FROM_ERROR_MAP_ACTION = 'REMOVE_FROM_ERROR_MAP_ACTION';
+export const ADD_TO_ERRORS_ACTION = 'ADD_TO_ERRORS_ACTION';
+export const REMOVE_FROM_ERRORS_ACTION = 'REMOVE_FROM_ERRORS_ACTION';
 export const TOGGLE_CONFIRMED_ORDER_DIALOG_ACTION = 'TOGGLE_CONFIRMED_ORDER_DIALOG_ACTION';
 export const RECEIVE_ORDER_CONFIRMATION_RESULT_ACTION = 'RECEIVE_ORDER_CONFIRMATION_RESULT_ACTION';
 export const RECEIVE_PAGE_ACTION = 'RECEIVE_PAGE_ACTION';
@@ -250,17 +250,17 @@ const receiveOrderConfirmationResultAction = (orderId, confirmationResult) => {
     }
 };
 
-export const addToErrorMapAction = (key, error) => {
+export const addToErrorsAction = (key, error) => {
     return {
-        type: ADD_TO_ERROR_MAP_ACTION,
+        type: ADD_TO_ERRORS_ACTION,
         key,
         error
     }
 };
 
-export const removeFromErrorMapAction = (key) => {
+export const removeFromErrorsAction = (key) => {
     return {
-        type: REMOVE_FROM_ERROR_MAP_ACTION,
+        type: REMOVE_FROM_ERRORS_ACTION,
         key
     }
 };

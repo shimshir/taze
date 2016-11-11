@@ -3,8 +3,8 @@ import Modal from "react-modal";
 import {connect} from "react-redux";
 import {
     updatePlaceOrderFormAction,
-    addToErrorMapAction,
-    removeFromErrorMapAction,
+    addToErrorsAction,
+    removeFromErrorsAction,
     asyncPlaceOrderAction
 } from "../../actions/actions.js";
 import TextInput from "../common/textInput.js";
@@ -41,10 +41,13 @@ class PlaceOrderDialogView extends Component {
 
     confirmModal = () => {
         var placeOrderFormHasErrors = false;
-        this.props.errorMap.forEach((_, key) => {
-            if (key.startsWith('placeOrderForm'))
+
+        Object.keys(this.props.errors).forEach(key => {
+            if (key.startsWith('placeOrderForm')) {
                 placeOrderFormHasErrors = true;
+            }
         });
+
         if (!placeOrderFormHasErrors) {
             this.props.placeOrder(this.props.placeOrderForm, this.props.cart, this.props.session);
             this.closeModal();
@@ -56,10 +59,11 @@ class PlaceOrderDialogView extends Component {
         const value = event.target.value;
         this.props.updatePlaceOrderForm({id, value});
 
-        if ((id == 'emailConfirm' && value != this.props.placeOrderForm.email) || (id == 'email' && value != this.props.placeOrderForm.emailConfirm))
-            this.props.addToErrorMap('placeOrderForm.emailConfirm.match', {message: 'You must confirm your e-mail address!'});
-        else
-            this.props.removeFromErrorMap('placeOrderForm.emailConfirm.match');
+        if ((id == 'emailConfirm' && value != this.props.placeOrderForm.email) || (id == 'email' && value != this.props.placeOrderForm.emailConfirm)) {
+            this.props.addToErrors('placeOrderForm.emailConfirm.match', {message: 'You must confirm your e-mail address!'});
+        } else {
+            this.props.removeFromErrors('placeOrderForm.emailConfirm.match');
+        }
     };
 
     render() {
@@ -109,7 +113,7 @@ class PlaceOrderDialogView extends Component {
                                            defaultValue={this.props.placeOrderForm.emailConfirm}
                                            placeHolderText="Ponovite vašu e-mail adresu"
                                            onChange={this.placeOrderInputChange}
-                                           hasError={this.props.errorMap.get('placeOrderForm.emailConfirm.match')}/>
+                                           hasError={this.props.errors['placeOrderForm.emailConfirm.match']}/>
                                 <SelectInput id="pickupType"
                                              label="Preuzimanje"
                                              options={DELIVERY_OPTIONS}
@@ -128,13 +132,12 @@ class PlaceOrderDialogView extends Component {
     }
 }
 
-
 const mapStateToProps = (state, ownProps) => {
     return {
         placeOrderForm: state.placeOrderForm,
         cart: state.cart,
         session: state.session,
-        errorMap: state.errorMap
+        errors: state.errors
     }
 };
 
@@ -143,11 +146,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         updatePlaceOrderForm: (input) => {
             dispatch(updatePlaceOrderFormAction(input));
         },
-        addToErrorMap: (key, error) => {
-            dispatch(addToErrorMapAction(key, error));
+        addToErrors: (key, error) => {
+            dispatch(addToErrorsAction(key, error));
         },
-        removeFromErrorMap: (key) => {
-            dispatch(removeFromErrorMapAction(key));
+        removeFromErrors: (key) => {
+            dispatch(removeFromErrorsAction(key));
         },
         placeOrder: (placeOrderForm, cart, session) => {
             asyncPlaceOrderAction(dispatch, placeOrderForm, cart, session);

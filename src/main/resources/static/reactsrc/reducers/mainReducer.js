@@ -4,7 +4,7 @@ import activeTopNavbarItemReducer from './activeTopNavbarItemReducer.js';
 import cartReducer from './cartReducer.js';
 import placeOrderFormReducer from './placeOrderFormReducer.js';
 import sessionReducer from './sessionReducer.js';
-import errorMapReducer from './errorMapReducer.js';
+import errorsReducer from './errorsReducer.js';
 import productsReducer from './productsReducer.js';
 import productCardsReducer from './productCardsReducer.js';
 import confirmedOrderDialogReducer from './confirmedOrderDialogReducer.js';
@@ -19,7 +19,7 @@ const MainReducer = combineReducers({
     cart: cartReducer,
     placeOrderForm: placeOrderFormReducer,
     session: sessionReducer,
-    errorMap: errorMapReducer,
+    errors: errorsReducer,
     products: productsReducer,
     productCards: productCardsReducer,
     confirmedOrderDialog: confirmedOrderDialogReducer,
