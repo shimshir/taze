@@ -14,13 +14,14 @@ class CartPageView extends Component {
         if (this.props.session.id) {
             this.props.getCart(this.props.session);
         }
-        this.props.getPage('cart');
+        this.props.getPage(window.location.pathname);
     }
 
     render() {
+        const page = this.props.pages[window.location.pathname];
         return (
             <div>
-                {this.props.page && <StageContainer page={this.props.page}/>}
+                {page && <StageContainer page={page}/>}
                 <ContentContainer>
                     {(this.props.cart.entries && this.props.cart.entries.length != 0) ?
                      <div>
@@ -47,7 +48,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         session: state.session,
         cart: state.cart,
-        page: state.pages['cart']
+        pages: state.pages
     }
 };
 

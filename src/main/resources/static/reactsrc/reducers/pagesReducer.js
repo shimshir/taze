@@ -4,7 +4,7 @@ const pagesReducer = (pagesState = {}, action) => {
     switch (action.type) {
         case RECEIVE_PAGE_ACTION:
             const stateCopy = {...pagesState};
-            stateCopy[action.page.code] = action.page;
+            stateCopy[action.page.path] = action.page;
             return stateCopy;
         default:
             return pagesState

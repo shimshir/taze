@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @RepositoryRestResource
 public interface PageRepository extends JpaRepository<Page, Long> {
-    Optional<Page> findByCode(@Param("code") String code);
+    Optional<Page> findByPath(@Param("path") String path);
 }

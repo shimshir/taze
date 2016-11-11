@@ -12,12 +12,12 @@ class ProductDetailPageView extends Component {
         this.props.changeActiveTopNavbarItem('products');
         if (!this.props.products.find(product => product.code == this.props.params.productCode))
             this.props.getProduct(this.props.params.productCode);
-        this.props.getPage(`products:${this.props.params.productCode}`);
+        this.props.getPage(window.location.pathname);
     }
 
     render() {
         const product = this.props.products.find(product => product.code == this.props.params.productCode);
-        const page = this.props.pages[`products:${this.props.params.productCode}`];
+        const page = this.props.pages[window.location.pathname];
         return (
             product ?
             <div>

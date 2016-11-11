@@ -8,15 +8,16 @@ import {pageDispatchToPropsMappings} from '../common/pageDispatchToPropsMappings
 class ConfirmedOrderPageView extends Component {
     componentWillMount() {
         this.props.confirmOrder(this.props.location.query.orderId, this.props.location.query.token);
-        this.props.getPage('confirmed-order');
+        this.props.getPage(window.location.pathname);
     }
 
     render() {
         const confirmationResult = this.props.confirmationResults[this.props.location.query.orderId];
+        const page = this.props.pages[window.location.pathname];
         return (
             confirmationResult ?
             <div>
-                {this.props.page && <StageContainer page={this.props.page}/>}
+                {page && <StageContainer page={page}/>}
                 <ContentContainer>
                     {confirmationResult.message}
                 </ContentContainer>
@@ -28,7 +29,7 @@ class ConfirmedOrderPageView extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         confirmationResults: state.orderConfirmationResults,
-        page: state.pages['confirmed-order']
+        pages: state.pages
     }
 };
 

@@ -27,18 +27,18 @@ values
   ('CANCELLED', 'Narudzba je otkazana');
 
 insert into
-  page (id, code, path, parent_page_id)
+  page (id, path, parent_page_id)
 values
-  (1, 'root', '/', null),
-  (2, 'about-us', '/about-us', 1),
-  (3, 'gallery', '/gallery', 1),
-  (4, 'products', '/products', 1),
-  (41, 'products:chicken', '/products/chicken', 4),
-  (42, 'products:honey', '/products/honey', 4),
-  (43, 'products:potato', '/products/potato', 4),
-  (5, 'contact', '/contact', 1),
-  (6, 'cart', '/cart', 1),
-  (7, 'confirmed-order', '/confirmed-order', 1);
+  (1, '/', null),
+  (2, '/about-us', 1),
+  (3, '/gallery', 1),
+  (4, '/products', 1),
+  (41, '/products/chicken', 4),
+  (42, '/products/honey', 4),
+  (43, '/products/potato', 4),
+  (5, '/contact', 1),
+  (6, '/cart', 1),
+  (7, '/confirmed-order', 1);
 
 insert into
   stage (id, header, image_url, page_id)

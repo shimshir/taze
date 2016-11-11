@@ -272,8 +272,8 @@ export const toggleConfirmedOrderDialogAction = (isOpen) => {
     }
 };
 
-export const asyncGetPageAction = (dispatch, code) => {
-    return axios.get(API_REST_PATH + `/pages/search/findByCode?code=${code}`)
+export const asyncGetPageAction = (dispatch, path) => {
+    return axios.get(API_REST_PATH + `/pages/search/findByPath?path=${path}`)
         .then(res => dispatch(receivePageAction(res.data)));
 };
 

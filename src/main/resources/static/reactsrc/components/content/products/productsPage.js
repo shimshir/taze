@@ -10,13 +10,14 @@ class ProductsPageView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('products');
         this.props.getProducts();
-        this.props.getPage('products');
+        this.props.getPage(window.location.pathname);
     }
 
     render() {
+        const page = this.props.pages[window.location.pathname];
         return (
             <div>
-                {this.props.page && <StageContainer page={this.props.page}/>}
+                {page && <StageContainer page={page}/>}
                 <ContentContainer>
                     <ProductCardDeck products={this.props.products}/>
                 </ContentContainer>
@@ -28,7 +29,7 @@ class ProductsPageView extends Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         products: state.products,
-        page: state.pages['products']
+        pages: state.pages
     }
 };
 

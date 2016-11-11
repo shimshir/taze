@@ -21,11 +21,10 @@ import lombok.Setter;
 @Setter
 public class Page extends IdentifiableModel {
     @Column(unique = true)
-    private String code;
+    private String path;
     @ManyToOne
     @JoinColumn(name = "parent_page_id")
     private Page parentPage;
-    private String path;
     @OneToMany
     @JoinColumn(name = "page_id", referencedColumnName = "id")
     private List<Stage> stages;

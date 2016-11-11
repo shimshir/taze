@@ -8,13 +8,14 @@ import {pageDispatchToPropsMappings} from '../common/pageDispatchToPropsMappings
 class AboutUsPageView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('about-us');
-        this.props.getPage('about-us');
+        this.props.getPage(window.location.pathname);
     }
 
     render() {
+        const page = this.props.pages[window.location.pathname];
         return (
             <div>
-                {this.props.page && <StageContainer page={this.props.page}/>}
+                {page && <StageContainer page={page}/>}
                 <ContentContainer>
                     <LOREM_IPSUM_PARAGRAPHS />
                 </ContentContainer>
@@ -25,7 +26,7 @@ class AboutUsPageView extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        page: state.pages['about-us']
+        pages: state.pages
     }
 };
 

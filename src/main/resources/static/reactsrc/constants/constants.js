@@ -51,7 +51,8 @@ export const DELIVERY_OPTIONS = [
 const productionBackendHost = window.location.origin;
 const developmentBackendHost = "http://localhost:18081";
 
-const currentBackendHost = productionBackendHost;
+console.log('Current environment: ' + process.env.NODE_ENV);
+const currentBackendHost = process.env.NODE_ENV == 'production' ? productionBackendHost : developmentBackendHost;
 
 export const API_REST_PATH = `${currentBackendHost}/api/rest`;
 export const API_ADMIN_PATH = `${currentBackendHost}/api/admin`;
