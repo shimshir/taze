@@ -1,5 +1,8 @@
 package de.admir.taze.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Error {
     public Error(String message) {
         this.message = message;
@@ -9,7 +12,13 @@ public class Error {
         this.message = e.getMessage();
     }
 
+    public Error(String message, List<Error> nestedErrors) {
+        this.message = message;
+        this.nestedErrors = nestedErrors;
+    }
+
     private String message;
+    private List<Error> nestedErrors;
 
     public String getMessage() {
         return message;
@@ -17,5 +26,16 @@ public class Error {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public List<Error> getNestedErrors() {
+        return nestedErrors;
+    }
+
+    public Error addNestedError(Error nestedError) {
+        if (nestedErrors == null)
+            nestedErrors = new ArrayList<>();
+        nestedErrors.add(nestedError);
+        return this;
     }
 }

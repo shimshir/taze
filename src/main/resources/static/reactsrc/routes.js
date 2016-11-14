@@ -11,6 +11,7 @@ import CartPage from './components/cart/cartPage.js';
 import ProductDetailPage from './components/content/products/productDetailPage.js';
 import ConfirmedOrderPage from './components/content/confirmedOrderPage.js';
 import ProductCreatePage from './components/admin/products/productCreatePage.js';
+import PageCreatePage from './components/admin/pages/pageCreatePage.js';
 
 const NoMatch = () => {
     return (<div><h1>404</h1></div>)
@@ -27,6 +28,7 @@ export default (
         <Route path="/cart" component={CartPage}/>
         <Route path="/confirmed-order" component={ConfirmedOrderPage}/>
         <Route path="/admin/products/create" component={ProductCreatePage}/>
+        <Route path="/admin/pages/create" component={PageCreatePage}/>
         <Route path="*" component={NoMatch}/>
     </Route>
 );
