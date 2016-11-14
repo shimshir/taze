@@ -38,7 +38,7 @@ public class PageAdminController {
                     responsePageResource.add(pageEntityLink.withSelfRel());
                     responsePageResource.add(pageEntityLink);
                     if (page.getParentPage() != null)
-                        responsePageResource.add(entityLinks.linkToSingleResource(page.getParentPage()));
+                        responsePageResource.add(entityLinks.linkToSingleResource(page.getParentPage()).withRel("parentPage"));
                     return ResponseEntity.created(
                             URI.create(
                                     TazeUtils.removeTemplateVariables(pageEntityLink.getHref())

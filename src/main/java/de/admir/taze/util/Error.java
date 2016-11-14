@@ -3,6 +3,9 @@ package de.admir.taze.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.ToString;
+
+@ToString
 public class Error {
     public Error(String message) {
         this.message = message;

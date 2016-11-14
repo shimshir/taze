@@ -7,6 +7,7 @@ div.card-deck div.card {
 
 div.card-img-container {
     height: 230px;
+    background-size: cover;
 }
 
 div.card-img-container:hover {

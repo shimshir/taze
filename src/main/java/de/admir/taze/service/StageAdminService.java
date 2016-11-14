@@ -31,12 +31,12 @@ public class StageAdminService {
     // TODO: Write unit test
     public Xor<Error, Stage> createStage(StageForm requestStageForm) {
         return Xor.catchNonFatal(() -> {
-            LOG.info("Uploading stage image");
-            return cloudinary
-                    .uploader()
-                    .upload(requestStageForm.getImageData(), ObjectUtils.asMap("folder", stageImageFolder));
-        }).map(
-                e -> {
+                    LOG.info("Uploading stage image");
+                    return cloudinary
+                            .uploader()
+                            .upload(requestStageForm.getImageData(), ObjectUtils.asMap("folder", stageImageFolder));
+                }
+        ).map(e -> {
                     LOG.warn("Image upload for stage failed", e);
                     return new Error(e);
                 },
