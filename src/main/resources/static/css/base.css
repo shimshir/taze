@@ -26,6 +26,11 @@ div.container {
     text-decoration: underline;
     cursor: pointer;
 }
+
 .pseudo-anchor {
     color: #0275d8;
+}
+
+.fake-link {
+    cursor: pointer;
 }

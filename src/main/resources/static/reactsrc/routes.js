@@ -11,22 +11,30 @@ import CartPage from './components/cart/cartPage.js';
 import ProductDetailPage from './components/content/products/productDetailPage.js';
 import ConfirmedOrderPage from './components/content/confirmedOrderPage.js';
 import ProductCreatePage from './components/admin/products/productCreatePage.js';
+import PageCreatePage from './components/admin/pages/pageCreatePage.js';
+import AdminPage from './components/admin/adminPage.js';
 
-const NoMatch = () => {
-    return (<div><h1>404</h1></div>)
-};
+const NoMatch = () => <div><h1>404</h1></div>;
+
+// TODO: Create proper admin index page
+const TempAdminIndex = () => <div><h1>Administracija</h1></div>;
 
 export default (
     <Route path="/" components={App}>
         <IndexRoute component={RootPage}/>
-        <Route path="/about-us" component={AboutUsPage}/>
-        <Route path="/gallery" component={GalleryPage}/>
-        <Route path="/products" component={ProductsPage}/>
-        <Route path="/products/:productCode" component={ProductDetailPage}/>
-        <Route path="/contact" component={ContactPage}/>
-        <Route path="/cart" component={CartPage}/>
-        <Route path="/confirmed-order" component={ConfirmedOrderPage}/>
-        <Route path="/admin/products/create" component={ProductCreatePage}/>
+        <Route path="about-us" component={AboutUsPage}/>
+        <Route path="gallery" component={GalleryPage}/>
+        <Route path="products" component={ProductsPage}/>
+        <Route path="products/:productCode" component={ProductDetailPage}/>
+        <Route path="contact" component={ContactPage}/>
+        <Route path="cart" component={CartPage}/>
+        <Route path="confirmed-order" component={ConfirmedOrderPage}/>
+        <Route path="admin" component={AdminPage}>
+            <IndexRoute component={TempAdminIndex}/>
+            <Route path="products/create" component={ProductCreatePage}/>
+            <Route path="pages/create" component={PageCreatePage}/>
+            <Route path="*" component={NoMatch}/>
+        </Route>
         <Route path="*" component={NoMatch}/>
     </Route>
 );

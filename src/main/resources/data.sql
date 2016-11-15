@@ -41,7 +41,7 @@ values
   (7, '/confirmed-order', 1);
 
 insert into
-  stage (id, header, image_url, page_id)
+  stage (id, header, image, page_id)
 values
   (1, 'Pocetna', 'https://res.cloudinary.com/taze/image/upload/v1478817153/stage/root.jpg', 1),
   (2, 'O nama', 'https://res.cloudinary.com/taze/image/upload/v1478817152/stage/about-us.jpg', 2),

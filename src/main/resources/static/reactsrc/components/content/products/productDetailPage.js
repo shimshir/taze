@@ -20,12 +20,11 @@ class ProductDetailPageView extends Component {
         const page = this.props.pages[window.location.pathname];
         return (
             product ?
-            <div>
+            <div className="container">
                 {page && <StageContainer page={page}/>}
                 <ContentContainer>
                     <ProductDetailContent product={product}/>
                 </ContentContainer>
-
             </div>
                 :
             null

@@ -16,7 +16,7 @@ class ProductsPageView extends Component {
     render() {
         const page = this.props.pages[window.location.pathname];
         return (
-            <div>
+            <div className="container">
                 {page && <StageContainer page={page}/>}
                 <ContentContainer>
                     <ProductCardDeck products={this.props.products}/>

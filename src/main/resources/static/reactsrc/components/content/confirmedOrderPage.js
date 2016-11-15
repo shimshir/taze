@@ -16,7 +16,7 @@ class ConfirmedOrderPageView extends Component {
         const page = this.props.pages[window.location.pathname];
         return (
             confirmationResult ?
-            <div>
+            <div className="container">
                 {page && <StageContainer page={page}/>}
                 <ContentContainer>
                     {confirmationResult.message}

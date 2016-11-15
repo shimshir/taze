@@ -20,7 +20,7 @@ class CartPageView extends Component {
     render() {
         const page = this.props.pages[window.location.pathname];
         return (
-            <div>
+            <div className="container">
                 {page && <StageContainer page={page}/>}
                 <ContentContainer>
                     {(this.props.cart.entries && this.props.cart.entries.length != 0) ?
