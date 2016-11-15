@@ -12,7 +12,7 @@ import ProductDetailPage from './components/content/products/productDetailPage.j
 import ConfirmedOrderPage from './components/content/confirmedOrderPage.js';
 import ProductCreatePage from './components/admin/products/productCreatePage.js';
 import PageCreatePage from './components/admin/pages/pageCreatePage.js';
-import AdminPage from './components/admin/adminPage.js';
+import Admin from './components/admin/admin.js';
 
 const NoMatch = () => <div><h1>404</h1></div>;
 
@@ -29,7 +29,7 @@ export default (
         <Route path="contact" component={ContactPage}/>
         <Route path="cart" component={CartPage}/>
         <Route path="confirmed-order" component={ConfirmedOrderPage}/>
-        <Route path="admin" component={AdminPage}>
+        <Route path="admin" component={Admin}>
             <IndexRoute component={TempAdminIndex}/>
             <Route path="products/create" component={ProductCreatePage}/>
             <Route path="pages/create" component={PageCreatePage}/>
