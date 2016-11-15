@@ -42,6 +42,7 @@ public class StageAdminService {
                 },
                 imageUploadResult -> {
                     String imageUrl = (String) imageUploadResult.get("secure_url");
+                    LOG.info("Stage image uploaded to " + imageUrl);
                     requestStageForm.setImage(imageUrl);
                     return requestStageForm;
                 }

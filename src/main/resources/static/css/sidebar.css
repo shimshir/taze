@@ -1,0 +1,46 @@
+.sidebar {
+    position: fixed;
+    width: 250px;
+    padding: 0;
+    border-radius: 0;
+    left: 50px;
+    top: 100px;
+}
+
+.sidebar li {
+    text-indent: 20px;
+    line-height: 50px;
+}
+
+.sidebar a {
+    border-bottom: solid 1px #788087;
+}
+
+.sidebar li a, ul, .fake-link {
+    padding: 0 !important;
+}
+
+.sidebar li .fake-link:hover, .sidebar li a:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar li.parent-list-item ul a {
+    text-indent: 45px;
+    line-height: 35px;
+}
+
+.sidebar li.parent-list-item ul {
+    list-style: none;
+    background-color: #242629;
+}
+
+.sidebar li.parent-list-item {
+    max-height: 51px;
+    overflow: hidden;
+    transition: max-height 0.15s ease-out;
+}
+
+.sidebar li.parent-list-item.expanded {
+    max-height: 500px;
+    transition: max-height 0.25s ease-in;
+}

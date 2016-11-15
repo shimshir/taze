@@ -14,7 +14,7 @@ class ContactPageView extends Component {
     render() {
         const page = this.props.pages[window.location.pathname];
         return (
-            <div>
+            <div className="container">
                 {page && <StageContainer page={page}/>}
                 <ContentContainer>
                     <LOREM_IPSUM_PARAGRAPHS />

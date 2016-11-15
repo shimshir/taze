@@ -13,9 +13,7 @@ class AppView extends Component {
         return (
             <div className="react-root">
                 <TopNavbar/>
-                <div className="container">
-                    {this.props.children}
-                </div>
+                {this.props.children}
             </div>
         )
     }
