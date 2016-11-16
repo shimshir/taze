@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, IndexRoute} from 'react-router';
+import {Route, IndexRoute, IndexRedirect} from 'react-router';
 
 import App from './components/app.js';
 import RootPage from './components/content/rootPage.js';
@@ -10,9 +10,11 @@ import ContactPage from './components/content/contactPage.js';
 import CartPage from './components/cart/cartPage.js';
 import ProductDetailPage from './components/content/products/productDetailPage.js';
 import ConfirmedOrderPage from './components/content/confirmedOrderPage.js';
+import ProductSearchPage from './components/admin/products/productSearchPage.js';
 import ProductCreatePage from './components/admin/products/productCreatePage.js';
 import PageCreatePage from './components/admin/pages/pageCreatePage.js';
 import Admin from './components/admin/admin.js';
+import AdminProducts from './components/admin/products/adminProducts.js';
 
 const NoMatch = () => <div><h1>404</h1></div>;
 
@@ -31,7 +33,11 @@ export default (
         <Route path="confirmed-order" component={ConfirmedOrderPage}/>
         <Route path="admin" component={Admin}>
             <IndexRoute component={TempAdminIndex}/>
-            <Route path="products/create" component={ProductCreatePage}/>
+            <Route path="products" component={AdminProducts}>
+                <IndexRedirect to="search" />
+                <Route path="search" component={ProductSearchPage}/>
+                <Route path="create" component={ProductCreatePage}/>
+            </Route>
             <Route path="pages/create" component={PageCreatePage}/>
             <Route path="*" component={NoMatch}/>
         </Route>

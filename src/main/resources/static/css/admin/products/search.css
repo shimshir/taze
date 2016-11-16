@@ -1,0 +1,12 @@
+table#productsSearchTable {
+    table-layout: fixed;
+}
+
+table#productsSearchTable a, span {
+    display: inline-block;
+    width: 100%;
+}
+
+table#productsSearchTable td {
+    word-wrap:break-word;
+}

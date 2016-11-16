@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
@@ -30,4 +31,6 @@ public class Product extends IdentifiableModel {
     @NotNull
     private String unitCode;
     private String footnote;
+    @OneToOne(mappedBy = "product")
+    private ProductCard productCard;
 }
