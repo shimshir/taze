@@ -1,6 +1,8 @@
 -- noinspection SqlNoDataSourceInspectionForFile
 -- noinspection SqlResolveForFile
 
+-- TODO (important): Use hibernate/spring api to initialize database, reason: primary keys do not get autoincremented like this
+
 INSERT INTO
   product (id, code, name, price_per_unit, unit_code, pdp_image, list_image, footnote)
 VALUES
