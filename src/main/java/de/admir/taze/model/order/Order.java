@@ -1,7 +1,7 @@
 package de.admir.taze.model.order;
 
 import de.admir.taze.model.Customer;
-import de.admir.taze.model.IdentifiableModel;
+import de.admir.taze.model.IdentifiableEntity;
 import de.admir.taze.model.PickupTypeEnum;
 import de.admir.taze.model.Session;
 
@@ -23,7 +23,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true, exclude = {"entries", "token"})
 @Table(name = "taze_order")
 @ToString(exclude = "entries")
-public class Order extends IdentifiableModel {
+public class Order extends IdentifiableEntity {
     @ManyToOne
     @JoinColumn(name = "status", nullable = false)
     @NotNull

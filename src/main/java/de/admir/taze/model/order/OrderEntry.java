@@ -1,6 +1,6 @@
 package de.admir.taze.model.order;
 
-import de.admir.taze.model.IdentifiableModel;
+import de.admir.taze.model.IdentifiableEntity;
 import de.admir.taze.model.product.Product;
 
 import java.math.BigDecimal;
@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class OrderEntry extends IdentifiableModel {
+public class OrderEntry extends IdentifiableEntity {
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     @NotNull

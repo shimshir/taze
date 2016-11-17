@@ -1,6 +1,6 @@
 package de.admir.taze.model.product;
 
-import de.admir.taze.model.IdentifiableModel;
+import de.admir.taze.model.IdentifiableEntity;
 
 import java.math.BigDecimal;
 
@@ -14,8 +14,8 @@ import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class Product extends IdentifiableModel {
+@EqualsAndHashCode(callSuper = true, exclude = "productCard")
+public class Product extends IdentifiableEntity {
     @Column(nullable = false, unique = true)
     @NotNull
     private String code;

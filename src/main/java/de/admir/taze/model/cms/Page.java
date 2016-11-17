@@ -1,6 +1,6 @@
 package de.admir.taze.model.cms;
 
-import de.admir.taze.model.IdentifiableModel;
+import de.admir.taze.model.IdentifiableEntity;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -19,7 +19,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Page extends IdentifiableModel {
+public class Page extends IdentifiableEntity {
     @Column(unique = true)
     private String path;
     @ManyToOne

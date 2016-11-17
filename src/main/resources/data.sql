@@ -1,8 +1,6 @@
 -- noinspection SqlNoDataSourceInspectionForFile
 -- noinspection SqlResolveForFile
 
--- TODO (important): Use hibernate/spring api to initialize database, reason: primary keys do not get autoincremented like this
-
 INSERT INTO
   product (id, code, name, price_per_unit, unit_code, pdp_image, list_image, footnote)
 VALUES
@@ -13,6 +11,8 @@ VALUES
   (3, 'potato', 'Krompir', 2, 'kg', 'https://res.cloudinary.com/taze/image/upload/v1478718817/product/pdpImage/potato.jpg',
    'https://res.cloudinary.com/taze/image/upload/v1478718782/product/listImage/potato.jpg', NULL);
 
+INSERT INTO taze_id_sequence (sequence_name, next_val) VALUES ('product', 4);
+
 INSERT INTO
   product_card (id, title, paragraph, small, image, product_id)
 VALUES
@@ -22,6 +22,8 @@ VALUES
    'https://res.cloudinary.com/taze/image/upload/v1478718838/product/cardImage/honey.jpg', 2),
   (3, 'Krompir', 'Pecen, kuhan, przen, svejedno kako, domaci krompir je uzitak u svakom obliku.', 'Ovo je samo privremeni tekst.',
    'https://res.cloudinary.com/taze/image/upload/v1478718838/product/cardImage/potato.jpg', 3);
+
+INSERT INTO taze_id_sequence (sequence_name, next_val) VALUES ('product_card', 4);
 
 INSERT INTO
   order_status (id, description)
@@ -49,6 +51,8 @@ VALUES
   (7, '/confirmed-order', 1),
   (101, '/admin', NULL);
 
+INSERT INTO taze_id_sequence (sequence_name, next_val) VALUES ('page', 102);
+
 INSERT INTO
   stage (id, header, image, page_id)
 VALUES
@@ -63,3 +67,5 @@ VALUES
   (6, 'Korpa', 'https://res.cloudinary.com/taze/image/upload/v1478817151/stage/cart.jpg', 6),
   (7, 'Potvrdjena narudzba', 'https://res.cloudinary.com/taze/image/upload/v1478817152/stage/confirmed-order.jpg', 7),
   (101, 'Admin', 'https://res.cloudinary.com/taze/image/upload/v1479216812/admin.jpg', 101);
+
+INSERT INTO taze_id_sequence (sequence_name, next_val) VALUES ('stage', 102);

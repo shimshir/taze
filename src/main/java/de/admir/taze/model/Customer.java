@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Customer extends IdentifiableModel {
+public class Customer extends IdentifiableEntity {
     private String firstName;
     private String lastName;
     private String address;
