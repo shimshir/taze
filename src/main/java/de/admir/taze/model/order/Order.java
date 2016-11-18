@@ -1,5 +1,7 @@
 package de.admir.taze.model.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.admir.taze.model.Customer;
 import de.admir.taze.model.IdentifiableEntity;
 import de.admir.taze.model.PickupTypeEnum;
@@ -36,6 +38,7 @@ public class Order extends IdentifiableEntity {
     private List<OrderEntry> entries = new ArrayList<>();
     @OneToOne
     @JoinColumn(name = "token_id", referencedColumnName = "id")
+    @JsonIgnore
     private ConfirmationToken token;
     @Enumerated(EnumType.STRING)
     private PickupTypeEnum pickupType;

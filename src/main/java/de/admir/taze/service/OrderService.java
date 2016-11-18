@@ -8,10 +8,10 @@ import de.admir.taze.repository.ConfirmationTokenRepository;
 import de.admir.taze.repository.OrderRepository;
 import de.admir.taze.util.Error;
 import de.admir.taze.util.Xor;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import org.springframework.core.NestedRuntimeException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionSystemException;
 
 @Service
 public class OrderService {
@@ -31,27 +31,11 @@ public class OrderService {
                 .mapRight(order -> {
                     if (requestOrder.getCustomer() != null)
                         order.setCustomer(requestOrder.getCustomer());
-                    return order;
-                })
-                .mapRight(order -> {
                     if (requestOrder.getPickupType() != null)
                         order.setPickupType(requestOrder.getPickupType());
                     return order;
                 })
-                .mapRight(order -> {
-                    if (handleSaveEvents)
-                        orderEventHandler.handleOrderBeforeSave(order);
-                    return order;
-                })
-                .mapRight(order -> {
-                    orderRepository.save(order);
-                    return order;
-                })
-                .mapRight(order -> {
-                    if (handleSaveEvents)
-                        orderEventHandler.handleOrderAfterSave(order);
-                    return order;
-                });
+                .flatMapRight(order -> saveOrder(order, handleSaveEvents));
     }
 
     public Xor<Error, Order> putOrder(Long orderId, Order requestOrder, String tokenString, boolean handleSaveEvents) {
@@ -60,24 +44,22 @@ public class OrderService {
 
         return putResult
                 .flatMapRight(order -> requestOrder.getStatus() != null ? handleStatusChange(requestOrder, order, tokenString) : Xor.right(order))
-                .mapRight(order -> {
-                    if (handleSaveEvents)
-                        orderEventHandler.handleOrderBeforeSave(order);
-                    return order;
-                })
-                .flatMapRight(order -> {
-                    try {
-                        orderRepository.save(order);
-                        return Xor.right(order);
-                    } catch (TransactionSystemException | JpaObjectRetrievalFailureException e) {
-                        return Xor.left(new Error(e.getMostSpecificCause().getMessage()));
-                    }
-                })
-                .mapRight(order -> {
-                    if (handleSaveEvents)
-                        orderEventHandler.handleOrderAfterSave(order);
-                    return order;
-                });
+                .flatMapRight(order -> saveOrder(order, handleSaveEvents));
+    }
+
+    private Xor<Error, Order> saveOrder(Order order, boolean handleSaveEvents) {
+        return Xor.catchNonFatal(() -> {
+            if (handleSaveEvents)
+                orderEventHandler.handleOrderBeforeSave(order);
+            orderRepository.save(order);
+            if (handleSaveEvents)
+                orderEventHandler.handleOrderAfterSave(order);
+            return order;
+        }).mapLeft(e ->
+                NestedRuntimeException.class.isAssignableFrom(e.getClass()) ?
+                        new Error(((NestedRuntimeException) e).getMostSpecificCause().getMessage()) :
+                        new Error(e)
+        );
     }
 
     private Xor<Error, Order> handleStatusChange(Order requestOrder, Order persistedOrder, String tokenString) {
