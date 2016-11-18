@@ -3,6 +3,7 @@ package de.admir.taze.service;
 import de.admir.taze.event.OrderEventHandler;
 import de.admir.taze.model.order.ConfirmationToken;
 import de.admir.taze.model.order.Order;
+import de.admir.taze.model.order.OrderStatusEnum;
 import de.admir.taze.repository.ConfirmationTokenRepository;
 import de.admir.taze.repository.OrderRepository;
 import de.admir.taze.util.Error;
@@ -82,7 +83,7 @@ public class OrderService {
     private Xor<Error, Order> handleStatusChange(Order requestOrder, Order persistedOrder, String token) {
         ConfirmationToken persistedToken = persistedOrder.getToken();
 
-        boolean isSetToConfirmed = "confirmed".equalsIgnoreCase(requestOrder.getStatus().getId());
+        boolean isSetToConfirmed = OrderStatusEnum.CONFIRMED.equals(requestOrder.getStatus());
         boolean isTokenAlreadyUsed = persistedToken != null && persistedToken.isUsed();
         boolean hasValidToken = token.equals(persistedToken == null ? null : persistedOrder.getToken().getValue());
 

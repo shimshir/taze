@@ -17,17 +17,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true, exclude = {"entries", "token"})
 @Table(name = "taze_order")
 @ToString(exclude = "entries")
 public class Order extends IdentifiableEntity {
-    @ManyToOne
-    @JoinColumn(name = "status", nullable = false)
-    @NotNull
-    OrderStatus status;
+    @Enumerated(EnumType.STRING)
+    OrderStatusEnum status;
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -41,7 +38,6 @@ public class Order extends IdentifiableEntity {
     @JoinColumn(name = "token_value", referencedColumnName = "value")
     private ConfirmationToken token;
     @Enumerated(EnumType.STRING)
-    @Column(name = "pickupType")
     private PickupTypeEnum pickupType;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;

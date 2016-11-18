@@ -5,9 +5,7 @@ import de.admir.taze.model.Customer;
 import de.admir.taze.model.Uuid;
 import de.admir.taze.model.order.Order;
 import de.admir.taze.model.order.OrderEntry;
-import de.admir.taze.model.order.OrderStatus;
 import de.admir.taze.model.product.Product;
-import de.admir.taze.model.Session;
 import de.admir.taze.model.product.ProductCard;
 
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +19,6 @@ public class RestRepositoryConfiguration extends RepositoryRestConfigurerAdapter
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.setBasePath(Constants.API_REST_CONTEXT_PATH);
-        config.exposeIdsFor(Product.class, ProductCard.class, Customer.class, Order.class, OrderEntry.class, OrderStatus.class, Uuid.class);
+        config.exposeIdsFor(Product.class, ProductCard.class, Customer.class, Order.class, OrderEntry.class, Uuid.class);
     }
 }

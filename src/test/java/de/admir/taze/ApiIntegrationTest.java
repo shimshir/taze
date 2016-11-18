@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class ApiIntegrationTest {
-    private static final String CART_STATUS_ID = "CART";
+    private static final String CART_STATUS = "CART";
     @Autowired
     private TestRestTemplate restTemplate;
     @Autowired
@@ -63,12 +63,12 @@ public class ApiIntegrationTest {
     @Test
     public void testCreateCart() {
         String sessionLink = createNewSession().getHeaders().getFirst(HttpHeaders.LOCATION);
-        ResponseEntity<String> createCartRes = createNewOrder(sessionLink, CART_STATUS_ID);
+        ResponseEntity<String> createCartRes = createNewOrder(sessionLink, CART_STATUS);
         assertThat(createCartRes.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         ResponseEntity<String> getCartRes = restTemplate.getForEntity(createCartRes.getHeaders().getFirst(HttpHeaders.LOCATION), String.class);
         JSONObject getCartResBody = new JSONObject(getCartRes.getBody());
         assertThat(getCartResBody.getLong("id")).isNotNull();
-        assertThat(getCartResBody.getJSONObject("status").getString("id")).isNotNull().isEqualTo(CART_STATUS_ID);
+        assertThat(getCartResBody.getString("status")).isNotNull().isEqualTo(CART_STATUS);
         assertThat(getCartResBody.getJSONObject("_links").getJSONObject("session").getString("href")).isNotNull().isNotEqualTo(StringUtils.EMPTY);
     }
 
@@ -77,23 +77,23 @@ public class ApiIntegrationTest {
         ResponseEntity<Session> createSessionRes = createNewSession();
         Map<String, String> urlParams = new HashMap<>();
         urlParams.put("sessionUuid", createSessionRes.getBody().getUuid().getId());
-        urlParams.put("status", CART_STATUS_ID);
+        urlParams.put("status", CART_STATUS);
 
         ResponseEntity<String> findNonExistingOrderRes = restTemplate.getForEntity(API_REST_CONTEXT_PATH +
-                "/orders/search/findBySessionUuidIdAndStatusId", String.class, urlParams);
+                "/orders/search/findBySessionUuidIdAndStatus", String.class, urlParams);
         assertThat(findNonExistingOrderRes.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
-        createNewOrder(createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION), CART_STATUS_ID);
+        createNewOrder(createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION), CART_STATUS);
 
         ResponseEntity<String> findExistingOrderRes = restTemplate.getForEntity(API_REST_CONTEXT_PATH +
-                "/orders/search/findBySessionUuidIdAndStatusId?sessionUuid={sessionUuid}&status={status}", String.class, urlParams);
+                "/orders/search/findBySessionUuidIdAndStatus?sessionUuid={sessionUuid}&status={status}", String.class, urlParams);
         assertThat(findExistingOrderRes.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
     public void testAddOrderEntryWithProductToOrder() {
         ResponseEntity<Session> createSessionRes = createNewSession();
-        ResponseEntity<String> createOrderRes = createNewOrder(createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION), CART_STATUS_ID);
+        ResponseEntity<String> createOrderRes = createNewOrder(createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION), CART_STATUS);
 
         Product chicken = productRepository.findByCode("chicken").get();
         JSONObject orderEntryReqJson = new JSONObject().put("amount", 42)

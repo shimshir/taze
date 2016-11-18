@@ -26,17 +26,6 @@ VALUES
 INSERT INTO taze_id_sequence (sequence_name, next_val) VALUES ('product_card', 4);
 
 INSERT INTO
-  order_status (id, description)
-VALUES
-  ('CART', 'Narudzba je u korpi'),
-  ('ORDERED', 'Narudzba je zatrazena'),
-  ('CONFIRMED', 'Narudzba je potvrdjena'),
-  ('PROCESSING', 'Narudzba je u obradi'),
-  ('COMPLETED', 'Narudzba je uspjesno obradjena'),
-  ('FAILED', 'Narudzba je bila neuspjesna'),
-  ('CANCELLED', 'Narudzba je otkazana');
-
-INSERT INTO
   page (id, path, parent_page_id)
 VALUES
   (1, '/', NULL),

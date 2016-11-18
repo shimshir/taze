@@ -20,4 +20,20 @@ public class Uuid implements Identifiable<String> {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Uuid)) return false;
+
+        Uuid uuid = (Uuid) o;
+
+        return getId().equals(uuid.getId());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
 }

@@ -65,7 +65,7 @@ const receiveNewSessionAction = (session) => {
 };
 
 export const asyncGetCartAction = (dispatch, session) => {
-    axios.get(API_REST_PATH + `/orders/search/findBySessionUuidIdAndStatusId?sessionUuid=${session.uuid.id}&status=CART`)
+    axios.get(API_REST_PATH + `/orders/search/findBySessionUuidIdAndStatus?sessionUuid=${session.uuid.id}&status=CART`)
         .then(res => {
             if (res.data.id) {
                 const cart = res.data;

@@ -2,8 +2,6 @@ package de.admir.taze.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -40,11 +38,11 @@ public class Session extends IdentifiableEntity {
 
         Session session = (Session) o;
 
-        return this.getId().equals(session.getId());
+        return this.getUuid().equals(session.getUuid());
     }
 
     @Override
     public int hashCode() {
-        return this.getId().hashCode();
+        return this.getUuid().hashCode();
     }
 }

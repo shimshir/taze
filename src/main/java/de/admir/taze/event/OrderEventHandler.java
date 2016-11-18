@@ -2,6 +2,7 @@ package de.admir.taze.event;
 
 import de.admir.taze.model.order.ConfirmationToken;
 import de.admir.taze.model.order.Order;
+import de.admir.taze.model.order.OrderStatusEnum;
 import de.admir.taze.repository.ConfirmationTokenRepository;
 import de.admir.taze.service.MailService;
 
@@ -25,7 +26,7 @@ public class OrderEventHandler {
 
     @HandleBeforeSave
     public void handleOrderBeforeSave(Order order) {
-        if ("ordered".equalsIgnoreCase(order.getStatus().getId())) {
+        if (OrderStatusEnum.ORDERED.equals(order.getStatus())) {
             ConfirmationToken token = new ConfirmationToken();
             confirmationTokenRepository.save(token);
             order.setToken(token);
@@ -34,10 +35,10 @@ public class OrderEventHandler {
 
     @HandleAfterSave
     public void handleOrderAfterSave(Order order) {
-        if ("ordered".equalsIgnoreCase(order.getStatus().getId())) {
+        if (OrderStatusEnum.ORDERED.equals(order.getStatus())) {
             mailService.sendConfirmationEmail(order);
         }
-        if ("confirmed".equalsIgnoreCase(order.getStatus().getId())) {
+        if (OrderStatusEnum.CONFIRMED.equals(order.getStatus())) {
             ConfirmationToken token = order.getToken();
             token.setUsed(true);
             confirmationTokenRepository.save(token);
