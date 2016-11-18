@@ -2,6 +2,7 @@ package de.admir.taze.config;
 
 import de.admir.taze.Constants;
 import de.admir.taze.model.Customer;
+import de.admir.taze.model.Uuid;
 import de.admir.taze.model.order.Order;
 import de.admir.taze.model.order.OrderEntry;
 import de.admir.taze.model.order.OrderStatus;
@@ -20,6 +21,6 @@ public class RestRepositoryConfiguration extends RepositoryRestConfigurerAdapter
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.setBasePath(Constants.API_REST_CONTEXT_PATH);
-        config.exposeIdsFor(Product.class, Session.class, ProductCard.class, Customer.class, Order.class, OrderEntry.class, OrderStatus.class);
+        config.exposeIdsFor(Product.class, ProductCard.class, Customer.class, Order.class, OrderEntry.class, OrderStatus.class, Uuid.class);
     }
 }

@@ -11,14 +11,11 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-public class Session implements Identifiable<String> {
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
-
+public class Session extends IdentifiableEntity {
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "uuid", referencedColumnName = "id")
+    private Uuid uuid;
     private String ipAddress;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Temporal(TemporalType.TIMESTAMP)
@@ -27,6 +24,7 @@ public class Session implements Identifiable<String> {
     @PrePersist
     protected void onCreate() {
         created = new Date();
+        uuid = new Uuid();
         updated = created;
     }
 

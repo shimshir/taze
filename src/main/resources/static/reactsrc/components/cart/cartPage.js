@@ -11,7 +11,7 @@ import ConfirmedOrderDialog from "./confirmedOrderDialog.js";
 class CartPageView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('cart');
-        if (this.props.session.id) {
+        if (this.props.session.uuid) {
             this.props.getCart(this.props.session);
         }
         this.props.getPage(window.location.pathname);

@@ -56,7 +56,7 @@ public class ApiIntegrationTest {
         assertThat(postSessionRes.getHeaders().containsKey(HttpHeaders.LOCATION));
         String sessionLocation = postSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION);
         ResponseEntity<Session> getSessionRes = restTemplate.getForEntity(sessionLocation, Session.class);
-        assertThat(getSessionRes.getBody().getId()).isNotNull();
+        assertThat(getSessionRes.getBody().getUuid().getId()).isNotNull();
         assertThat(getSessionRes.getBody().getIpAddress()).isNotNull();
     }
 
@@ -73,20 +73,20 @@ public class ApiIntegrationTest {
     }
 
     @Test
-    public void testSearchOrderBySessionIdAndStatusId() {
+    public void testSearchOrderBySessionUuidIdAndStatusId() {
         ResponseEntity<Session> createSessionRes = createNewSession();
         Map<String, String> urlParams = new HashMap<>();
-        urlParams.put("sessionId", createSessionRes.getBody().getId());
+        urlParams.put("sessionUuid", createSessionRes.getBody().getUuid().getId());
         urlParams.put("status", CART_STATUS_ID);
 
         ResponseEntity<String> findNonExistingOrderRes = restTemplate.getForEntity(API_REST_CONTEXT_PATH +
-                "/orders/search/findBySessionIdAndStatusId", String.class, urlParams);
+                "/orders/search/findBySessionUuidIdAndStatusId", String.class, urlParams);
         assertThat(findNonExistingOrderRes.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
         createNewOrder(createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION), CART_STATUS_ID);
 
         ResponseEntity<String> findExistingOrderRes = restTemplate.getForEntity(API_REST_CONTEXT_PATH +
-                "/orders/search/findBySessionIdAndStatusId?sessionId={sessionId}&status={status}", String.class, urlParams);
+                "/orders/search/findBySessionUuidIdAndStatusId?sessionUuid={sessionUuid}&status={status}", String.class, urlParams);
         assertThat(findExistingOrderRes.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 

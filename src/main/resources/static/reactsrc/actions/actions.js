@@ -29,7 +29,7 @@ export const changeActiveTopNavbarItemAction = (topNavbarItem) => {
 export const asyncCheckSessionAction = (dispatch) => {
     const session = Cookies.getJSON('tazeSession');
     if (session != undefined) {
-        axios.get(API_REST_PATH + `/sessions/${session.id}`)
+        axios.get(API_REST_PATH + `/sessions/search/findByUuidId?uuid=${session.uuid.id}`)
             .then(res => {
                       dispatch(receiveNewSessionAction(res.data));
                       asyncGetCartAction(dispatch, res.data);
@@ -43,7 +43,6 @@ export const asyncCheckSessionAction = (dispatch) => {
     } else {
         asyncCreateNewSessionAction(dispatch);
     }
-
 };
 
 const asyncCreateNewSessionAction = (dispatch) => {
@@ -66,7 +65,7 @@ const receiveNewSessionAction = (session) => {
 };
 
 export const asyncGetCartAction = (dispatch, session) => {
-    axios.get(API_REST_PATH + `/orders/search/findBySessionIdAndStatusId?sessionId=${session.id}&status=CART`)
+    axios.get(API_REST_PATH + `/orders/search/findBySessionUuidIdAndStatusId?sessionUuid=${session.uuid.id}&status=CART`)
         .then(res => {
             if (res.data.id) {
                 const cart = res.data;
