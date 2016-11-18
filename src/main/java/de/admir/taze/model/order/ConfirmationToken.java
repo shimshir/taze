@@ -1,12 +1,14 @@
 package de.admir.taze.model.order;
 
-import org.hibernate.annotations.GenericGenerator;
+import de.admir.taze.model.IdentifiableEntity;
+import de.admir.taze.model.Uuid;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
@@ -18,11 +20,10 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class ConfirmationToken {
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String value;
+public class ConfirmationToken extends IdentifiableEntity {
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "value", referencedColumnName = "id")
+    private Uuid value;
     private boolean used;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -33,6 +34,7 @@ public class ConfirmationToken {
     protected void onCreate() {
         created = new Date();
         updated = created;
+        value = new Uuid();
     }
 
     @PreUpdate

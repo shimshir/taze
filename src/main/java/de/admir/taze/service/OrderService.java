@@ -22,12 +22,12 @@ public class OrderService {
     @Autowired
     private OrderEventHandler orderEventHandler;
 
-    public Xor<Error, Order> patchOrder(Long orderId, Order requestOrder, String token, boolean handleSaveEvents) {
+    public Xor<Error, Order> patchOrder(Long orderId, Order requestOrder, String tokenString, boolean handleSaveEvents) {
         Order persistedOrder = orderRepository.findOne(orderId);
         Xor<Error, Order> patchResult = (persistedOrder == null ? Xor.left(new Error("Order does not exist!")) : Xor.right(persistedOrder));
 
         return patchResult
-                .flatMapRight(order -> requestOrder.getStatus() != null ? handleStatusChange(requestOrder, order, token) : Xor.right(order))
+                .flatMapRight(order -> requestOrder.getStatus() != null ? handleStatusChange(requestOrder, order, tokenString) : Xor.right(order))
                 .mapRight(order -> {
                     if (requestOrder.getCustomer() != null)
                         order.setCustomer(requestOrder.getCustomer());
@@ -54,12 +54,12 @@ public class OrderService {
                 });
     }
 
-    public Xor<Error, Order> putOrder(Long orderId, Order requestOrder, String token, boolean handleSaveEvents) {
+    public Xor<Error, Order> putOrder(Long orderId, Order requestOrder, String tokenString, boolean handleSaveEvents) {
         requestOrder.setId(orderId);
         Xor<Error, Order> putResult = Xor.right(requestOrder);
 
         return putResult
-                .flatMapRight(order -> requestOrder.getStatus() != null ? handleStatusChange(requestOrder, order, token) : Xor.right(order))
+                .flatMapRight(order -> requestOrder.getStatus() != null ? handleStatusChange(requestOrder, order, tokenString) : Xor.right(order))
                 .mapRight(order -> {
                     if (handleSaveEvents)
                         orderEventHandler.handleOrderBeforeSave(order);
@@ -80,12 +80,12 @@ public class OrderService {
                 });
     }
 
-    private Xor<Error, Order> handleStatusChange(Order requestOrder, Order persistedOrder, String token) {
+    private Xor<Error, Order> handleStatusChange(Order requestOrder, Order persistedOrder, String tokenString) {
         ConfirmationToken persistedToken = persistedOrder.getToken();
 
         boolean isSetToConfirmed = OrderStatusEnum.CONFIRMED.equals(requestOrder.getStatus());
         boolean isTokenAlreadyUsed = persistedToken != null && persistedToken.isUsed();
-        boolean hasValidToken = token.equals(persistedToken == null ? null : persistedOrder.getToken().getValue());
+        boolean hasValidToken = tokenString.equals(persistedToken == null ? null : persistedOrder.getToken().getValue().getId());
 
         if (isSetToConfirmed && !isTokenAlreadyUsed && !hasValidToken) {
             return Xor.left(new Error("Invalid confirmation token!"));

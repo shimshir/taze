@@ -66,6 +66,6 @@ public class MailService {
     }
 
     private String createConfirmationLink(Order order) {
-        return String.format("%s/confirmed-order?orderId=%d&token=%s", host, order.getId(), order.getToken().getValue());
+        return String.format("%s/confirmed-order?orderId=%d&token=%s", host, order.getId(), order.getToken().getValue().getId());
     }
 }

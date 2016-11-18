@@ -22,8 +22,8 @@ public class Session extends IdentifiableEntity {
     @PrePersist
     protected void onCreate() {
         created = new Date();
-        uuid = new Uuid();
         updated = created;
+        uuid = new Uuid();
     }
 
     @PreUpdate

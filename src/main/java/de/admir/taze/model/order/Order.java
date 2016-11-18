@@ -35,7 +35,7 @@ public class Order extends IdentifiableEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderEntry> entries = new ArrayList<>();
     @OneToOne
-    @JoinColumn(name = "token_value", referencedColumnName = "value")
+    @JoinColumn(name = "token_id", referencedColumnName = "id")
     private ConfirmationToken token;
     @Enumerated(EnumType.STRING)
     private PickupTypeEnum pickupType;

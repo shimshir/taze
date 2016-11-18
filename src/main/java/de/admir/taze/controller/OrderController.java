@@ -26,8 +26,8 @@ public class OrderController {
     @RequestMapping(path = "/orders/{id}", method = PATCH)
     public ResponseEntity<?> patchOrder(@PathVariable("id") Long orderId,
                                         @RequestBody Resource<Order> requestOrderResource,
-                                        @RequestHeader(value = "X-Confirmation-Token", required = false, defaultValue = StringUtils.EMPTY) String token) {
-        return orderService.patchOrder(orderId, requestOrderResource.getContent(), token, true).fold(
+                                        @RequestHeader(value = "X-Confirmation-Token", required = false, defaultValue = StringUtils.EMPTY) String tokenString) {
+        return orderService.patchOrder(orderId, requestOrderResource.getContent(), tokenString, true).fold(
                 error -> ResponseEntity.badRequest().body(error),
                 order -> ResponseEntity.noContent().build());
     }
@@ -35,8 +35,8 @@ public class OrderController {
     @RequestMapping(path = "/orders/{id}", method = PUT)
     public ResponseEntity<?> putOrder(@PathVariable("id") Long orderId,
                                       @RequestBody Resource<Order> requestOrderResource,
-                                      @RequestHeader(value = "X-Confirmation-Token", required = false, defaultValue = StringUtils.EMPTY) String token) {
-        return orderService.putOrder(orderId, requestOrderResource.getContent(), token, true).fold(
+                                      @RequestHeader(value = "X-Confirmation-Token", required = false, defaultValue = StringUtils.EMPTY) String tokenString) {
+        return orderService.putOrder(orderId, requestOrderResource.getContent(), tokenString, true).fold(
                 error -> ResponseEntity.badRequest().body(error),
                 order -> ResponseEntity.noContent().build());
     }
