@@ -18,8 +18,8 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
-    ConfirmationTokenRepository confirmationTokenRepository;
-    @Autowired
+    private ConfirmationTokenRepository confirmationTokenRepository;
+    //setter inject
     private OrderEventHandler orderEventHandler;
 
     public Xor<Error, Order> patchOrder(Long orderId, Order requestOrder, String tokenString, boolean handleSaveEvents) {
@@ -77,5 +77,10 @@ public class OrderService {
             persistedOrder.setStatus(requestOrder.getStatus());
             return Xor.right(persistedOrder);
         }
+    }
+
+    @Autowired
+    public void setOrderEventHandler(OrderEventHandler orderEventHandler) {
+        this.orderEventHandler = orderEventHandler;
     }
 }

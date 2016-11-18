@@ -19,9 +19,9 @@ import org.springframework.stereotype.Component;
 public class OrderEventHandler {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
+    // setter inject
     private MailService mailService;
-    @Autowired
+    // setter inject
     private ConfirmationTokenRepository confirmationTokenRepository;
 
     @HandleBeforeSave
@@ -43,5 +43,15 @@ public class OrderEventHandler {
             token.setUsed(true);
             confirmationTokenRepository.save(token);
         }
+    }
+
+    @Autowired
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
+    }
+
+    @Autowired
+    public void setConfirmationTokenRepository(ConfirmationTokenRepository confirmationTokenRepository) {
+        this.confirmationTokenRepository = confirmationTokenRepository;
     }
 }

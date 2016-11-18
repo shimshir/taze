@@ -1,14 +1,20 @@
 package de.admir.taze;
 
+import de.admir.taze.event.OrderEventHandler;
 import de.admir.taze.model.Session;
+import de.admir.taze.model.order.Order;
+import de.admir.taze.model.order.OrderStatusEnum;
 import de.admir.taze.model.product.Product;
 import de.admir.taze.repository.ProductRepository;
+import de.admir.taze.service.MailService;
+import de.admir.taze.service.OrderService;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -24,14 +30,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static de.admir.taze.Constants.API_REST_CONTEXT_PATH;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.assertj.core.api.Assertions.*;
+import static org.springframework.http.HttpMethod.PUT;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class ApiIntegrationTest {
     private static final String CART_STATUS = "CART";
+    private static final String ORDERED_STATUS = "ORDERED";
     @Autowired
     private TestRestTemplate restTemplate;
     @Autowired
@@ -120,7 +134,53 @@ public class ApiIntegrationTest {
         assertThat(productResJson.getString("code")).isEqualTo(chicken.getCode());
     }
 
-    // TODO: Test order confirmation logic
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private OrderEventHandler orderEventHandler;
+
+    @Test
+    public void testChangeOrderStatusToOrdered() {
+        OrderEventHandler orderEventHandlerSpy = spy(orderEventHandler);
+        MailService mailServiceMock = mock(MailService.class);
+        doNothing().when(mailServiceMock).sendConfirmationEmail(any());
+
+        orderEventHandlerSpy.setMailService(mailServiceMock);
+
+        orderService.setOrderEventHandler(orderEventHandlerSpy);
+
+        ResponseEntity<Session> createSessionRes = createNewSession();
+        final String sessionLocation = createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION);
+        ResponseEntity<String> createOrderRes = createNewOrder(sessionLocation, CART_STATUS);
+
+        JSONObject modifiedOrderJson = new JSONObject(createOrderRes.getBody())
+                .put("status", ORDERED_STATUS)
+                .put("session", sessionLocation);
+
+        HttpEntity<String> httpEntity = new HttpEntity<>(modifiedOrderJson.toString(), commonHeaders);
+        ResponseEntity<String> putOrderRes = restTemplate.exchange(createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION), PUT, httpEntity, String.class);
+        assertThat(putOrderRes.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        ResponseEntity<String> updatedOrderRes = restTemplate.getForEntity(createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION), String.class);
+        JSONObject updatedOrderJson = new JSONObject(updatedOrderRes.getBody());
+        assertThat(updatedOrderJson.getString("status")).isEqualTo(ORDERED_STATUS);
+
+        // This should be in a unit test
+
+        ArgumentCaptor<Order> orderArgumentCaptor = ArgumentCaptor.forClass(Order.class);
+        verify(orderEventHandlerSpy, times(1)).handleOrderBeforeSave(orderArgumentCaptor.capture());
+        assertThat(orderArgumentCaptor.getValue().getStatus()).isEqualTo(OrderStatusEnum.ORDERED);
+        verify(orderEventHandlerSpy, times(1)).handleOrderAfterSave(orderArgumentCaptor.capture());
+        assertThat(orderArgumentCaptor.getValue().getStatus()).isEqualTo(OrderStatusEnum.ORDERED);
+
+        verify(mailServiceMock, times(1)).sendConfirmationEmail(any());
+
+        //
+    }
+
+    @Test
+    public void testChangeOrderStatusToConfirmed() {
+        // TODO: Implement
+    }
 
     private ResponseEntity<Session> createNewSession() {
         HttpEntity<String> httpEntity = new HttpEntity<>("{}", commonHeaders);
