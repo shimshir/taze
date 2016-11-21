@@ -1,3 +1,15 @@
 div.content-container {
     padding: 20px;
 }
+
+@media (max-width: 1680px) {
+    .container {
+        max-width: 1000px;
+    }
+}
+
+@media (max-width: 1540px) {
+    .container {
+        max-width: 860px;
+    }
+}
