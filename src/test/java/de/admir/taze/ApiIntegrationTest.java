@@ -5,6 +5,7 @@ import de.admir.taze.model.Session;
 import de.admir.taze.model.order.Order;
 import de.admir.taze.model.order.OrderStatusEnum;
 import de.admir.taze.model.product.Product;
+import de.admir.taze.repository.OrderRepository;
 import de.admir.taze.repository.ProductRepository;
 import de.admir.taze.service.MailService;
 import de.admir.taze.service.OrderService;
@@ -26,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,8 +46,6 @@ import static org.springframework.http.HttpMethod.PUT;
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class ApiIntegrationTest {
-    private static final String CART_STATUS = "CART";
-    private static final String ORDERED_STATUS = "ORDERED";
     @Autowired
     private TestRestTemplate restTemplate;
     @Autowired
@@ -77,12 +77,12 @@ public class ApiIntegrationTest {
     @Test
     public void testCreateCart() {
         String sessionLink = createNewSession().getHeaders().getFirst(HttpHeaders.LOCATION);
-        ResponseEntity<String> createCartRes = createNewOrder(sessionLink, CART_STATUS);
+        ResponseEntity<String> createCartRes = createNewOrder(sessionLink, OrderStatusEnum.CART.name());
         assertThat(createCartRes.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         ResponseEntity<String> getCartRes = restTemplate.getForEntity(createCartRes.getHeaders().getFirst(HttpHeaders.LOCATION), String.class);
         JSONObject getCartResBody = new JSONObject(getCartRes.getBody());
         assertThat(getCartResBody.getLong("id")).isNotNull();
-        assertThat(getCartResBody.getString("status")).isNotNull().isEqualTo(CART_STATUS);
+        assertThat(getCartResBody.getString("status")).isNotNull().isEqualTo(OrderStatusEnum.CART.name());
         assertThat(getCartResBody.getJSONObject("_links").getJSONObject("session").getString("href")).isNotNull().isNotEqualTo(StringUtils.EMPTY);
     }
 
@@ -91,13 +91,13 @@ public class ApiIntegrationTest {
         ResponseEntity<Session> createSessionRes = createNewSession();
         Map<String, String> urlParams = new HashMap<>();
         urlParams.put("sessionUuid", createSessionRes.getBody().getUuid().getId());
-        urlParams.put("status", CART_STATUS);
+        urlParams.put("status", OrderStatusEnum.CART.name());
 
         ResponseEntity<String> findNonExistingOrderRes = restTemplate.getForEntity(API_REST_CONTEXT_PATH +
                 "/orders/search/findBySessionUuidIdAndStatus", String.class, urlParams);
         assertThat(findNonExistingOrderRes.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
-        createNewOrder(createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION), CART_STATUS);
+        createNewOrder(createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION), OrderStatusEnum.CART.name());
 
         ResponseEntity<String> findExistingOrderRes = restTemplate.getForEntity(API_REST_CONTEXT_PATH +
                 "/orders/search/findBySessionUuidIdAndStatus?sessionUuid={sessionUuid}&status={status}", String.class, urlParams);
@@ -107,7 +107,7 @@ public class ApiIntegrationTest {
     @Test
     public void testAddOrderEntryWithProductToOrder() {
         ResponseEntity<Session> createSessionRes = createNewSession();
-        ResponseEntity<String> createOrderRes = createNewOrder(createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION), CART_STATUS);
+        ResponseEntity<String> createOrderRes = createNewOrder(createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION), OrderStatusEnum.CART.name());
 
         Product chicken = productRepository.findByCode("chicken").get();
         JSONObject orderEntryReqJson = new JSONObject().put("amount", 42)
@@ -140,7 +140,7 @@ public class ApiIntegrationTest {
     private OrderEventHandler orderEventHandler;
 
     @Test
-    public void testChangeOrderStatusToOrdered() {
+    public void testPutOrderStatusToOrdered() {
         OrderEventHandler orderEventHandlerSpy = spy(orderEventHandler);
         MailService mailServiceMock = mock(MailService.class);
         doNothing().when(mailServiceMock).sendConfirmationEmail(any());
@@ -151,18 +151,18 @@ public class ApiIntegrationTest {
 
         ResponseEntity<Session> createSessionRes = createNewSession();
         final String sessionLocation = createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION);
-        ResponseEntity<String> createOrderRes = createNewOrder(sessionLocation, CART_STATUS);
+        ResponseEntity<String> createOrderRes = createNewOrder(sessionLocation, OrderStatusEnum.CART.name());
 
-        JSONObject modifiedOrderJson = new JSONObject(createOrderRes.getBody())
-                .put("status", ORDERED_STATUS)
+        JSONObject orderedOrderJson = new JSONObject(createOrderRes.getBody())
+                .put("status", OrderStatusEnum.ORDERED.name())
                 .put("session", sessionLocation);
 
-        HttpEntity<String> httpEntity = new HttpEntity<>(modifiedOrderJson.toString(), commonHeaders);
+        HttpEntity<String> httpEntity = new HttpEntity<>(orderedOrderJson.toString(), commonHeaders);
         ResponseEntity<String> putOrderRes = restTemplate.exchange(createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION), PUT, httpEntity, String.class);
         assertThat(putOrderRes.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
         ResponseEntity<String> updatedOrderRes = restTemplate.getForEntity(createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION), String.class);
         JSONObject updatedOrderJson = new JSONObject(updatedOrderRes.getBody());
-        assertThat(updatedOrderJson.getString("status")).isEqualTo(ORDERED_STATUS);
+        assertThat(updatedOrderJson.getString("status")).isEqualTo(OrderStatusEnum.ORDERED.name());
 
         // This should be in a unit test
 
@@ -178,8 +178,67 @@ public class ApiIntegrationTest {
     }
 
     @Test
-    public void testChangeOrderStatusToConfirmed() {
-        // TODO: Implement
+    public void testPutOrderStatusToConfirmedWithoutToken() {
+        OrderEventHandler orderEventHandlerSpy = spy(orderEventHandler);
+
+        orderService.setOrderEventHandler(orderEventHandlerSpy);
+
+        ResponseEntity<Session> createSessionRes = createNewSession();
+        final String sessionLocation = createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION);
+        ResponseEntity<String> createOrderRes = createNewOrder(sessionLocation, OrderStatusEnum.CART.name());
+
+        JSONObject modifiedOrderJson = new JSONObject(createOrderRes.getBody())
+                .put("status", OrderStatusEnum.CONFIRMED.name())
+                .put("session", sessionLocation);
+
+        HttpEntity<String> httpEntity = new HttpEntity<>(modifiedOrderJson.toString(), commonHeaders);
+        ResponseEntity<String> putOrderRes = restTemplate.exchange(createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION), PUT, httpEntity, String.class);
+        assertThat(putOrderRes.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(new JSONObject(putOrderRes.getBody()).getString("message")).isEqualTo("Invalid confirmation token!");
+
+        verify(orderEventHandlerSpy, times(0)).handleOrderBeforeSave(any());
+        verify(orderEventHandlerSpy, times(0)).handleOrderAfterSave(any());
+    }
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Test
+    public void testPutOrderStatusToConfirmedWithToken() {
+        OrderEventHandler orderEventHandlerSpy = spy(orderEventHandler);
+        MailService mailServiceMock = mock(MailService.class);
+        doNothing().when(mailServiceMock).sendConfirmationEmail(any());
+        orderEventHandlerSpy.setMailService(mailServiceMock);
+        orderService.setOrderEventHandler(orderEventHandlerSpy);
+
+        ResponseEntity<Session> createSessionRes = createNewSession();
+        final String sessionLocation = createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION);
+        ResponseEntity<String> createOrderRes = createNewOrder(sessionLocation, OrderStatusEnum.CART.name());
+
+        JSONObject orderedOrderJson = new JSONObject(createOrderRes.getBody())
+                .put("status", OrderStatusEnum.ORDERED.name())
+                .put("session", sessionLocation);
+
+        HttpEntity<String> orderedHttpEntity = new HttpEntity<>(orderedOrderJson.toString(), commonHeaders);
+        restTemplate.exchange(createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION), PUT, orderedHttpEntity, String.class);
+        String tokenString = orderRepository.findOne(orderedOrderJson.getLong("id")).getToken().getValue().getId();
+
+        JSONObject confirmedOrderJson = orderedOrderJson.put("status", OrderStatusEnum.CONFIRMED.name());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(commonHeaders.getContentType());
+        headers.put("X-Confirmation-Token", Collections.singletonList(tokenString));
+
+        HttpEntity<String> confirmedHttpEntity = new HttpEntity<>(confirmedOrderJson.toString(), headers);
+        ResponseEntity<String> putConfirmedOrderRes = restTemplate.exchange(createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION), PUT, confirmedHttpEntity, String.class);
+
+        assertThat(putConfirmedOrderRes.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+
+        ArgumentCaptor<Order> orderArgumentCaptor = ArgumentCaptor.forClass(Order.class);
+        verify(orderEventHandlerSpy, times(2)).handleOrderBeforeSave(orderArgumentCaptor.capture());
+        assertThat(orderArgumentCaptor.getValue().getStatus()).isEqualTo(OrderStatusEnum.CONFIRMED);
+        verify(orderEventHandlerSpy, times(2)).handleOrderAfterSave(orderArgumentCaptor.capture());
+        assertThat(orderArgumentCaptor.getValue().getStatus()).isEqualTo(OrderStatusEnum.CONFIRMED);
     }
 
     private ResponseEntity<Session> createNewSession() {

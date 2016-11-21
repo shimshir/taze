@@ -4,7 +4,6 @@ import de.admir.taze.event.OrderEventHandler;
 import de.admir.taze.model.order.ConfirmationToken;
 import de.admir.taze.model.order.Order;
 import de.admir.taze.model.order.OrderStatusEnum;
-import de.admir.taze.repository.ConfirmationTokenRepository;
 import de.admir.taze.repository.OrderRepository;
 import de.admir.taze.util.Error;
 import de.admir.taze.util.Xor;
@@ -15,10 +14,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrderService {
-    @Autowired
+    static final String INVALID_TOKEN_MESSAGE = "Invalid confirmation token!";
+    static final String USED_TOKEN_MESSAGE = "Order has already been confirmed!";
+    //setter inject
     private OrderRepository orderRepository;
-    @Autowired
-    private ConfirmationTokenRepository confirmationTokenRepository;
     //setter inject
     private OrderEventHandler orderEventHandler;
 
@@ -27,7 +26,7 @@ public class OrderService {
         Xor<Error, Order> patchResult = (persistedOrder == null ? Xor.left(new Error("Order does not exist!")) : Xor.right(persistedOrder));
 
         return patchResult
-                .flatMapRight(order -> requestOrder.getStatus() != null ? handleStatusChange(requestOrder, order, tokenString) : Xor.right(order))
+                .flatMapRight(order -> requestOrder.getStatus() != null ? handleStatusChange(requestOrder, persistedOrder, tokenString) : Xor.right(order))
                 .mapRight(order -> {
                     if (requestOrder.getCustomer() != null)
                         order.setCustomer(requestOrder.getCustomer());
@@ -40,21 +39,22 @@ public class OrderService {
 
     public Xor<Error, Order> putOrder(Long orderId, Order requestOrder, String tokenString, boolean handleSaveEvents) {
         requestOrder.setId(orderId);
-        Xor<Error, Order> putResult = Xor.right(requestOrder);
+        Order persistedOrder = orderRepository.findOne(orderId);
+        Xor<Error, Order> putResult = (persistedOrder == null ? Xor.left(new Error("Order does not exist!")) : Xor.right(requestOrder));
 
         return putResult
-                .flatMapRight(order -> requestOrder.getStatus() != null ? handleStatusChange(requestOrder, order, tokenString) : Xor.right(order))
+                .flatMapRight(order -> requestOrder.getStatus() != null ? handleStatusChange(requestOrder, persistedOrder, tokenString) : Xor.right(order))
                 .flatMapRight(order -> saveOrder(order, handleSaveEvents));
     }
 
-    private Xor<Error, Order> saveOrder(Order order, boolean handleSaveEvents) {
+    Xor<Error, Order> saveOrder(Order order, boolean handleSaveEvents) {
         return Xor.catchNonFatal(() -> {
             if (handleSaveEvents)
                 orderEventHandler.handleOrderBeforeSave(order);
-            orderRepository.save(order);
+            Order savedOrder = orderRepository.save(order);
             if (handleSaveEvents)
-                orderEventHandler.handleOrderAfterSave(order);
-            return order;
+                orderEventHandler.handleOrderAfterSave(savedOrder);
+            return savedOrder;
         }).mapLeft(e ->
                 NestedRuntimeException.class.isAssignableFrom(e.getClass()) ?
                         new Error(((NestedRuntimeException) e).getMostSpecificCause().getMessage()) :
@@ -62,7 +62,7 @@ public class OrderService {
         );
     }
 
-    private Xor<Error, Order> handleStatusChange(Order requestOrder, Order persistedOrder, String tokenString) {
+    static Xor<Error, Order> handleStatusChange(Order requestOrder, Order persistedOrder, String tokenString) {
         ConfirmationToken persistedToken = persistedOrder.getToken();
 
         boolean isSetToConfirmed = OrderStatusEnum.CONFIRMED.equals(requestOrder.getStatus());
@@ -70,13 +70,18 @@ public class OrderService {
         boolean hasValidToken = tokenString.equals(persistedToken == null ? null : persistedOrder.getToken().getValue().getId());
 
         if (isSetToConfirmed && !isTokenAlreadyUsed && !hasValidToken) {
-            return Xor.left(new Error("Invalid confirmation token!"));
+            return Xor.left(new Error(INVALID_TOKEN_MESSAGE));
         } else if (isSetToConfirmed && isTokenAlreadyUsed) {
-            return Xor.left(new Error("Order has already been confirmed!"));
+            return Xor.left(new Error(USED_TOKEN_MESSAGE));
         } else {
             persistedOrder.setStatus(requestOrder.getStatus());
             return Xor.right(persistedOrder);
         }
+    }
+
+    @Autowired
+    public void setOrderRepository(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
     @Autowired
