@@ -20,7 +20,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RepositoryRestController
 public class OrderController {
-    @Autowired
+    // setter inject
     private OrderService orderService;
 
     @RequestMapping(path = "/orders/{id}", method = PATCH)
@@ -39,5 +39,10 @@ public class OrderController {
         return orderService.putOrder(orderId, requestOrderResource.getContent(), tokenString, true).fold(
                 error -> ResponseEntity.badRequest().body(error),
                 order -> ResponseEntity.noContent().build());
+    }
+
+    @Autowired
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
     }
 }

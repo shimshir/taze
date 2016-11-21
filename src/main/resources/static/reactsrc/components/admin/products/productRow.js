@@ -53,20 +53,26 @@ class ProductRowView extends Component {
                                           visible={this.state.showPreviewMap['footnote']}/>
                     </div>
                 </td>
-                <td><a href={product._links.productCard.href}>...{product._links.productCard.href.slice(-10)}</a></td>
+                <td>
+                    <div onMouseEnter={() => this.handleShowCellPreview('productCard', true)}
+                         onMouseLeave={() => this.handleShowCellPreview('productCard', false)}>
+                        <span>{product.code}</span>
+                        <TableCellPreview content={product.code}
+                                          type="productCard"
+                                          visible={this.state.showPreviewMap['productCard']}/>
+                    </div>
+                </td>
             </tr>
         );
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return {
-    }
+    return {}
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-    }
+    return {}
 };
 
 const ProductRow = connect(mapStateToProps, mapDispatchToProps)(ProductRowView);

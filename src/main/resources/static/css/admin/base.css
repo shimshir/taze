@@ -5,6 +5,7 @@
     background-color: #FFFFFF;
     line-height: normal;
     padding: 5px;
+    max-width: 300px;
 }
 
 .cell-preview-img {

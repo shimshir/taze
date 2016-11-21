@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import ProductCard from '../../content/products/productCard.js';
+import {asyncGetPreviewProductCardAction} from '../../../actions/admin/actions.js';
 
 class TableCellPreviewView extends Component {
     renderContent = () => {
@@ -8,12 +10,18 @@ class TableCellPreviewView extends Component {
                 return <span className="cell-preview-text">{this.props.content}</span>;
             case 'image':
                 return <img className="cell-preview-img" src={this.props.content}/>;
+            case 'productCard':
+                const productCard = this.props.productCards[this.props.content];
+                return productCard ? <ProductCard productCard={productCard}/> : null;
             default:
                 return <span>Unsupported content type</span>
         }
     };
 
     componentWillMount() {
+        if (this.props.type == 'productCard') {
+            this.props.getProductCardPreview(this.props.content);
+        }
     }
 
     render() {
@@ -30,11 +38,15 @@ class TableCellPreviewView extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return {}
+    return {
+        productCards: state.previewProductCards
+    }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return {}
+    return {
+        getProductCardPreview: (productCode) => asyncGetPreviewProductCardAction(dispatch, productCode)
+    }
 };
 
 const TableCellPreview = connect(mapStateToProps, mapDispatchToProps)(TableCellPreviewView);
