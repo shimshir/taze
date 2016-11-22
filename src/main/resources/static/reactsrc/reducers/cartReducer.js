@@ -3,7 +3,8 @@ import {
     RECEIVE_CART_ENTRIES_ACTION,
     ADD_TO_CART_ACTION,
     REMOVE_CART_ENTRY_ACTION,
-    UPDATE_CART_ENTRY_AMOUNT_ACTION
+    UPDATE_CART_ENTRY_AMOUNT_ACTION,
+    CHANGE_PICKUP_TYPE_ACTION
 } from '../actions/actions.js';
 
 const privateEntryReducer = (entriesState = [], action) => {
@@ -36,6 +37,8 @@ const cartReducer = (cartState = {}, action) => {
         case RECEIVE_CART_ENTRIES_ACTION:
             const entries = privateEntryReducer(cartState.entries, action);
             return {...cartState, entries, totalPrice: entries.map(entry => entry.totalPrice).reduce((acc, cur) => acc + cur, 0)};
+        case CHANGE_PICKUP_TYPE_ACTION:
+            return {...cartState, pickupType: action.pickupType, totalPrice: action.totalPrice};
         default:
             return cartState;
     }

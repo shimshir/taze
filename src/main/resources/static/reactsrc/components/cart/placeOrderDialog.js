@@ -8,7 +8,6 @@ import {
     asyncPlaceOrderAction
 } from "../../actions/actions.js";
 import TextInput from "../common/textInput.js";
-import SelectInput from "../common/selectInput.js";
 import {DELIVERY_OPTIONS} from "../../constants/constants.js";
 
 const modalStyle = {
@@ -68,7 +67,7 @@ class PlaceOrderDialogView extends Component {
 
     render() {
         return (
-            <div>
+            <span>
                 <button onClick={this.openModal} className="btn btn-success">Naruči</button>
                 <Modal
                     isOpen={this.state.modalIsOpen}
@@ -114,11 +113,6 @@ class PlaceOrderDialogView extends Component {
                                            placeHolderText="Ponovite vašu e-mail adresu"
                                            onChange={this.placeOrderInputChange}
                                            hasError={this.props.errors['placeOrderForm.emailConfirm.match']}/>
-                                <SelectInput id="pickupType"
-                                             label="Preuzimanje"
-                                             options={DELIVERY_OPTIONS}
-                                             onChange={this.placeOrderInputChange}
-                                />
                             </form>
                         </div>
                         <div className="modal-footer">
@@ -127,7 +121,7 @@ class PlaceOrderDialogView extends Component {
                         </div>
                     </div>
                 </Modal>
-            </div>
+            </span>
         )
     }
 }

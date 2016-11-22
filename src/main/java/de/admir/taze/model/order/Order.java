@@ -43,7 +43,7 @@ public class Order extends IdentifiableEntity {
     @JsonIgnore
     private ConfirmationToken token;
     @Enumerated(EnumType.STRING)
-    private PickupTypeEnum pickupType = PickupTypeEnum.COLLECT;
+    private PickupTypeEnum pickupType;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Temporal(TemporalType.TIMESTAMP)
@@ -66,6 +66,6 @@ public class Order extends IdentifiableEntity {
                 entries.stream()
                         .map(OrderEntry::getTotalPrice)
                         .reduce(BigDecimal.ZERO, BigDecimal::add)
-                        .add(pickupType.getPrice());
+                        .add(pickupType == null ? BigDecimal.ZERO : pickupType.getPrice());
     }
 }

@@ -44,8 +44,8 @@ export const LOREM_IPSUM_PARAGRAPHS = () => {
 };
 
 export const DELIVERY_OPTIONS = [
-    {value: 'COLLECT', text: 'Preuzet cu ja'},
-    {value: 'DELIVERY', text: 'Dostavite mi na adresu'}
+    {value: 'COLLECT', text: 'Preuzet cu ja (0 KM)'},
+    {value: 'DELIVERY', text: 'Dostavite mi (15 KM)', price: 15}
 ];
 
 const productionBackendHost = window.location.origin;

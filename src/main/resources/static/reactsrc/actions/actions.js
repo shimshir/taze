@@ -18,6 +18,8 @@ export const REMOVE_FROM_ERRORS_ACTION = 'REMOVE_FROM_ERRORS_ACTION';
 export const TOGGLE_CONFIRMED_ORDER_DIALOG_ACTION = 'TOGGLE_CONFIRMED_ORDER_DIALOG_ACTION';
 export const RECEIVE_ORDER_CONFIRMATION_RESULT_ACTION = 'RECEIVE_ORDER_CONFIRMATION_RESULT_ACTION';
 export const RECEIVE_PAGE_ACTION = 'RECEIVE_PAGE_ACTION';
+export const CHANGE_PICKUP_TYPE_ACTION = 'CHANGE_PICKUP_TYPE_ACTION';
+
 
 export const changeActiveTopNavbarItemAction = (topNavbarItem) => {
     return {
@@ -203,7 +205,7 @@ export const updatePlaceOrderFormAction = (input) => {
 export const asyncPlaceOrderAction = (dispatch, placeOrderForm, cart, session) => {
     asyncCreateCustomerAction(dispatch, placeOrderForm, session)
         .then(customerCreateRes => axios.get(customerCreateRes.headers.location))
-        .then(customerGetRes => asyncCreateOrderAction(dispatch, cart, customerGetRes.data, placeOrderForm.pickupType))
+        .then(customerGetRes => asyncCreateOrderAction(dispatch, cart, customerGetRes.data))
         .then(createOrderRes => asyncCreateNewCartAction(dispatch, session))
         .then(createNewCartRes => dispatch(toggleConfirmedOrderDialogAction(true)));
 };
@@ -218,11 +220,10 @@ const asyncCreateCustomerAction = (dispatch, placeOrderForm, session) => {
     });
 };
 
-const asyncCreateOrderAction = (dispatch, cart, customer, pickupType) => {
+const asyncCreateOrderAction = (dispatch, cart, customer) => {
     return axios.patch(cart._links.self.href, {
         customer: customer._links.self.href,
-        status: 'ORDERED',
-        pickupType
+        status: 'ORDERED'
     });
 };
 
@@ -280,5 +281,19 @@ const receivePageAction = (page) => {
     return {
         type: RECEIVE_PAGE_ACTION,
         page
+    }
+};
+
+export const asyncChangePickupTypeAction = (dispatch, cartId, pickupType) => {
+    return axios.patch(API_REST_PATH + `/orders/${cartId}`, {pickupType})
+        .then(patchCartRes => axios.get(API_REST_PATH + `/orders/${cartId}`))
+        .then(getCartRes => dispatch(changePickupTypeAction(getCartRes.data.pickupType, getCartRes.data.totalPrice)));
+};
+
+const changePickupTypeAction = (pickupType, totalPrice) => {
+    return {
+        type: CHANGE_PICKUP_TYPE_ACTION,
+        pickupType,
+        totalPrice
     }
 };

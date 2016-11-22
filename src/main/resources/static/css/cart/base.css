@@ -5,12 +5,16 @@ div.cart-entries-container {
 }
 
 .cart-summary {
-    text-align: right;
     padding: 1.25rem;
     background-color: #f1f1f1;
     border: 1px solid #ddd;
+    margin: 0;
 }
 
-.cart-summary b {
+.cart-summary-right {
+    text-align: right;
+}
+
+.cart-summary-right b {
     font-size: 1.2em;
 }
