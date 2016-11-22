@@ -1,6 +1,7 @@
 package de.admir.taze;
 
 import de.admir.taze.event.OrderEventHandler;
+import de.admir.taze.model.PickupTypeEnum;
 import de.admir.taze.model.Session;
 import de.admir.taze.model.order.Order;
 import de.admir.taze.model.order.OrderStatusEnum;
@@ -11,6 +12,7 @@ import de.admir.taze.service.MailService;
 import de.admir.taze.service.OrderService;
 
 import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.data.Offset;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -27,6 +29,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +43,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.assertj.core.api.Assertions.*;
+import static org.springframework.http.HttpMethod.PATCH;
 import static org.springframework.http.HttpMethod.PUT;
 
 @RunWith(SpringRunner.class)
@@ -108,11 +112,13 @@ public class ApiIntegrationTest {
     public void testAddOrderEntryWithProductToOrder() {
         ResponseEntity<Session> createSessionRes = createNewSession();
         ResponseEntity<String> createOrderRes = createNewOrder(createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION), OrderStatusEnum.CART.name());
+        String createdOrderLocation = createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION);
 
-        Product chicken = productRepository.findByCode("chicken").get();
-        JSONObject orderEntryReqJson = new JSONObject().put("amount", 42)
-                .put("order", createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION))
-                .put("product", restTemplate.getRestTemplate().getUriTemplateHandler().expand(API_REST_CONTEXT_PATH) + "/products/" + chicken.getId());
+        Product product = productRepository.findByCode("chicken").get();
+        final int productAmount = 42;
+        JSONObject orderEntryReqJson = new JSONObject().put("amount", productAmount)
+                .put("order", createdOrderLocation)
+                .put("product", restTemplate.getRestTemplate().getUriTemplateHandler().expand(API_REST_CONTEXT_PATH) + "/products/" + product.getId());
         HttpEntity<String> orderEntryHttpEntity = new HttpEntity<>(orderEntryReqJson.toString(), commonHeaders);
 
         ResponseEntity<String> addOrderEntryWithProductToOrderRes = restTemplate.postForEntity(API_REST_CONTEXT_PATH +
@@ -128,10 +134,27 @@ public class ApiIntegrationTest {
         JSONArray orderEntriesResJson = new JSONObject(getOrderEntriesRes.getBody()).getJSONObject("_embedded").getJSONArray("orderEntries");
         assertThat(orderEntriesResJson.length()).isEqualTo(1);
         JSONObject orderEntryResJson = orderEntriesResJson.getJSONObject(0);
-        assertThat(orderEntryResJson.getInt("amount")).isEqualTo(42);
+        assertThat(orderEntryResJson.getInt("amount")).isEqualTo(productAmount);
         JSONObject productResJson = orderEntryResJson.getJSONObject("product");
-        assertThat(productResJson.getLong("id")).isEqualTo(chicken.getId());
-        assertThat(productResJson.getString("code")).isEqualTo(chicken.getCode());
+        assertThat(productResJson.getLong("id")).isEqualTo(product.getId());
+        assertThat(productResJson.getString("code")).isEqualTo(product.getCode());
+
+        ResponseEntity<String> updatedOrderRes = restTemplate.getForEntity(createdOrderLocation, String.class);
+        JSONObject updatedOrderJson = new JSONObject(updatedOrderRes.getBody());
+        assertThat(updatedOrderJson.getDouble("totalPrice")).isCloseTo(
+                product.getPricePerUnit().multiply(new BigDecimal(productAmount)).add(PickupTypeEnum.COLLECT.getPrice()).doubleValue(), Offset.offset(0.001)
+        );
+        JSONObject orderPickupTypePatchReqJson = new JSONObject();
+        orderPickupTypePatchReqJson.put("pickupType", PickupTypeEnum.DELIVERY.name());
+        HttpEntity<String> orderPickupTypePatchReqEntity = new HttpEntity<>(orderPickupTypePatchReqJson.toString(), commonHeaders);
+        ResponseEntity<String> orderPickupTypePatchRes = restTemplate.exchange(createdOrderLocation, PATCH, orderPickupTypePatchReqEntity, String.class);
+        assertThat(orderPickupTypePatchRes.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+
+        ResponseEntity<String> orderPatchedPickupTypeGetRes = restTemplate.getForEntity(createdOrderLocation, String.class);
+        JSONObject orderPatchedPickupTypeGetJson = new JSONObject(orderPatchedPickupTypeGetRes.getBody());
+        assertThat(orderPatchedPickupTypeGetJson.getDouble("totalPrice")).isCloseTo(
+                product.getPricePerUnit().multiply(new BigDecimal(productAmount)).add(PickupTypeEnum.DELIVERY.getPrice()).doubleValue(), Offset.offset(0.001)
+        );
     }
 
     @Autowired

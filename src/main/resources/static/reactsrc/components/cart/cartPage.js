@@ -7,6 +7,7 @@ import Entries from "./entries.js";
 import {asyncGetCartAction} from "../../actions/actions.js";
 import PlaceOrderDialog from "./placeOrderDialog.js";
 import ConfirmedOrderDialog from "./confirmedOrderDialog.js";
+import Price from "../common/price.js";
 
 class CartPageView extends Component {
     componentWillMount() {
@@ -28,7 +29,7 @@ class CartPageView extends Component {
                          <Entries entries={this.props.cart.entries}/>
                          <div className="cart-summary">
                              <b className="text-uppercase">Ukupna cijena: </b>
-                             <b className="price-value">{`${this.props.cart.totalPrice} KM`}</b>
+                             <b className="price-value"><Price value={this.props.cart.totalPrice}/></b>
                              <br/><br/>
                              <PlaceOrderDialog/>
                          </div>

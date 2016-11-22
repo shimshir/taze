@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {asyncRemoveCartEntryAction, asyncUpdateCartEntryAction} from '../../actions/actions.js'
 import AmountSelect from '../common/amountSelect.js';
 import {Link} from 'react-router';
+import Price from "../common/price.js";
 
 const EntryView = ({ entry, removeCartEntry, updateEntryAmount }) => {
     return (
@@ -29,7 +30,7 @@ const EntryView = ({ entry, removeCartEntry, updateEntryAmount }) => {
                         <span className="pseudo-anchor" onClick={() => removeCartEntry(entry.id)}>Izbaci</span>
                     </div>
                     <div className="col-lg-4">
-                        <span className="price-value"><b>{entry.totalPrice} KM</b></span>
+                        <span className="price-value"><b><Price value={entry.totalPrice}/></b></span>
                     </div>
                     <div className="col-lg-4">
                         <AmountSelect id="amount"

@@ -2,7 +2,8 @@ table#productsSearchTable {
     table-layout: fixed;
 }
 
-table#productsSearchTable a, span {
+table#productsSearchTable a,
+table#productsSearchTable span {
     display: inline-block;
     width: 100%;
 }

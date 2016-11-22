@@ -4,11 +4,11 @@
 INSERT INTO
   product (id, code, name, price_per_unit, unit_code, pdp_image, list_image, footnote)
 VALUES
-  (1, 'chicken', 'Pile', 8, 'kg', 'https://res.cloudinary.com/taze/image/upload/v1478718806/product/pdpImage/chicken.jpg',
+  (1, 'chicken', 'Pile', 800.12, 'kg', 'https://res.cloudinary.com/taze/image/upload/v1478718806/product/pdpImage/chicken.jpg',
    'https://res.cloudinary.com/taze/image/upload/v1478718277/product/listImage/chicken.jpg', '* Kilaža i cijena se podešavaju da bude cio broj piladi.'),
-  (2, 'honey', 'Med', 10, 'l', 'https://res.cloudinary.com/taze/image/upload/v1478718813/product/pdpImage/honey.jpg',
+  (2, 'honey', 'Med', 1000.34, 'l', 'https://res.cloudinary.com/taze/image/upload/v1478718813/product/pdpImage/honey.jpg',
    'https://res.cloudinary.com/taze/image/upload/v1478718281/product/listImage/honey.jpg', NULL),
-  (3, 'potato', 'Krompir', 2, 'kg', 'https://res.cloudinary.com/taze/image/upload/v1478718817/product/pdpImage/potato.jpg',
+  (3, 'potato', 'Krompir', 200.56, 'kg', 'https://res.cloudinary.com/taze/image/upload/v1478718817/product/pdpImage/potato.jpg',
    'https://res.cloudinary.com/taze/image/upload/v1478718782/product/listImage/potato.jpg', NULL);
 
 INSERT INTO taze_id_sequence (sequence_name, next_val) VALUES ('product', 4);

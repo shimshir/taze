@@ -10,10 +10,12 @@ import de.admir.taze.model.Session;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +43,7 @@ public class Order extends IdentifiableEntity {
     @JsonIgnore
     private ConfirmationToken token;
     @Enumerated(EnumType.STRING)
-    private PickupTypeEnum pickupType;
+    private PickupTypeEnum pickupType = PickupTypeEnum.COLLECT;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Temporal(TemporalType.TIMESTAMP)
@@ -60,6 +62,10 @@ public class Order extends IdentifiableEntity {
 
     @Transient
     public BigDecimal getTotalPrice() {
-        return CollectionUtils.isEmpty(entries) ? null : entries.stream().map(OrderEntry::getTotalPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return CollectionUtils.isEmpty(entries) ? null :
+                entries.stream()
+                        .map(OrderEntry::getTotalPrice)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+                        .add(pickupType.getPrice());
     }
 }

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {asyncAddToCartAction} from '../../../actions/actions.js';
 import AmountSelect from '../../common/amountSelect.js';
+import Price from '../../common/price.js';
 
 class ProductDetailContentView extends Component {
     amounts = new Array(30).fill(1).map((_, i) => i + 1);
@@ -45,7 +46,7 @@ class ProductDetailContentView extends Component {
                         <div className="control-container col-lg-8 no-padding">
                             <div className="row">
                                 <span className="col-lg-6 no-padding">Cijena:</span>
-                                <span className="col-lg-6 no-padding">{`${this.props.product.pricePerUnit} KM/${this.props.product.unitCode}`}</span>
+                                <span className="col-lg-6 no-padding"><Price value={this.props.product.pricePerUnit}/>/{this.props.product.unitCode}</span>
                             </div>
                             <div className="row">
                                 <div className="col-lg-6 no-padding">
@@ -61,7 +62,7 @@ class ProductDetailContentView extends Component {
                                 </div>
                                 <div className="col-lg-12 no-padding total-price">
                                     <span className="col-lg-6 no-padding">Ukupna cijena:</span>
-                                    <span className="col-lg-6 no-padding price-value"><b>{this.state.totalPrice + ' KM'}</b></span>
+                                    <span className="col-lg-6 no-padding price-value"><b><Price value={this.state.totalPrice}/></b></span>
                                 </div>
                             </div>
                         </div>

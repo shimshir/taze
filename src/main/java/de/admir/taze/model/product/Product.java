@@ -11,10 +11,12 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true, exclude = "productCard")
+@ToString(exclude = "productCard")
 public class Product extends IdentifiableEntity {
     @Column(nullable = false, unique = true)
     @NotNull
