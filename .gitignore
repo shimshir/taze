@@ -2,3 +2,4 @@
 build/
 src/main/resources/static/node_modules/
 .gradle/
+app.jar
