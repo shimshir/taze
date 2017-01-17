@@ -8,11 +8,14 @@ group 'de.admir.goverdrive'
 version '0.0.1-SNAPSHOT'
 description 'Taze products web shop'
 
+mainClassName='de.admir.taze.Application'
+
 repositories {
     jcenter()
 }
 
 dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '1.4.3.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
@@ -37,19 +40,16 @@ bootRun {
     systemProperties System.getProperties()
 }
 
-jar {
-    manifest {
-        attributes(
-                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-                'Main-Class': 'de.admir.taze.Application'
-        )
-    }
-}
-
 task wrapper(type: Wrapper) {
     gradleVersion = '3.3'
 }
 
-task stage {
-    dependsOn installDist
+task stage(type: Copy, dependsOn: [clean, build]) {
+    from jar.archivePath
+    into "${project.rootDir}/build/libs"
+    rename {
+        'app.jar'
+    }
 }
+stage.mustRunAfter(clean)
+
