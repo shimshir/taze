@@ -28,6 +28,7 @@ const ConfirmedOrderDialogView = ({confirmedOrderDialogIsOpen, toggleConfirmedOr
                 onAfterOpen={() => console.log("modal opened")}
                 onRequestClose={() => toggleConfirmedOrderDialog(false)}
                 style={modalStyle}
+                contentLabel="Modal"
             >
                 <div className="modal-content">
                     <div className="modal-header bg-inverse">

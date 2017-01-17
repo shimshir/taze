@@ -15,25 +15,25 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '1.4.3.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
     compile group: 'org.springframework.data', name: 'spring-data-rest-hal-browser'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
     compile group: 'com.h2database', name: 'h2', version: '1.4.192'
     compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1211.jre7'
     compile group: 'com.spencerwi', name: 'Either.java', version: '1.1.0'
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.12'
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
     compile group: 'org.freemarker', name: 'freemarker', version: '2.3.23'
     compile group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.4.6'
-
     compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.1'
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.12'
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
 }
 
 bootRun {

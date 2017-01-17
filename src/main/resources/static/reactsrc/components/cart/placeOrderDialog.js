@@ -8,7 +8,6 @@ import {
     asyncPlaceOrderAction
 } from "../../actions/actions.js";
 import TextInput from "../common/textInput.js";
-import {DELIVERY_OPTIONS} from "../../constants/constants.js";
 
 const modalStyle = {
     content: {
@@ -39,7 +38,7 @@ class PlaceOrderDialogView extends Component {
     };
 
     confirmModal = () => {
-        var placeOrderFormHasErrors = false;
+        let placeOrderFormHasErrors = false;
 
         Object.keys(this.props.errors).forEach(key => {
             if (key.startsWith('placeOrderForm')) {
@@ -74,6 +73,7 @@ class PlaceOrderDialogView extends Component {
                     onAfterOpen={() => console.log("modal opened")}
                     onRequestClose={this.closeModal}
                     style={modalStyle}
+                    contentLabel="Modal"
                 >
                     <div className="modal-content">
                         <div className="modal-header bg-inverse">

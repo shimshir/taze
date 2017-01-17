@@ -10,6 +10,6 @@ div.content-container {
 
 @media (max-width: 1540px) {
     .container {
-        max-width: 860px;
+        width: 860px;
     }
 }
