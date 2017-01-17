@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '1.4.3.RELEASE'
     id 'application'
+    id 'scala'
 }
 
 group 'de.admir.goverdrive'
@@ -28,10 +29,21 @@ dependencies {
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
     compile group: 'org.freemarker', name: 'freemarker', version: '2.3.23'
     compile group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.4.6'
+
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.1'
 }
 
 bootRun {
     systemProperties System.getProperties()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'de.admir.taze.Application'
+        )
+    }
 }
 
 task wrapper(type: Wrapper) {
