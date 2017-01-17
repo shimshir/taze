@@ -1,8 +1,3 @@
-import java.util.concurrent.ExecutionException
-import java.util.concurrent.Future
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
-
 plugins {
     id 'org.springframework.boot' version '1.4.3.RELEASE'
     id 'application'
@@ -13,7 +8,7 @@ group 'de.admir.goverdrive'
 version '0.0.1-SNAPSHOT'
 description 'Taze products web shop'
 
-mainClassName='de.admir.taze.Application'
+project.mainClassName='de.admir.taze.Application'
 
 repositories {
     jcenter()
@@ -33,7 +28,7 @@ dependencies {
     compile group: 'com.h2database', name: 'h2', version: '1.4.192'
     compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1211.jre7'
     compile group: 'com.spencerwi', name: 'Either.java', version: '1.1.0'
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.10'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.12'
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
     compile group: 'org.freemarker', name: 'freemarker', version: '2.3.23'
     compile group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.4.6'
@@ -64,8 +59,7 @@ stage.doLast {
 }
 
 clean.doLast {
-    project.file('app.jar').delete()
+    def appJar = project.file('app.jar')
+    if (appJar.exists() && !appJar.delete())
+        throw new GradleException('Could not delete app.jar')
 }
-
-
-
