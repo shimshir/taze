@@ -1,5 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '1.4.3.RELEASE'
+    id 'application'
 }
 
 group 'de.admir.goverdrive'
@@ -31,6 +32,10 @@ dependencies {
 
 bootRun {
     systemProperties System.getProperties()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.3'
 }
 
 task stage {
