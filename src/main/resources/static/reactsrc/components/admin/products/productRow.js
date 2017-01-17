@@ -14,7 +14,6 @@ class ProductRowView extends Component {
     componentWillMount() {
     }
 
-    // TODO: Implement ProductCardPreview
     render() {
         const product = this.props.product;
         return (

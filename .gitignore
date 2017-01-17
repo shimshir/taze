@@ -1,4 +1,4 @@
 .idea/
-target/
-taze.iml
+build/
 src/main/resources/static/node_modules/
+.gradle/

@@ -116,7 +116,8 @@ public class ApiIntegrationTest {
 
         Product product = productRepository.findByCode("chicken").get();
         final int productAmount = 42;
-        JSONObject orderEntryReqJson = new JSONObject().put("amount", productAmount)
+        JSONObject orderEntryReqJson = new JSONObject()
+                .put("amount", productAmount)
                 .put("order", createdOrderLocation)
                 .put("product", restTemplate.getRestTemplate().getUriTemplateHandler().expand(API_REST_CONTEXT_PATH) + "/products/" + product.getId());
         HttpEntity<String> orderEntryHttpEntity = new HttpEntity<>(orderEntryReqJson.toString(), commonHeaders);

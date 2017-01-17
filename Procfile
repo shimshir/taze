@@ -1,1 +1,1 @@
-web: java -Dspring.profiles.active=production -Dserver.port=$PORT -jar  target/taze-0.1.0.jar
+web: java -Dspring.profiles.active=production -Dserver.port=$PORT -jar build/libs/taze-0.0.1-SNAPSHOT.jar
