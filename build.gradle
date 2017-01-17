@@ -1,3 +1,8 @@
+import java.util.concurrent.ExecutionException
+import java.util.concurrent.Future
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
+
 plugins {
     id 'org.springframework.boot' version '1.4.3.RELEASE'
     id 'application'
@@ -46,10 +51,21 @@ task wrapper(type: Wrapper) {
 
 task stage(type: Copy, dependsOn: [clean, build]) {
     from jar.archivePath
-    into "${project.rootDir}/build/libs"
+    into project.rootDir
     rename {
         'app.jar'
     }
 }
+
 stage.mustRunAfter(clean)
+
+stage.doLast {
+    new File("${project.buildDir}").deleteDir()
+}
+
+clean.doLast {
+    project.file('app.jar').delete()
+}
+
+
 
