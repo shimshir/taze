@@ -32,3 +32,7 @@ dependencies {
 bootRun {
     systemProperties System.getProperties()
 }
+
+task stage {
+    dependsOn installDist
+}
