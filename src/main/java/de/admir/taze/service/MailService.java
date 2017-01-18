@@ -2,6 +2,7 @@ package de.admir.taze.service;
 
 import de.admir.taze.model.order.Order;
 
+import de.admir.taze.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,17 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.transaction.Transactional;
 
 @Service
 public class MailService {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private Configuration configuration;
+    private Configuration freemarkerConfiguration;
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private OrderRepository orderRepository;
 
     private MimeMessage mimeMessage;
     private MimeMessageHelper mimeMessageHelper;
@@ -43,10 +47,16 @@ public class MailService {
     @Value("${taze.frontend.host}")
     private String host;
 
+    /**
+     * Because the method is executed asynchronously it needs to be transactional and has to reload the order entity
+     * @param orderId
+     */
     @Async
-    public void sendConfirmationEmail(Order order) {
+    @Transactional
+    public void sendConfirmationEmail(Long orderId) {
         try {
-            Template emailTemplate = configuration.getTemplate("email/confirmEmail.ftl");
+            Order order = orderRepository.findOne(orderId);
+            Template emailTemplate = freemarkerConfiguration.getTemplate("email/confirmEmail.ftl");
             Map<String, Object> model = new HashMap<>();
             model.put("order", order);
             model.put("confirmationLink", createConfirmationLink(order));

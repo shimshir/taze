@@ -36,7 +36,7 @@ public class OrderEventHandler {
     @HandleAfterSave
     public void handleOrderAfterSave(Order order) {
         if (OrderStatusEnum.ORDERED.equals(order.getStatus())) {
-            mailService.sendConfirmationEmail(order);
+            mailService.sendConfirmationEmail(order.getId());
         }
         if (OrderStatusEnum.CONFIRMED.equals(order.getStatus())) {
             ConfirmationToken token = order.getToken();

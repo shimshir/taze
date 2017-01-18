@@ -43,7 +43,7 @@ public class Order extends IdentifiableEntity {
     @JsonIgnore
     private ConfirmationToken token;
     @Enumerated(EnumType.STRING)
-    private PickupTypeEnum pickupType;
+    private PickupTypeEnum pickupType = PickupTypeEnum.COLLECT;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Temporal(TemporalType.TIMESTAMP)
