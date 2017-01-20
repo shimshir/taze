@@ -1,7 +1,22 @@
+.stage-container {
+    width: 1140px;
+    box-shadow: inset 0 0 20px 10px rgba(0,0,0,0.6);
+}
+
+@media (max-width: 1680px) {
+    .stage-container {
+        width: 1000px;
+    }
+}
+
+@media (max-width: 1540px) {
+    .stage-container {
+        width: 860px;
+    }
+}
+
 .stage {
     height: 200px;
-    position: relative;
-    box-shadow: inset 0 0 20px 10px rgba(0,0,0,0.6);
 }
 
 .stage h1 {
@@ -10,8 +25,7 @@
     text-shadow: 2px 2px 4px #000000;
 }
 
-.stage-header-container {
+.stage-headline-container {
     padding: 20px;
-    position: absolute;
     bottom: 0;
 }

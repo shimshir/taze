@@ -1,0 +1,11 @@
+.transition-fade-in {
+    transition: visibility 2s ease-in-out, opacity 2s ease-in-out;
+    visibility: visible;
+    opacity: 1;
+}
+
+.transition-fade-out {
+    transition: visibility 2s ease-in-out, opacity 2s ease-in-out;
+    visibility: hidden;
+    opacity: 0;
+}

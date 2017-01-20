@@ -70,10 +70,10 @@ class PageCreatePageView extends Component {
                         [...new Array(stagesCount).keys()]
                             .map(stageIndex =>
                                      <form key={stageIndex} id="createStageForm">
-                                         <TextInput id="header"
-                                                    label="Header"
+                                         <TextInput id="headline"
+                                                    label="Headline"
                                                     onChange={(event) => this.handleStageInputChange(stageIndex, event)}
-                                                    defaultValue={this.props.createStageForms[stageIndex].header}/>
+                                                    defaultValue={this.props.createStageForms[stageIndex].headline}/>
                                          <FileInput id="imageData"
                                                     label="Slika"
                                                     accept="image/*"

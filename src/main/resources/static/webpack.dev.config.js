@@ -2,6 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
+    devtool: 'inline-source-map',
     entry: [
         'babel-polyfill',
         'webpack-dev-server/client?http://localhost:18080',
@@ -13,7 +14,6 @@ module.exports = {
         filename: 'bundle.js',
         publicPath: '/'
     },
-    devtool: 'inline-source-map',
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
@@ -24,7 +24,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.js$/,
-                loaders: ['react-hot', 'babel'],
+                loaders: ['babel'],
                 include: path.join(__dirname, 'reactsrc')
             }
         ]

@@ -1,17 +1,26 @@
 import React, {Component} from 'react';
 import Stage from './stage.js';
 import {connect} from 'react-redux';
+import Transition from '../common/transition';
 
 class StageContainerView extends Component {
+    state = {intervalCounter: 0, transitionClass: 'stage-transition-fade-in'};
+
+    componentWillMount() {
+    }
+
+    updateStages = () => {
+    };
 
     render() {
-        // TODO: Implement multiple stages handling
+        const stageComponents = this.props.page.closestStages ? this.props.page.closestStages.map((stage, index) => <Stage key={index} stage={stage}
+                                                                                                                           transitionClass={this.state.transitionClass}/>) : [];
         return (
-            this.props.page.closestStages ?
-            <div>
-                {this.props.page.closestStages.map((stage, index) => <Stage key={index} stage={stage}/>)}
-            </div> :
-            null
+            <div className="stage-container">
+                <Transition itemHeight={200}>
+                    {stageComponents}
+                </Transition>
+            </div>
         )
     }
 }

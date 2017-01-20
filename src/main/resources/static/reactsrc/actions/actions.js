@@ -37,8 +37,8 @@ export const asyncCheckSessionAction = (dispatch) => {
                       asyncGetCartAction(dispatch, res.data);
                   }
             )
-            .catch(res => {
-                if (res.status == 404) {
+            .catch(error => {
+                if (error.response.status == 404) {
                     asyncCreateNewSessionAction(dispatch);
                 }
             });
@@ -77,8 +77,8 @@ export const asyncGetCartAction = (dispatch, session) => {
                 asyncCreateNewCartAction(dispatch, session);
             }
         })
-        .catch(res => {
-            if (res.status == 404) {
+        .catch(error => {
+            if (error.response.status == 404) {
                 asyncCreateNewCartAction(dispatch, session);
             }
         });
@@ -136,7 +136,7 @@ const addToCartAction = (entry) => {
 
 export const asyncRemoveCartEntryAction = (dispatch, entryId) => {
     dispatch(removeCartEntryAction(entryId));
-    axios.delete(API_REST_PATH + `/orderEntries/${entryId}`).catch(res => console.log(res));
+    axios.delete(API_REST_PATH + `/orderEntries/${entryId}`).catch(error => console.log(error));
 };
 
 const removeCartEntryAction = (entryId) => {
@@ -239,7 +239,7 @@ export const asyncConfirmOrderAction = (dispatch, orderId, token) => {
                      }
                  })
         .then(confirmOrderRes => dispatch(receiveOrderConfirmationResultAction(orderId, {status: 'success', message: 'Your order has been confirmed'})))
-        .catch(errorRes => dispatch(receiveOrderConfirmationResultAction(orderId, {status: 'error', message: errorRes.data.message})));
+        .catch(error => dispatch(receiveOrderConfirmationResultAction(orderId, {status: 'error', message: error.response.data.message})));
 };
 
 const receiveOrderConfirmationResultAction = (orderId, confirmationResult) => {

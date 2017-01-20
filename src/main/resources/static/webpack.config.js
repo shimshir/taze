@@ -10,15 +10,6 @@ module.exports = {
         path: __dirname,
         filename: 'bundle.js'
     },
-    module: {
-        loaders: [
-            {
-                test: /\.js$/,
-                loaders: ['react-hot', 'babel'],
-                include: path.join(__dirname, 'reactsrc')
-            }
-        ]
-    },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
             compress: { warnings: false }
@@ -26,5 +17,14 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         })
-    ]
+    ],
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                loaders: ['babel'],
+                include: path.join(__dirname, 'reactsrc')
+            }
+        ]
+    }
 };

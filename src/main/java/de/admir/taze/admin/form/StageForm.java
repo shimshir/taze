@@ -15,11 +15,11 @@ public class StageForm {
     }
 
     public String getHeader() {
-        return stage.getHeader();
+        return stage.getHeadline();
     }
 
     public void setHeader(String header) {
-        stage.setHeader(header);
+        stage.setHeadline(header);
     }
 
     public String getImage() {

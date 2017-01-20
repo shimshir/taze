@@ -43,9 +43,11 @@ VALUES
 INSERT INTO taze_id_sequence (sequence_name, next_val) VALUES ('page', 102);
 
 INSERT INTO
-  stage (id, header, image, page_id)
+  stage (id, headline, image, page_id)
 VALUES
   (1, 'Pocetna', 'https://res.cloudinary.com/taze/image/upload/v1478817153/stage/root.jpg', 1),
+  (11, 'Ovo smo mi', 'https://res.cloudinary.com/taze/image/upload/v1484824128/stage/about-us-1.jpg', 1),
+  (12, 'Nazovite', 'https://res.cloudinary.com/taze/image/upload/v1484924169/stage/about-us-2.jpg', 1),
   (2, 'O nama', 'https://res.cloudinary.com/taze/image/upload/v1478817152/stage/about-us.jpg', 2),
   (3, 'Galerija', 'https://res.cloudinary.com/taze/image/upload/v1478817153/stage/gallery.jpg', 3),
   (4, 'Proizvodi', 'https://res.cloudinary.com/taze/image/upload/v1478817153/stage/products.jpg', 4),

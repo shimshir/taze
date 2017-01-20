@@ -11,6 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Stage extends IdentifiableEntity {
-    private String header;
+    private String headline;
     private String image;
 }
