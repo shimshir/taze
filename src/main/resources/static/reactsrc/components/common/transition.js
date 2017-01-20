@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 class TransitionView extends Component {
     state = {transitionClasses: []};
 
-    componentWillMount() {
+    componentDidMount() {
         const tcs = this.props.children.map((_, index) => index == 0 ? 'transition-fade-in' : 'transition-fade-out');
         this.setState({transitionClasses: tcs});
         setInterval(this.shiftTransitionClass, 10000);

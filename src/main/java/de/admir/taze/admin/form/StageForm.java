@@ -14,11 +14,11 @@ public class StageForm {
         return stage;
     }
 
-    public String getHeader() {
+    public String getHeadline() {
         return stage.getHeadline();
     }
 
-    public void setHeader(String header) {
+    public void setHeadline(String header) {
         stage.setHeadline(header);
     }
 
