@@ -5,26 +5,29 @@
 <div>
     <h1>Jos samo jedan korak</h1>
     <p>Vasa narudzba je slijedeca</p>
-    <table>
+    <table style="text-align: left">
         <tr>
             <th>Proizvod</th>
-            <th>Kolicina</th>
-            <th>Cijena</th>
+            <th style="text-align: center">Kolicina</th>
+            <th style="text-align: right">Cijena</th>
         </tr>
         <#list order.entries as entry>
             <tr>
-                <td>${entry.product.name}</td>
-                <td>${entry.amount}</td>
-                <td>${entry.totalPrice} KM</td>
+                <td>
+                    <div>${entry.product.name}</div>
+                    <img src="${entry.product.listImage}">
+                </td>
+                <td style="text-align: center">${entry.amount}</td>
+                <td style="text-align: right">${entry.totalPrice} KM</td>
             </tr>
         </#list>
         <tr>
-            <td>Preuzimanje</td>
-            <td colspan="2">${order.pickupType.text} (+${order.pickupType.price} KM)</td>
+            <td colspan="2">Preuzimanje</td>
+            <td style="text-align: right">${order.pickupType.text} (+${order.pickupType.price} KM)</td>
         </tr>
         <tr>
-            <td>Ukupna cijena</td>
-            <td colspan="2">${order.totalPrice} KM</td>
+            <td colspan="2">Ukupna cijena</td>
+            <td style="text-align: right">${order.totalPrice} KM</td>
         </tr>
     </table>
     <p>
