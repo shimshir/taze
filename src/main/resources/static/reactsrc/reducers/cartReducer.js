@@ -7,6 +7,8 @@ import {
     CHANGE_PICKUP_TYPE_ACTION
 } from '../actions/actions.js';
 
+import {DELIVERY_OPTIONS} from '../constants/constants.js';
+
 const privateEntryReducer = (entriesState = [], action) => {
     switch (action.type) {
         case ADD_TO_CART_ACTION:
@@ -36,7 +38,8 @@ const cartReducer = (cartState = {}, action) => {
         case UPDATE_CART_ENTRY_AMOUNT_ACTION:
         case RECEIVE_CART_ENTRIES_ACTION:
             const entries = privateEntryReducer(cartState.entries, action);
-            return {...cartState, entries, totalPrice: entries.map(entry => entry.totalPrice).reduce((acc, cur) => acc + cur, 0)};
+            const pickupTypePrice = cartState.pickupType ? DELIVERY_OPTIONS.find(_ => _.value == cartState.pickupType).price : 0;
+            return {...cartState, entries, totalPrice: entries.map(_ => _.totalPrice).reduce((acc, cur) => acc + cur, 0) + pickupTypePrice};
         case CHANGE_PICKUP_TYPE_ACTION:
             return {...cartState, pickupType: action.pickupType, totalPrice: action.totalPrice};
         default:

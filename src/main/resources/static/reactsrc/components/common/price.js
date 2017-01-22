@@ -2,9 +2,12 @@ import React from 'react';
 
 const Price = ({value}) => {
     return (
-        <span>
-            {value.formatMoney(2, ',', '.')} KM
-        </span>
+        value ?
+            <span>
+                {value.formatMoney(2, ',', '.')} KM
+            </span>
+            :
+            null
     );
 };
 
