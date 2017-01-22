@@ -4,17 +4,8 @@ import {connect} from 'react-redux';
 import Transition from '../common/transition';
 
 class StageContainerView extends Component {
-    state = {intervalCounter: 0, transitionClass: 'stage-transition-fade-in'};
-
-    componentWillMount() {
-    }
-
-    updateStages = () => {
-    };
-
     render() {
-        const stageComponents = this.props.page.closestStages ? this.props.page.closestStages.map((stage, index) => <Stage key={index} stage={stage}
-                                                                                                                           transitionClass={this.state.transitionClass}/>) : [];
+        const stageComponents = this.props.page.closestStages ? this.props.page.closestStages.map((stage, index) => <Stage key={index} stage={stage}/>) : [];
         return (
             <div className="stage-container">
                 <Transition itemHeight={200}>

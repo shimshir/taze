@@ -11,4 +11,8 @@ const Stage = ({stage}) => {
     )
 };
 
+Stage.propTypes = {
+    stage: React.PropTypes.object.isRequired
+};
+
 export default Stage;

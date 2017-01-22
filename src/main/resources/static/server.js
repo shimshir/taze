@@ -6,7 +6,7 @@ var port = 18080;
 
 new WebpackDevServer(webpack(config), {
     publicPath: config.output.publicPath,
-    hot: true,
+    hot: false,
     historyApiFallback: true,
 }).listen(port, 'localhost', function (err, result) {
     if (err) {

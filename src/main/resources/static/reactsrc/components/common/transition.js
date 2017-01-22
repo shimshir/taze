@@ -2,12 +2,15 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 class TransitionView extends Component {
-    state = {transitionClasses: []};
+    state = {transitionClasses: this.props.children.map((_, index) => index == 0 ? 'transition-fade-in' : 'transition-fade-out')};
+    intervalId = null;
 
     componentDidMount() {
-        const tcs = this.props.children.map((_, index) => index == 0 ? 'transition-fade-in' : 'transition-fade-out');
-        this.setState({transitionClasses: tcs});
-        setInterval(this.shiftTransitionClass, 10000);
+        this.intervalId = setInterval(this.shiftTransitionClass, 10000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalId);
     }
 
     shiftTransitionClass = () => {
