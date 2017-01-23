@@ -3,15 +3,19 @@ package de.admir.taze.service;
 import de.admir.taze.model.order.Order;
 
 import de.admir.taze.repository.OrderRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailAuthenticationException;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+
 import freemarker.template.Template;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
@@ -27,7 +31,7 @@ import javax.transaction.Transactional;
 
 @Service
 public class MailService {
-    private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private Configuration freemarkerConfiguration;
     @Autowired
@@ -49,7 +53,6 @@ public class MailService {
 
     /**
      * Because the method is executed asynchronously it needs to be transactional and has to reload the order entity
-     * @param orderId
      */
     @Async
     @Transactional
@@ -65,13 +68,17 @@ public class MailService {
             mimeMessageHelper.setSubject("Molimo potvrdite narud\u017ebu");
             mimeMessageHelper.setText(text, true);
             mailSender.send(mimeMessage);
-            LOG.info("Order confirmation e-mail sent to " + order.getCustomer().getEmail());
+            logger.info("Order confirmation e-mail sent to " + order.getCustomer().getEmail());
+        } catch (MailAuthenticationException e) {
+            logger.error("Failed to authenticate with mail server", e);
+        } catch (MailSendException e) {
+            logger.error("Failed to send email", e);
         } catch (IOException e) {
-            LOG.error("Failed to read confirmEmail.ftl template", e);
+            logger.error("Failed to read confirmEmail.ftl template", e);
         } catch (TemplateException e) {
-            LOG.error("Template runtime exception", e);
+            logger.error("Template runtime exception", e);
         } catch (MessagingException e) {
-            LOG.error("Messaging exception", e);
+            logger.error("Messaging exception", e);
         }
     }
 

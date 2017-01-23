@@ -8,6 +8,10 @@
         <appender-ref ref="loggly"/>
     </logger>
 
+    <logger name="de.admir.taze.service.MailService" level="info">
+        <appender-ref ref="loggly"/>
+    </logger>
+
     <root level="off"/>
 
 </included>
