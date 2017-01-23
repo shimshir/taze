@@ -3,12 +3,13 @@ package de.admir.taze.metrics
 import java.util
 
 import com.google.gson.Gson
-import com.typesafe.scalalogging.LazyLogging
+import org.slf4j.LoggerFactory
 import org.springframework.boot.actuate.trace.{InMemoryTraceRepository, Trace, TraceRepository}
 import org.springframework.stereotype.Component
 
 @Component
-case class TazeTraceRepository() extends TraceRepository with LazyLogging {
+case class TazeTraceRepository() extends TraceRepository {
+  private val logger = LoggerFactory.getLogger(TazeTraceRepository.getClass)
   val gson = new Gson()
   val inMemoryTraceRepository = new InMemoryTraceRepository()
 
