@@ -1,0 +1,14 @@
+<configuration debug="true">
+
+    <if condition='property("spring.profiles.active").equals("development")'>
+        <then>
+            <include resource="logback-development.xml"/>
+        </then>
+    </if>
+    <if condition='property("spring.profiles.active").equals("production")'>
+        <then>
+            <include resource="logback-production.xml"/>
+        </then>
+    </if>
+
+</configuration>
