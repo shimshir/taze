@@ -48,7 +48,7 @@ import static org.springframework.http.HttpMethod.PUT;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-@TestPropertySource(locations = "classpath:application-test.properties")
+@TestPropertySource(locations = {"classpath:application.properties", "classpath:application-test.properties"})
 public class ApiIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
