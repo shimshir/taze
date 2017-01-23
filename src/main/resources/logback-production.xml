@@ -5,8 +5,10 @@
         <pattern>%d{"ISO8601", UTC} %p %t %c{0}.%M - %m%n</pattern>
     </appender>
 
-    <root level="info">
+    <logger name="de.admir.taze.metrics.TazeTraceRepository" level="info">
         <appender-ref ref="loggly"/>
-    </root>
+    </logger>
+
+    <root level="off"/>
 
 </included>
