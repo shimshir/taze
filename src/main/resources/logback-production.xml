@@ -2,11 +2,6 @@
 
     <appender name="loggly" class="ch.qos.logback.ext.loggly.LogglyAppender">
         <endpointUrl>http://logs-01.loggly.com/inputs/fe9c6139-c489-478d-8270-088d07d5aba5/tag/logback</endpointUrl>
-        <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
-            <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
-                <prettyPrint>false</prettyPrint>
-            </jsonFormatter>
-        </layout>
     </appender>
 
     <logger name="de.admir.taze.metrics.TazeTraceRepository" level="info">
