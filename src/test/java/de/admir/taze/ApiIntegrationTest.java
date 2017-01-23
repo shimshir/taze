@@ -61,12 +61,14 @@ public class ApiIntegrationTest {
         commonHeaders.setContentType(MediaType.APPLICATION_JSON);
     }
 
+/*
     @Test
     public void testHealthCheck() {
         String body = restTemplate.getForObject("/health", String.class);
         System.out.println(body);
         assertThat(body).contains("{\"status\":\"UP\"}");
     }
+*/
 
     @Test
     public void testCreateSession() {
