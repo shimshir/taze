@@ -8,7 +8,7 @@ group 'de.admir.goverdrive'
 version '0.0.1-SNAPSHOT'
 description 'Taze products web shop'
 
-project.mainClassName='de.admir.taze.Application'
+project.mainClassName = 'de.admir.taze.Application'
 
 repositories {
     jcenter()
@@ -49,7 +49,7 @@ task wrapper(type: Wrapper) {
     gradleVersion = '3.3'
 }
 
-task stage(type: Copy, dependsOn: [clean, build]) {
+task stage(type: Copy, dependsOn: [clean, bootRepackage]) {
     from jar.archivePath
     into project.rootDir
     rename {
