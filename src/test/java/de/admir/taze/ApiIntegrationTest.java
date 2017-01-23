@@ -64,8 +64,7 @@ public class ApiIntegrationTest {
     @Test
     public void testHealthCheck() {
         String body = restTemplate.getForObject("/health", String.class);
-        System.out.println("####### " + body + " #######");
-        assertThat(body).isEqualTo("{\"status\":\"UP\"}");
+        assertThat(body).contains("UP");
     }
 
     @Test
