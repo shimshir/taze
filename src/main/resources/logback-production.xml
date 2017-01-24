@@ -1,15 +1,19 @@
 <included>
 
-    <appender name="loggly" class="ch.qos.logback.ext.loggly.LogglyAppender">
-        <endpointUrl>http://logs-01.loggly.com/inputs/fe9c6139-c489-478d-8270-088d07d5aba5/tag/logback</endpointUrl>
-        <pattern>%d{"ISO8601", UTC}  %p %t %c %M - %m%n</pattern>
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>logsene-receiver-syslog.sematext.com:12201</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"logsene-app-token":"d2194ab5-71ca-4c8d-9e61-63f322438ead"}</customFields>
+        </encoder>
     </appender>
 
-    <logger name="de.admir.taze.metrics.TazeTraceRepository" level="info">
-        <appender-ref ref="loggly"/>
-    </logger>
+    <appender name="loggly" class="ch.qos.logback.ext.loggly.LogglyAppender">
+        <endpointUrl>http://logs-01.loggly.com/inputs/fe9c6139-c489-478d-8270-088d07d5aba5/tag/logback</endpointUrl>
+        <pattern>%d{"ISO8601", UTC} %p %t %c %M - %m%n</pattern>
+    </appender>
 
     <logger name="de.admir.taze.service.MailService" level="info">
+        <appender-ref ref="logstash"/>
         <appender-ref ref="loggly"/>
     </logger>
 
