@@ -12,11 +12,9 @@
         <pattern>%d{"ISO8601", UTC} %p %t %c %M - %m%n</pattern>
     </appender>
 
-    <logger name="de.admir.taze.service.MailService" level="info">
+    <root level="info">
         <appender-ref ref="logstash"/>
         <appender-ref ref="loggly"/>
-    </logger>
-
-    <root level="off"/>
+    </root>
 
 </included>
