@@ -43,13 +43,17 @@ public class MailService {
     private MimeMessageHelper mimeMessageHelper;
 
     @PostConstruct
-    private void initMailing() {
+    private void initMailing() throws MessagingException {
         mimeMessage = mailSender.createMimeMessage();
         mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+        mimeMessageHelper.setFrom(mailFrom);
     }
 
     @Value("${taze.frontend.host}")
-    private String host;
+    private String frontendHost;
+
+    @Value("${taze.mail.from}")
+    private String mailFrom;
 
     /**
      * Because the method is executed asynchronously it needs to be transactional and has to reload the order entity
@@ -83,6 +87,6 @@ public class MailService {
     }
 
     private String createConfirmationLink(Order order) {
-        return String.format("%s/confirmed-order?orderId=%d&token=%s", host, order.getId(), order.getToken().getValue().getId());
+        return String.format("%s/confirmed-order?orderId=%d&token=%s", frontendHost, order.getId(), order.getToken().getValue().getId());
     }
 }
