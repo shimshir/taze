@@ -9,4 +9,6 @@
         </else>
     </if>
 
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="error"/>
+
 </configuration>
