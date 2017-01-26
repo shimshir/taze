@@ -27,7 +27,7 @@ public class OrderController {
     public ResponseEntity<?> patchOrder(@PathVariable("id") Long orderId,
                                         @RequestBody Resource<Order> requestOrderResource,
                                         @RequestHeader(value = "X-Confirmation-Token", required = false, defaultValue = StringUtils.EMPTY) String tokenString) {
-        return orderService.patchOrder(orderId, requestOrderResource.getContent(), tokenString, true).fold(
+        return orderService.patchOrder(orderId, requestOrderResource.getContent(), tokenString).fold(
                 error -> ResponseEntity.badRequest().body(error),
                 order -> ResponseEntity.noContent().build());
     }
@@ -36,7 +36,7 @@ public class OrderController {
     public ResponseEntity<?> putOrder(@PathVariable("id") Long orderId,
                                       @RequestBody Resource<Order> requestOrderResource,
                                       @RequestHeader(value = "X-Confirmation-Token", required = false, defaultValue = StringUtils.EMPTY) String tokenString) {
-        return orderService.putOrder(orderId, requestOrderResource.getContent(), tokenString, true).fold(
+        return orderService.putOrder(orderId, requestOrderResource.getContent(), tokenString).fold(
                 error -> ResponseEntity.badRequest().body(error),
                 order -> ResponseEntity.noContent().build());
     }

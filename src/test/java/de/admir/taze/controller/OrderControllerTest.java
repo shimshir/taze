@@ -35,7 +35,7 @@ public class OrderControllerTest {
     @Test
     public void testPatchOrderSuccessfulRequest() {
         Order order = new Order();
-        when(orderServiceMock.patchOrder(any(), any(), any(), any(Boolean.class))).thenReturn(Xor.right(new Order()));
+        when(orderServiceMock.patchOrder(any(), any(), any())).thenReturn(Xor.right(new Order()));
         when(requestOrderResourceMock.getContent()).thenReturn(order);
         assertThat(orderController.patchOrder(1L, requestOrderResourceMock, StringUtils.EMPTY).getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
@@ -44,7 +44,7 @@ public class OrderControllerTest {
     public void testPatchOrderBadRequest() {
         Order order = new Order();
         Error error = new Error("test error");
-        when(orderServiceMock.patchOrder(any(), any(), any(), any(Boolean.class))).thenReturn(Xor.left(error));
+        when(orderServiceMock.patchOrder(any(), any(), any())).thenReturn(Xor.left(error));
         when(requestOrderResourceMock.getContent()).thenReturn(order);
         ResponseEntity result = orderController.patchOrder(1L, requestOrderResourceMock, StringUtils.EMPTY);
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
@@ -54,7 +54,7 @@ public class OrderControllerTest {
     @Test
     public void testPutOrderSuccessfulRequest() {
         Order order = new Order();
-        when(orderServiceMock.putOrder(any(), any(), any(), any(Boolean.class))).thenReturn(Xor.right(new Order()));
+        when(orderServiceMock.putOrder(any(), any(), any())).thenReturn(Xor.right(new Order()));
         when(requestOrderResourceMock.getContent()).thenReturn(order);
         assertThat(orderController.putOrder(1L, requestOrderResourceMock, StringUtils.EMPTY).getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
@@ -63,7 +63,7 @@ public class OrderControllerTest {
     public void testPutOrderBadRequest() {
         Order order = new Order();
         Error error = new Error("test error");
-        when(orderServiceMock.putOrder(any(), any(), any(), any(Boolean.class))).thenReturn(Xor.left(error));
+        when(orderServiceMock.putOrder(any(), any(), any())).thenReturn(Xor.left(error));
         when(requestOrderResourceMock.getContent()).thenReturn(order);
         ResponseEntity result = orderController.putOrder(1L, requestOrderResourceMock, StringUtils.EMPTY);
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);

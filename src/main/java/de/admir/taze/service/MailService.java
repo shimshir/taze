@@ -62,6 +62,7 @@ public class MailService {
     @Transactional
     public void sendConfirmationEmail(Long orderId) {
         try {
+            logger.info("Creating order confirmation e-mail for orderId: " + orderId);
             Order order = orderRepository.findOne(orderId);
             Template emailTemplate = freemarkerConfiguration.getTemplate("email/confirmEmail.ftl");
             Map<String, Object> model = new HashMap<>();

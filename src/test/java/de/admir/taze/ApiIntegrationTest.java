@@ -1,9 +1,7 @@
 package de.admir.taze;
 
-import de.admir.taze.event.OrderEventHandler;
 import de.admir.taze.model.PickupTypeEnum;
 import de.admir.taze.model.Session;
-import de.admir.taze.model.order.Order;
 import de.admir.taze.model.order.OrderStatusEnum;
 import de.admir.taze.model.product.Product;
 import de.admir.taze.repository.OrderRepository;
@@ -17,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -38,7 +35,6 @@ import static de.admir.taze.Constants.API_REST_CONTEXT_PATH;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -154,18 +150,12 @@ public class ApiIntegrationTest {
 
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private OrderEventHandler orderEventHandler;
 
     @Test
     public void testPutOrderStatusToOrdered() {
-        OrderEventHandler orderEventHandlerSpy = spy(orderEventHandler);
         MailService mailServiceMock = mock(MailService.class);
         doNothing().when(mailServiceMock).sendConfirmationEmail(any());
-
-        orderEventHandlerSpy.setMailService(mailServiceMock);
-
-        orderService.setOrderEventHandler(orderEventHandlerSpy);
+        orderService.setMailService(mailServiceMock);
 
         ResponseEntity<Session> createSessionRes = createNewSession();
         final String sessionLocation = createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION);
@@ -181,26 +171,11 @@ public class ApiIntegrationTest {
         ResponseEntity<String> updatedOrderRes = restTemplate.getForEntity(createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION), String.class);
         JSONObject updatedOrderJson = new JSONObject(updatedOrderRes.getBody());
         assertThat(updatedOrderJson.getString("status")).isEqualTo(OrderStatusEnum.ORDERED.name());
-
-        // This should be in a unit test
-
-        ArgumentCaptor<Order> orderArgumentCaptor = ArgumentCaptor.forClass(Order.class);
-        verify(orderEventHandlerSpy, times(1)).handleOrderBeforeSave(orderArgumentCaptor.capture());
-        assertThat(orderArgumentCaptor.getValue().getStatus()).isEqualTo(OrderStatusEnum.ORDERED);
-        verify(orderEventHandlerSpy, times(1)).handleOrderAfterSave(orderArgumentCaptor.capture());
-        assertThat(orderArgumentCaptor.getValue().getStatus()).isEqualTo(OrderStatusEnum.ORDERED);
-
         verify(mailServiceMock, times(1)).sendConfirmationEmail(any());
-
-        //
     }
 
     @Test
     public void testPutOrderStatusToConfirmedWithoutToken() {
-        OrderEventHandler orderEventHandlerSpy = spy(orderEventHandler);
-
-        orderService.setOrderEventHandler(orderEventHandlerSpy);
-
         ResponseEntity<Session> createSessionRes = createNewSession();
         final String sessionLocation = createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION);
         ResponseEntity<String> createOrderRes = createNewOrder(sessionLocation, OrderStatusEnum.CART.name());
@@ -213,9 +188,6 @@ public class ApiIntegrationTest {
         ResponseEntity<String> putOrderRes = restTemplate.exchange(createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION), PUT, httpEntity, String.class);
         assertThat(putOrderRes.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(new JSONObject(putOrderRes.getBody()).getString("message")).isEqualTo("Invalid confirmation token!");
-
-        verify(orderEventHandlerSpy, times(0)).handleOrderBeforeSave(any());
-        verify(orderEventHandlerSpy, times(0)).handleOrderAfterSave(any());
     }
 
     @Autowired
@@ -223,11 +195,8 @@ public class ApiIntegrationTest {
 
     @Test
     public void testPutOrderStatusToConfirmedWithToken() {
-        OrderEventHandler orderEventHandlerSpy = spy(orderEventHandler);
         MailService mailServiceMock = mock(MailService.class);
         doNothing().when(mailServiceMock).sendConfirmationEmail(any());
-        orderEventHandlerSpy.setMailService(mailServiceMock);
-        orderService.setOrderEventHandler(orderEventHandlerSpy);
 
         ResponseEntity<Session> createSessionRes = createNewSession();
         final String sessionLocation = createSessionRes.getHeaders().getFirst(HttpHeaders.LOCATION);
@@ -251,12 +220,6 @@ public class ApiIntegrationTest {
         ResponseEntity<String> putConfirmedOrderRes = restTemplate.exchange(createOrderRes.getHeaders().getFirst(HttpHeaders.LOCATION), PUT, confirmedHttpEntity, String.class);
 
         assertThat(putConfirmedOrderRes.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
-
-        ArgumentCaptor<Order> orderArgumentCaptor = ArgumentCaptor.forClass(Order.class);
-        verify(orderEventHandlerSpy, times(2)).handleOrderBeforeSave(orderArgumentCaptor.capture());
-        assertThat(orderArgumentCaptor.getValue().getStatus()).isEqualTo(OrderStatusEnum.CONFIRMED);
-        verify(orderEventHandlerSpy, times(2)).handleOrderAfterSave(orderArgumentCaptor.capture());
-        assertThat(orderArgumentCaptor.getValue().getStatus()).isEqualTo(OrderStatusEnum.CONFIRMED);
     }
 
     private ResponseEntity<Session> createNewSession() {

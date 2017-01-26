@@ -45,6 +45,8 @@ public class Order extends IdentifiableEntity {
     @Enumerated(EnumType.STRING)
     private PickupTypeEnum pickupType = PickupTypeEnum.COLLECT;
     @Temporal(TemporalType.TIMESTAMP)
+    private Date clientTime;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date created;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated;

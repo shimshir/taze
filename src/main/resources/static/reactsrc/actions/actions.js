@@ -20,7 +20,6 @@ export const RECEIVE_ORDER_CONFIRMATION_RESULT_ACTION = 'RECEIVE_ORDER_CONFIRMAT
 export const RECEIVE_PAGE_ACTION = 'RECEIVE_PAGE_ACTION';
 export const CHANGE_PICKUP_TYPE_ACTION = 'CHANGE_PICKUP_TYPE_ACTION';
 
-
 export const changeActiveTopNavbarItemAction = (topNavbarItem) => {
     return {
         type: CHANGE_ACTIVE_TOP_NAVBAR_ITEM_ACTION,
@@ -85,7 +84,7 @@ export const asyncGetCartAction = (dispatch, session) => {
 };
 
 const asyncCreateNewCartAction = (dispatch, session) => {
-    return axios.post(API_REST_PATH + '/orders', {session: session._links.self.href, status: 'CART'})
+    return axios.post(API_REST_PATH + '/orders', {session: session._links.self.href, status: 'CART', clientTime: new Date()})
         .then(postCartRes => axios.get(postCartRes.headers.location))
         .then(getCartRes =>
                   asyncGetCartEntriesAction(dispatch, getCartRes.data._links.entries.href)
@@ -223,7 +222,8 @@ const asyncCreateCustomerAction = (dispatch, placeOrderForm, session) => {
 const asyncCreateOrderAction = (dispatch, cart, customer) => {
     return axios.patch(cart._links.self.href, {
         customer: customer._links.self.href,
-        status: 'ORDERED'
+        status: 'ORDERED',
+        clientTime: new Date()
     });
 };
 
@@ -232,7 +232,8 @@ export const asyncConfirmOrderAction = (dispatch, orderId, token) => {
                      method: 'patch',
                      url: API_REST_PATH + `/orders/${orderId}`,
                      data: {
-                         status: 'CONFIRMED'
+                         status: 'CONFIRMED',
+                         clientTime: new Date()
                      },
                      headers: {
                          'X-Confirmation-Token': token
@@ -285,7 +286,7 @@ const receivePageAction = (page) => {
 };
 
 export const asyncChangePickupTypeAction = (dispatch, cartId, pickupType) => {
-    return axios.patch(API_REST_PATH + `/orders/${cartId}`, {pickupType})
+    return axios.patch(API_REST_PATH + `/orders/${cartId}`, {pickupType, clientTime: new Date()})
         .then(patchCartRes => axios.get(API_REST_PATH + `/orders/${cartId}`))
         .then(getCartRes => dispatch(changePickupTypeAction(getCartRes.data.pickupType, getCartRes.data.totalPrice)));
 };
