@@ -84,7 +84,7 @@ export const asyncGetCartAction = (dispatch, session) => {
 };
 
 const asyncCreateNewCartAction = (dispatch, session) => {
-    return axios.post(API_REST_PATH + '/orders', {session: session._links.self.href, status: 'CART', clientTime: new Date()})
+    return axios.post(API_REST_PATH + '/orders', {session: session._links.self.href, status: 'CART'})
         .then(postCartRes => axios.get(postCartRes.headers.location))
         .then(getCartRes =>
                   asyncGetCartEntriesAction(dispatch, getCartRes.data._links.entries.href)
@@ -223,7 +223,7 @@ const asyncCreateOrderAction = (dispatch, cart, customer) => {
     return axios.patch(cart._links.self.href, {
         customer: customer._links.self.href,
         status: 'ORDERED',
-        clientTime: new Date()
+        clientOrderTimeString: new Date().toLocaleString('de-DE')
     });
 };
 
@@ -232,8 +232,7 @@ export const asyncConfirmOrderAction = (dispatch, orderId, token) => {
                      method: 'patch',
                      url: API_REST_PATH + `/orders/${orderId}`,
                      data: {
-                         status: 'CONFIRMED',
-                         clientTime: new Date()
+                         status: 'CONFIRMED'
                      },
                      headers: {
                          'X-Confirmation-Token': token
@@ -286,7 +285,7 @@ const receivePageAction = (page) => {
 };
 
 export const asyncChangePickupTypeAction = (dispatch, cartId, pickupType) => {
-    return axios.patch(API_REST_PATH + `/orders/${cartId}`, {pickupType, clientTime: new Date()})
+    return axios.patch(API_REST_PATH + `/orders/${cartId}`, {pickupType})
         .then(patchCartRes => axios.get(API_REST_PATH + `/orders/${cartId}`))
         .then(getCartRes => dispatch(changePickupTypeAction(getCartRes.data.pickupType, getCartRes.data.totalPrice)));
 };

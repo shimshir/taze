@@ -41,8 +41,8 @@ public class OrderService {
             persistedOrder.setCustomer(requestOrder.getCustomer());
         if (requestOrder.getPickupType() != null)
             persistedOrder.setPickupType(requestOrder.getPickupType());
-        if (requestOrder.getClientTime() != null)
-            persistedOrder.setClientTime(requestOrder.getClientTime());
+        if (requestOrder.getClientOrderTimeString() != null)
+            persistedOrder.setClientOrderTimeString(requestOrder.getClientOrderTimeString());
 
         return saveOrder(persistedOrder);
     }

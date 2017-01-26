@@ -21,7 +21,13 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.core.NestedRuntimeException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -59,12 +65,13 @@ public class OrderServiceTest {
     public void testPatch() {
         Order requestOrder = new Order();
         Customer customer = new Customer();
-        Date clientTime = new Date();
+        LocalDateTime clientTime = LocalDateTime.now();
+        String clientOrderTimeString = DateTimeFormatter.ofPattern("dd.M.yyyy, HH:mm:ss").format(clientTime);
 
         requestOrder.setStatus(OrderStatusEnum.CART);
         requestOrder.setCustomer(customer);
         requestOrder.setPickupType(PickupTypeEnum.COLLECT);
-        requestOrder.setClientTime(clientTime);
+        requestOrder.setClientOrderTimeString(clientOrderTimeString);
 
         Order persistedOrder = mock(Order.class);
 
@@ -75,7 +82,7 @@ public class OrderServiceTest {
         ArgumentCaptor<OrderStatusEnum> orderStatusArgumentCaptor = ArgumentCaptor.forClass(OrderStatusEnum.class);
         ArgumentCaptor<Customer> customerArgumentCaptor = ArgumentCaptor.forClass(Customer.class);
         ArgumentCaptor<PickupTypeEnum> pickUpTypeArgumentCaptor = ArgumentCaptor.forClass(PickupTypeEnum.class);
-        ArgumentCaptor<Date> clientTimeArgumentCaptor = ArgumentCaptor.forClass(Date.class);
+        ArgumentCaptor<String> clientOrderTimeStringArgumentCaptor = ArgumentCaptor.forClass(String.class);
 
         verify(persistedOrder, times(1)).setStatus(orderStatusArgumentCaptor.capture());
         assertThat(orderStatusArgumentCaptor.getValue()).isEqualTo(OrderStatusEnum.CART);
@@ -86,8 +93,8 @@ public class OrderServiceTest {
         verify(persistedOrder, times(1)).setPickupType(pickUpTypeArgumentCaptor.capture());
         assertThat(pickUpTypeArgumentCaptor.getValue()).isEqualTo(PickupTypeEnum.COLLECT);
 
-        verify(persistedOrder, times(1)).setClientTime(clientTimeArgumentCaptor.capture());
-        assertThat(clientTimeArgumentCaptor.getValue()).isEqualTo(clientTime);
+        verify(persistedOrder, times(1)).setClientOrderTimeString(clientOrderTimeStringArgumentCaptor.capture());
+        assertThat(clientOrderTimeStringArgumentCaptor.getValue()).isEqualTo(clientOrderTimeString);
     }
 
     @Test

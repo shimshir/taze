@@ -31,7 +31,7 @@
         </tr>
     </table>
     <p>
-        Naruceno: ${order.clientTime?date}, ${order.clientTime?time}
+        Naruceno: ${order.clientOrderTimeString!""}
         <br>
         Adresa za dostavu (ukoliko ste odabrali dostavu): ${order.customer.address}
     </p>
