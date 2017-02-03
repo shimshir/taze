@@ -40,7 +40,7 @@ public class Order extends IdentifiableEntity {
     @JoinColumn(name = "token_id", referencedColumnName = "id")
     private ConfirmationToken token;
     @Enumerated(EnumType.STRING)
-    private PickupTypeEnum pickupType = PickupTypeEnum.COLLECT;
+    private PickupTypeEnum pickupType;
     private String clientOrderTimeString;
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;

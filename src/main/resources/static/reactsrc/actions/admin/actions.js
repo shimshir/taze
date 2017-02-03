@@ -27,6 +27,18 @@ export const asyncGetOrdersAction = (dispatch) => {
                   axios.get(API_REST_PATH + "/orderEntries?projection=with-product")
                       .then(res => res.data._embedded.orderEntries)
                       .then(entries => orders.map(order => ({...order, entries: entries.filter(entry => entry.orderId == order.id)}))))
+        .then(orders =>
+                  orders.map(order =>
+                                 axios.get(order._links.customer.href)
+                                     .catch(error => {
+                                         if (error.response.status == 404) {
+                                             return {...order, customer: null}
+                                         }
+                                     })
+                                     .then(res => ({...order, customer: res.data}))
+                  )
+        )
+        .then(orderPromises => Promise.all(orderPromises))
         .then(orders => dispatch(receiveOrdersAction(orders)));
 };
 

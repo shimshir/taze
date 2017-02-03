@@ -66,19 +66,23 @@ const receiveNewSessionAction = (session) => {
 };
 
 export const asyncGetCartAction = (dispatch, session) => {
-    axios.get(API_REST_PATH + `/orders/search/findBySessionUuidIdAndStatus?sessionUuid=${session.uuid.id}&status=CART`)
+    return axios.get(API_REST_PATH + `/orders/search/findBySessionUuidIdAndStatus?sessionUuid=${session.uuid.id}&status=CART`)
         .then(res => {
             if (res.data.id) {
                 const cart = res.data;
-                asyncGetCartEntriesAction(dispatch, cart._links.entries.href)
-                    .then(entries => dispatch(receiveCartAction({...cart, entries})));
+                return asyncGetCartEntriesAction(dispatch, cart._links.entries.href)
+                    .then(entries => {
+                        const cartWithEntries = {...cart, entries};
+                        dispatch(receiveCartAction(cartWithEntries));
+                        return cartWithEntries;
+                    });
             } else {
-                asyncCreateNewCartAction(dispatch, session);
+                return asyncCreateNewCartAction(dispatch, session);
             }
         })
         .catch(error => {
             if (error.response.status == 404) {
-                asyncCreateNewCartAction(dispatch, session);
+                return asyncCreateNewCartAction(dispatch, session);
             }
         });
 };

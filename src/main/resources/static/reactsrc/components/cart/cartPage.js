@@ -16,7 +16,8 @@ class CartPageView extends Component {
     componentWillMount() {
         this.props.changeActiveTopNavbarItem('cart');
         if (this.props.session.uuid) {
-            this.props.getCart(this.props.session);
+            this.props.getCart(this.props.session)
+                .then(cart => this.props.changePickupType(cart.id, 'COLLECT'));
         }
         this.props.getPage(window.location.pathname);
     }
