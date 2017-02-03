@@ -14,4 +14,5 @@ public interface OrderEntryWithProductProjection {
     int getAmount();
     Product getProduct();
     BigDecimal getTotalPrice();
+    Long getOrderId();
 }

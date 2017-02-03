@@ -17,6 +17,8 @@ import createStageFormsReducer from './admin/createStageFormsReducer.js';
 
 import previewProductCardsReducer from './admin/previewProductCardsReducer.js';
 
+import ordersReducer from './admin/ordersReducer.js';
+
 import pagesReducer from './pagesReducer.js';
 
 const MainReducer = combineReducers(
@@ -36,6 +38,7 @@ const MainReducer = combineReducers(
         createPageForm: createPageFormReducer,
         createStageForms: createStageFormsReducer,
         previewProductCards: previewProductCardsReducer,
+        orders: ordersReducer,
         pages: pagesReducer
     }
 );

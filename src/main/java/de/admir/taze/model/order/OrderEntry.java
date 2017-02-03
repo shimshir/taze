@@ -33,4 +33,9 @@ public class OrderEntry extends IdentifiableEntity {
     public BigDecimal getTotalPrice() {
         return product == null ? null : product.getPricePerUnit().multiply(BigDecimal.valueOf(amount));
     }
+
+    @Transient
+    public Long getOrderId() {
+        return order.getId();
+    }
 }

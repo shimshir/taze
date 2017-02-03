@@ -15,6 +15,9 @@ import ProductCreatePage from './components/admin/products/productCreatePage.js'
 import PageCreatePage from './components/admin/pages/pageCreatePage.js';
 import Admin from './components/admin/admin.js';
 import AdminProducts from './components/admin/products/adminProducts.js';
+import AdminOrders from './components/admin/orders/adminOrders.js';
+import OrderSearchPage from './components/admin/orders/orderSearchPage.js';
+
 
 const NoMatch = () => <div><h1>404</h1></div>;
 
@@ -39,6 +42,10 @@ export default (
                 <Route path="create" component={ProductCreatePage}/>
             </Route>
             <Route path="pages/create" component={PageCreatePage}/>
+            <Route path="orders" component={AdminOrders}>
+                <IndexRedirect to="search" />
+                <Route path="search" component={OrderSearchPage}/>
+            </Route>
             <Route path="*" component={NoMatch}/>
         </Route>
         <Route path="*" component={NoMatch}/>

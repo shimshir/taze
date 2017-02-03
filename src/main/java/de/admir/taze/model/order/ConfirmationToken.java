@@ -1,5 +1,7 @@
 package de.admir.taze.model.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import de.admir.taze.model.IdentifiableEntity;
 import de.admir.taze.model.Uuid;
 
@@ -23,6 +25,7 @@ import lombok.Setter;
 public class ConfirmationToken extends IdentifiableEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "value", referencedColumnName = "id")
+    @JsonIgnore
     private Uuid value;
     private boolean used;
     @Temporal(TemporalType.TIMESTAMP)

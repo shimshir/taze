@@ -6,7 +6,8 @@ class SidebarView extends Component {
     state = {
         collapseExpandClasses: {
             products: 'collapsed',
-            pages: 'collapsed'
+            pages: 'collapsed',
+            orders: 'collapsed'
         }
     };
 
@@ -43,6 +44,14 @@ class SidebarView extends Component {
                             </li>
                             <li>
                                 <Link className="nav-link" to="/admin/pages/create">Create</Link>
+                            </li>
+                        </ul>
+                    </li>
+                    <li className={`parent-list-item ${this.state.collapseExpandClasses.orders}`}>
+                        <div className="nav-link fake-link" onClick={() => this.toggleCollapseExpandClass('orders')}>Orders</div>
+                        <ul>
+                            <li>
+                                <Link className="nav-link" to="/admin/orders/search">Search</Link>
                             </li>
                         </ul>
                     </li>

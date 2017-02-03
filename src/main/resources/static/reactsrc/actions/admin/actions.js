@@ -8,6 +8,7 @@ export const UPDATE_CREATE_STAGE_FORMS_ACTION = 'UPDATE_CREATE_STAGE_FORMS_ACTIO
 export const ADD_CREATE_STAGE_FORM_ACTION = 'ADD_CREATE_STAGE_FORM_ACTION';
 export const REMOVE_CREATE_STAGE_FORM_ACTION = 'REMOVE_CREATE_STAGE_FORM_ACTION';
 export const RECEIVE_PREVIEW_PRODUCT_CARD_ACTION = 'RECEIVE_PREVIEW_PRODUCT_CARD_ACTION';
+export const RECEIVE_ORDERS_ACTION = 'RECEIVE_ORDERS_ACTION';
 
 export const asyncCreateProductAction = (dispatch, createProductForm) => {
     return axios.post(API_ADMIN_PATH + "/products", createProductForm)
@@ -17,6 +18,23 @@ export const asyncCreateProductAction = (dispatch, createProductForm) => {
 export const asyncCreateProductCardAction = (dispatch, createProductCardForm) => {
     return axios.post(API_ADMIN_PATH + "/productCards", createProductCardForm)
         .then(res => console.log(res.data));
+};
+
+export const asyncGetOrdersAction = (dispatch) => {
+    return axios.get(API_REST_PATH + "/orders")
+        .then(res => res.data._embedded.orders)
+        .then(orders =>
+                  axios.get(API_REST_PATH + "/orderEntries?projection=with-product")
+                      .then(res => res.data._embedded.orderEntries)
+                      .then(entries => orders.map(order => ({...order, entries: entries.filter(entry => entry.orderId == order.id)}))))
+        .then(orders => dispatch(receiveOrdersAction(orders)));
+};
+
+const receiveOrdersAction = (orders) => {
+    return {
+        type: RECEIVE_ORDERS_ACTION,
+        orders
+    }
 };
 
 export const updateCreateProductFormAction = (input) => {

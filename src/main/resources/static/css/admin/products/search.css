@@ -1,13 +1,13 @@
-table#productsSearchTable {
+table#productSearchTable {
     table-layout: fixed;
 }
 
-table#productsSearchTable a,
-table#productsSearchTable span {
+table#productSearchTable a,
+table#productSearchTable span {
     display: inline-block;
     width: 100%;
 }
 
-table#productsSearchTable td {
+table#productSearchTable td {
     word-wrap:break-word;
 }

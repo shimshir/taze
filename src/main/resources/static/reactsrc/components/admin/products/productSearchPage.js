@@ -12,7 +12,7 @@ class ProductSearchPageView extends Component {
     render() {
         return (
             <ContentContainer>
-                <table id="productsSearchTable" className="table table-bordered table-hover">
+                <table id="productSearchTable" className="table table-bordered table-hover">
                     <thead className="thead-inverse">
                     <tr>
                         <th>Id</th>
